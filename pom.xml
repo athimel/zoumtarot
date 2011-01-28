@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <!-- Use the WSP parent pom -->
+    <parent>
+        <groupId>org.kimnono</groupId>
+        <artifactId>mavenpom</artifactId>
+        <version>0.1-SNAPSHOT</version>
+    </parent>
+
+    <groupId>org.kimnono</groupId>
+    <artifactId>tarot</artifactId>
+    <version>0.1-SNAPSHOT</version>
+
+    <name>${project.artifactId}</name>
+
+    <packaging>pom</packaging>
+
+    <modules>
+        <module>engine</module>
+    </modules>
+
+    <properties>
+    </properties>
+
+    <scm>
+        <connection>scm:svn:svn://src.kimnono.org/svnroot/tarot/trunk</connection>
+        <developerConnection>scm:svn:svn://src.kimnono.org/svnroot/tarot/trunk</developerConnection>
+        <url>svn://src.kimnono.org/svnroot/tarot/trunk</url>
+    </scm>
+
+    <dependencyManagement>
+
+        <dependencies>
+        </dependencies>
+
+    </dependencyManagement>
+
+    <build>
+
+        <plugins>
+        </plugins>
+
+    </build>
+
+    <repositories>
+
+        <!-- In order to find its parent -->
+        <!--repository>
+            <id>wiztivi-wsp-nexus</id>
+            <name>Wiztivi WSP's nexus repository</name>
+            <url>
+                http://mvn.wsp.lan.wiztivi.com:8080/nexus/content/groups/public/
+            </url>
+        </repository-->
+
+    </repositories>
+
+    <pluginRepositories>
+    </pluginRepositories>
+
+</project>
