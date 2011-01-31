@@ -10,7 +10,7 @@ public enum Contract {
     GARDE_SANS(4),
     GARDE_CONTRE(6);
 
-    int value;
+    protected int value;
 
     Contract(int value) {
         this.value = value;

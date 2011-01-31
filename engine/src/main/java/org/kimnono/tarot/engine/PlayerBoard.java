@@ -35,8 +35,12 @@ public class PlayerBoard {
                 Integer playerScore = entry.getValue();
 
                 int playerPartyScore = scoreSeed;
-                if (!game.isTaker(playerName)) { // N'a pas pris, on inverse le score
+                boolean isTaker = game.isTaker(playerName);
+                if (!isTaker) { // N'a pas pris, on inverse le score
                     playerPartyScore *= -1;
+                }
+                if (isTaker) {
+                    playerPartyScore *= 3;
                 }
                 playerScore += playerPartyScore;
                 entry.setValue(playerScore);
@@ -71,4 +75,12 @@ public class PlayerBoard {
         return result;
     }
 
+    public boolean isGameCoherent() {
+        int total = 0;
+        for (Integer score : scores.values()) {
+            total += score;
+        }
+        boolean result = (total == 0);
+        return result;
+    }
 }

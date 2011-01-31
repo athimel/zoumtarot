@@ -1,9 +1,5 @@
 package org.kimnono.tarot.engine;
 
-import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
-import java.util.Set;
-
 /**
  * @author Arnaud Thimel <thimel@codelutin.com>
  */
@@ -16,6 +12,14 @@ public class Game {
     protected Holders holders;
 
     protected double score;
+
+    public void setNominalCase(
+            String taker, Contract contract, Holders holders, double score) {
+        setTaker(taker);
+        setContract(contract);
+        setHolders(holders);
+        setScore(score);
+    }
 
     public String getTaker() {
         return taker;

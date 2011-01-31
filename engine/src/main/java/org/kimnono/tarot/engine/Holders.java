@@ -10,7 +10,7 @@ public enum Holders {
     TWO(41),
     THREE(36);
 
-    double target;
+    protected double target;
 
     Holders(double target) {
         this.target = target;
