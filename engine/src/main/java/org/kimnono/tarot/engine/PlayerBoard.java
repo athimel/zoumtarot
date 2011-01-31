@@ -16,9 +16,14 @@ public class PlayerBoard {
     public void newParty(String ... players) {
         scores.clear();
         games.clear();
-        if (players == null || players.length != 4) {
-            throw new UnsupportedOperationException(
-                    "Only 4 players are supported for the moment");
+        int playersCount = 0;
+        if (players != null) {
+            playersCount = players.length;
+        }
+        if (playersCount == 0 || (playersCount != 4 && playersCount != 5)) {
+            String message =
+                    "Only 4 and 5 players are supported for the moment. You gave %d player names.";
+            throw new UnsupportedOperationException(String.format(message, playersCount));
         }
         for (String player : players) {
             scores.put(player, 0);
@@ -36,11 +41,21 @@ public class PlayerBoard {
 
                 int playerPartyScore = scoreSeed;
                 boolean isTaker = game.isTaker(playerName);
-                if (!isTaker) { // N'a pas pris, on inverse le score
+                boolean isSecondTaker = game.isSecondTaker(playerName);
+                if (!isTaker && !isSecondTaker) { // N'a pas pris, on inverse le score
                     playerPartyScore *= -1;
                 }
+
+                // Cas particulier du score du preneur
                 if (isTaker) {
-                    playerPartyScore *= 3;
+                    // A 4 joueurs, coeff=3
+                    int takerCoeff = 3;
+
+                    if (isA5PlayersGame()) {
+                        // A 5 joueurs, ca dépend de s'il est tout seul ou pas
+                        takerCoeff = game.isTakerAlone() ? 4 : 2;
+                    }
+                    playerPartyScore *= takerCoeff;
                 }
                 playerScore += playerPartyScore;
                 entry.setValue(playerScore);
@@ -75,12 +90,17 @@ public class PlayerBoard {
         return result;
     }
 
-    public boolean isGameCoherent() {
+    public boolean isScoreCoherent() {
         int total = 0;
         for (Integer score : scores.values()) {
             total += score;
         }
         boolean result = (total == 0);
+        return result;
+    }
+
+    public boolean isA5PlayersGame() {
+        boolean result = (scores.size() == 5);
         return result;
     }
 }
