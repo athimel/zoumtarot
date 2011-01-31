@@ -11,5 +11,19 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".AddParty"
+                  android:label="@string/party_create" android:noHistory="true">
+            <intent-filter>
+                <action android:name="org.kimnono.tarot.ADD_PARTY" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".PartyBoard"
+                  android:label="@string/party_board" android:noHistory="true">
+            <intent-filter>
+                <action android:name="org.kimnono.tarot.ADD_PARTY" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
     </application>
 </manifest> 

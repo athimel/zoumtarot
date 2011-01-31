@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Tarot</string>
+    <string name="parties_list">Liste des parties</string>
+    <string name="party_create">Création d\'une partie</string>
+    <string name="party_board">Tableau des scores</string>
 </resources>

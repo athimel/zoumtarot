@@ -1,7 +1,9 @@
 package org.kimnono;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -83,8 +85,8 @@ public class PartiesList extends Activity {
         // Handle item selection
         switch (item.getItemId()) {
             case R.id.new_party:
-                Toast.makeText(getApplicationContext(), "Nouvelle partie !",
-                        Toast.LENGTH_SHORT).show();
+                Intent i = new Intent(this, AddParty.class);
+                startActivity(i);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
