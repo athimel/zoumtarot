@@ -78,11 +78,15 @@ public class PlayerBoard {
     public static int getScoreSeed(Game game) {
 
         double score = game.score - game.getHolders().target;
-        if (score >= 0.0) {
+        boolean gameWon = score >= 0.0;
+        if (gameWon) {
+            score = Math.round(score); // Arrondi toujours à l'absolu supérieur
             score += 25;
         } else {
+            score = Math.round(score - 0.1); // Pour forcer l'arrondi à l'absolu supérieur
             score -= 25;
         }
+
         score *= game.getContract().value;
 
         Long scoreRounded = Math.round(score);
