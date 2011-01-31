@@ -22,6 +22,7 @@
 
     <modules>
         <module>engine</module>
+        <module>android</module>
     </modules>
 
     <properties>
@@ -64,6 +65,15 @@
                 http://mvn.wsp.lan.wiztivi.com:8080/nexus/content/groups/public/
             </url>
         </repository-->
+
+        <!-- In order to find its parent -->
+        <repository>
+            <id>wiztivi-wsp-nexus</id>
+            <name>Wiztivi WSP's nexus repository</name>
+            <url>
+                http://mvn.wsp.lan.wiztivi.com:8080/nexus/content/groups/public/
+            </url>
+        </repository>
 
     </repositories>
 
