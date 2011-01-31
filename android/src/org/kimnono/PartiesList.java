@@ -35,7 +35,9 @@ public class PartiesList extends Activity {
         List<String> result = new ArrayList<String>(boards.size());
         for (PlayerBoard board : boards) {
             String message = "%s - %d tour(s)";
-            message = String.format(message, board.getScores().keySet().toString(), board.getGames().size());
+            String players = board.getScores().keySet().toString();
+            players = players.substring(1, players.length() - 1);
+            message = String.format(message, players, board.getGames().size());
             result.add(message);
         }
         return result;
