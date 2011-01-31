@@ -2,9 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
       package="org.kimnono"
       android:versionCode="1"
-      android:versionName="1.0">
-    <application android:label="@string/app_name" android:icon="@drawable/icon">
-        <activity android:name="Tarot"
+      android:versionName="1.0" >
+    <application android:label="@string/app_name" android:icon="@drawable/icon" >
+        <activity android:name=".PartiesList"
                   android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
