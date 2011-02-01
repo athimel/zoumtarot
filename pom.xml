@@ -5,6 +5,10 @@
 
     <modelVersion>4.0.0</modelVersion>
 
+    <!-- ************************************************************* -->
+    <!-- *** POM Relationships *************************************** -->
+    <!-- ************************************************************* -->
+
     <!-- Use the WSP parent pom -->
     <parent>
         <groupId>org.kimnono</groupId>
@@ -16,25 +20,10 @@
     <artifactId>tarot</artifactId>
     <version>0.1-SNAPSHOT</version>
 
-    <name>${project.artifactId}</name>
-
-    <packaging>pom</packaging>
-
     <modules>
         <module>engine</module>
         <module>android</module>
     </modules>
-
-    <properties>
-    </properties>
-
-    <scm>
-        <connection>scm:svn:svn://src.kimnono.org/svnroot/tarot/trunk
-        </connection>
-        <developerConnection>scm:svn:svn://src.kimnono.org/svnroot/tarot/trunk
-        </developerConnection>
-        <url>svn://src.kimnono.org/svnroot/tarot/trunk</url>
-    </scm>
 
     <dependencyManagement>
 
@@ -64,12 +53,68 @@
 
     </dependencyManagement>
 
+    <!-- ************************************************************* -->
+    <!-- *** Project Information ************************************* -->
+    <!-- ************************************************************* -->
+
+    <name>${project.artifactId}</name>
+    <description>Tarot counter</description>
+    <inceptionYear>2011</inceptionYear>
+
+    <licenses>
+        <license>
+            <name>GPL</name>
+            <url>http://www.gnu.org/copyleft/gpl.html</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <developers>
+
+        <developer>
+            <name>Arnaud Thimel</name>
+            <id>arno</id>
+            <email>a.thimel@gmail.com</email>
+            <organization>Kimnono</organization>
+            <timezone>+2</timezone>
+            <roles>
+                <role>Développeur</role>
+            </roles>
+        </developer>
+    </developers>
+
+    <organization>
+        <name>Kimnono</name>
+        <url>www.kimnono.org</url>
+    </organization>
+
+    <!-- ************************************************************* -->
+    <!-- *** Build Settings ****************************************** -->
+    <!-- ************************************************************* -->
+
+    <packaging>pom</packaging>
+
+    <properties>
+    </properties>
+
+    <scm>
+        <connection>scm:svn:svn://src.kimnono.org/svnroot/tarot/trunk
+        </connection>
+        <developerConnection>scm:svn:svn://src.kimnono.org/svnroot/tarot/trunk
+        </developerConnection>
+        <url>svn://src.kimnono.org/svnroot/tarot/trunk</url>
+    </scm>
+
     <build>
 
         <plugins>
         </plugins>
 
     </build>
+
+    <!-- ************************************************************* -->
+    <!-- *** Maven Environment *************************************** -->
+    <!-- ************************************************************* -->
 
     <repositories>
 
