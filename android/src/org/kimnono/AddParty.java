@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 import org.kimnono.tarot.engine.PlayerBoard;
 
@@ -46,27 +47,35 @@ public class AddParty extends Activity {
 
     }
 
+    protected void safeAddPlayer(List<String> players, TextView ... views) {
+        for (TextView view : views) {
+            String playerName = view.getText().toString();
+            if (playerName != null && !"".equals(playerName.trim())) {
+                players.add(playerName);
+            }
+        }
+    }
+
     private void onSaveButtonClicked() {
 
         List<String> players = new ArrayList<String>();
-        players.add(player1.getText().toString());
-        players.add(player2.getText().toString());
-        players.add(player3.getText().toString());
-        players.add(player4.getText().toString());
-        String player5Name = player5.getText().toString();
-        if (player5Name != null && !"".equals(player5Name.trim())) {
-            players.add(player5Name);
+        safeAddPlayer(players, player1, player2, player3, player4, player5);
+
+        if (players.size() < 5) {
+            Toast.makeText(getApplicationContext(), "Seules les parties à 5 joueurs sont supportées pour le moment",
+                    Toast.LENGTH_LONG).show();
+        } else {
+
+            PlayerBoard board = new PlayerBoard();
+            board.newParty(players);
+
+            Intent intent = new Intent(this, PartyBoard.class);
+            intent.putExtra(PartyBoard.BOARD, board);
+            startActivity(intent);
+
+            Toast.makeText(getApplicationContext(), "Partie créée",
+                    Toast.LENGTH_SHORT).show();
         }
-
-        PlayerBoard board = new PlayerBoard();
-        board.newParty(players);
-
-        Intent intent = new Intent(this, PartyBoard.class);
-        intent.putExtra(PartyBoard.BOARD, board);
-        startActivity(intent);
-
-        Toast.makeText(getApplicationContext(), "Partie créée",
-                Toast.LENGTH_SHORT).show();
 
     }
 
