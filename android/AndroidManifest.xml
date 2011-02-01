@@ -19,9 +19,16 @@
             </intent-filter>
         </activity>
         <activity android:name=".PartyBoard"
-                  android:label="@string/party_board" android:noHistory="true">
+                  android:label="@string/party_board">
             <intent-filter>
-                <action android:name="org.kimnono.tarot.ADD_PARTY" />
+                <action android:name="org.kimnono.tarot.PARTY_BOARD" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".AddGame"
+                  android:label="@string/game_create" android:noHistory="true">
+            <intent-filter>
+                <action android:name="org.kimnono.tarot.ADD_GAME" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>

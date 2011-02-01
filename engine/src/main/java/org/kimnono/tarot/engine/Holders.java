@@ -12,6 +12,10 @@ public enum Holders {
 
     protected double target;
 
+    public double getTarget() {
+        return target;
+    }
+
     Holders(double target) {
         this.target = target;
     }

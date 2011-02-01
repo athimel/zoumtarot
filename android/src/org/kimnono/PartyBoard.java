@@ -1,86 +1,133 @@
 package org.kimnono;
 
 import android.app.Activity;
-import android.database.DataSetObserver;
+import android.content.Intent;
 import android.os.Bundle;
-import android.view.Gravity;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.GridView;
-import android.widget.ListAdapter;
-import android.widget.TableLayout;
-import android.widget.TableRow;
-import android.widget.TextView;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.widget.ListView;
+import android.widget.SimpleAdapter;
+import android.widget.Toast;
+import org.kimnono.tarot.engine.Contract;
+import org.kimnono.tarot.engine.Game;
+import org.kimnono.tarot.engine.Holders;
 import org.kimnono.tarot.engine.PlayerBoard;
 
-import java.awt.font.LayoutPath;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * @author Arnaud Thimel <thimel@codelutin.com>
  */
 public class PartyBoard extends Activity {
 
-    protected TableRow getHeadRow(PlayerBoard board) {
-        TableRow row = new TableRow(this);
+    public static final String BOARD = "board";
+    public static final String GAME = "game";
 
-        TableRow.LayoutParams params = new TableRow.LayoutParams();
-        params.weight = 1;
-        params.gravity = Gravity.CENTER_HORIZONTAL;
-        for (String playerName : board.getScores().keySet()) {
-            TextView textView = new TextView(this);
-            textView.setText(playerName);
-            LayoutUtils.Layout.WidthWrap_HeightWrap.applyTableRowParams(textView);
+    public static final int code = 0;
 
-            row.addView(textView);
+    protected ArrayList<HashMap<String, String>> getLines(PlayerBoard board) {
+
+        ArrayList<HashMap<String, String>> result = new ArrayList<HashMap<String, String>>();
+
+        HashMap<String, String> map = new HashMap<String, String>();
+        List<String> players = new ArrayList<String>();
+
+        for (String player : board.getScores().keySet()) {
+            map.put(player, player);
+            players.add(player);
         }
-        return row;
+        result.add(map);
+
+        PlayerBoard copy = board.cloneForNewParty();
+
+        for (Game game : board.getGames()) {
+
+            copy.gameEnded(game);
+
+            map = new HashMap<String, String>();
+            for (String player : players) {
+                map.put(player, "" + copy.getScores().get(player));
+            }
+            result.add(map);
+
+        }
+
+        return result;
     }
 
-    protected TableRow getScoreLine(int ... scores) {
-        TableRow row = new TableRow(this);
+    protected PlayerBoard getBoard() {
 
-        TableRow.LayoutParams params = new TableRow.LayoutParams();
-        params.weight = 1;
-        params.gravity = Gravity.LEFT;
-        for (int score : scores) {
-            TextView textView = new TextView(this);
-            textView.setText("" + score);
-            row.addView(textView, params);
-        }
-        return row;
+        PlayerBoard result = (PlayerBoard)getIntent().getSerializableExtra(BOARD);
+
+        return result;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
 
-        PlayerBoard board = new PlayerBoard();
-        board.newParty("Kévin", "Florian", "Yannick", "Julien", "Corentin");
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.party_board);
 
-        GridView grid = (GridView)findViewById(R.id.gridview);
-        grid.setAdapter(new );
+        resetList();
+    }
 
-        TableLayout.LayoutParams params = new TableLayout.LayoutParams();
-        params.width = TableRow.LayoutParams.FILL_PARENT;
-        TableRow header = getHeadRow(board);
-        table.addView(header, params);
+    private void resetList() {
+        ListView list = (ListView) findViewById(R.id.party_board_list);
 
-//        View separator = new View(this);
-//        params = new TableLayout.LayoutParams();
-//        params.weight = 2;
-//        separator.setBackgroundColor(123);
-//        table.addView(separator, params);
+        PlayerBoard board = getBoard();
 
-        table.addView(getScoreLine(180, -90, -90, 90, -90), params);
-        table.addView(getScoreLine(80, -40, -140, 140, -40), params);
-        table.addView(getScoreLine(130, 10, -90, 90, -140), params);
-        table.addView(getScoreLine(220, -80, -270, 180, -50), params);
-        table.addView(getScoreLine(390, 90, -610, 350, -220), params);
+        ArrayList<HashMap<String, String>> lines = getLines(board);
 
+        SimpleAdapter adapter = new SimpleAdapter(this, lines, R.layout.party_line,
+                board.getPlayers(),
+                new int[]{R.id.player1, R.id.player2, R.id.player3, R.id.player4, R.id.player5});
+        list.setAdapter(adapter);
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_party, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+            case R.id.new_game:
+                Intent intent = new Intent(this, AddGame.class);
+                ArrayList<String> players = new ArrayList<String>(getBoard().getScores().keySet());
+                intent.putExtra(AddGame.PLAYERS, players);
+                startActivityForResult(intent, code);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode,
+            Intent data) {
+        if (requestCode == code) {
+            if (resultCode == RESULT_OK) {
+                Game game = (Game)data.getSerializableExtra(GAME);
+                getBoard().gameEnded(game);
+
+                resetList();
+
+                String message = "%s et %s totalisent %.1f points pour %.0f : %s";
+                message = String.format(message,
+                        game.getTaker(), game.getSecondTaker(), game.getScore(), game.getHolders().getTarget(),
+                        game.isWon() ? "gagné!": "perdu :(");
+                Toast.makeText(getApplicationContext(), message,
+                        Toast.LENGTH_LONG).show();
+            }
+        }
     }
 
 }

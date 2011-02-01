@@ -3,5 +3,14 @@
     <string name="app_name">Tarot</string>
     <string name="parties_list">Liste des parties</string>
     <string name="party_create">Création d\'une partie</string>
+    <string name="game_create">Création d\'un tour</string>
     <string name="party_board">Tableau des scores</string>
+    <string name="new_game">Nouveau tour</string>
+    <string name="new_party">Nouvelle partie</string>
+
+    <string name="taker">Preneur</string>
+    <string name="secondTaker">Avec ?</string>
+    <string name="contract">Contrat</string>
+    <string name="holders">Bouts</string>
+    <string name="score">Score</string>
 </resources>

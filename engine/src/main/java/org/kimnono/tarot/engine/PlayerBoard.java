@@ -1,5 +1,7 @@
 package org.kimnono.tarot.engine;
 
+import java.io.Serializable;
+import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -8,10 +10,29 @@ import java.util.Map;
 /**
  * @author Arnaud Thimel <thimel@codelutin.com>
  */
-public class PlayerBoard {
+public class PlayerBoard implements Serializable {
 
-    protected Map<String, Integer> scores = new LinkedHashMap<String, Integer>();
-    protected List<Game> games = new LinkedList<Game>();
+    private static final long serialVersionUID = -2231617148598930878L;
+
+    protected LinkedHashMap<String, Integer> scores = new LinkedHashMap<String, Integer>();
+    protected LinkedList<Game> games = new LinkedList<Game>();
+
+    public void newParty(Collection<String> players) {
+        scores.clear();
+        games.clear();
+        int playersCount = 0;
+        if (players != null) {
+            playersCount = players.size();
+        }
+        if (playersCount == 0 || (playersCount != 4 && playersCount != 5)) {
+            String message =
+                    "Only 4 and 5 players are supported for the moment. You gave %d player names.";
+            throw new UnsupportedOperationException(String.format(message, playersCount));
+        }
+        for (String player : players) {
+            scores.put(player, 0);
+        }
+    }
 
     public void newParty(String ... players) {
         scores.clear();
@@ -107,4 +128,17 @@ public class PlayerBoard {
         boolean result = (scores.size() == 5);
         return result;
     }
+
+    public PlayerBoard cloneForNewParty() {
+        PlayerBoard result = new PlayerBoard();
+        result.newParty(scores.keySet());
+        return result;
+    }
+
+    public String[] getPlayers() {
+        String[] result = new String[scores.size()];
+        result = scores.keySet().toArray(result);
+        return result;
+    }
+
 }

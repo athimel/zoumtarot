@@ -13,6 +13,10 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+import junit.framework.Assert;
+import org.kimnono.tarot.engine.Contract;
+import org.kimnono.tarot.engine.Game;
+import org.kimnono.tarot.engine.Holders;
 import org.kimnono.tarot.engine.PlayerBoard;
 
 import java.util.ArrayList;
@@ -22,12 +26,39 @@ public class PartiesList extends Activity {
 
     protected List<PlayerBoard> getParties() {
         List<PlayerBoard> result = new ArrayList<PlayerBoard>();
+
+
         PlayerBoard board = new PlayerBoard();
-        board.newParty("Arno", "Yannick", "Kevin", "Julien");
+        board.newParty("Corentin", "Yannick", "Kévin", "Julien", "Florian");
+        Game game = new Game();
+        game.set5PlayersCase("Kévin", "Julien", Contract.GARDE_SANS, Holders.ONE, 61);
+        board.gameEnded(game);
+        game = new Game();
+        game.set5PlayersCase("Kévin", "Yannick", Contract.GARDE, Holders.TWO, 31);
+        board.gameEnded(game);
+        game = new Game();
+        game.set5PlayersCase("Corentin", "Julien", Contract.GARDE, Holders.THREE, 26);
+        board.gameEnded(game);
+        game = new Game();
+        game.set5PlayersCase("Yannick", "Florian", Contract.GARDE_SANS, Holders.NONE, 46);
+        board.gameEnded(game);
+        game = new Game();
+        game.set5PlayersCase("Yannick", "Corentin", Contract.GARDE_CONTRE, Holders.NONE, 46);
+
         result.add(board);
 
         board = new PlayerBoard();
-        board.newParty("Jean", "Estelle", "Florian", "Éric");
+        board.newParty("Jean", "Estelle", "Arno", "Éric", "Matthieu");
+        game = new Game();
+        game.set5PlayersCase("Arno", "Estelle", Contract.GARDE_SANS, Holders.ONE, 61);
+        board.gameEnded(game);
+        game = new Game();
+        game.set5PlayersCase("Éric", "Jean", Contract.GARDE, Holders.TWO, 31);
+        board.gameEnded(game);
+        game = new Game();
+        game.set5PlayersCase("Matthieu", "Matthieu", Contract.GARDE, Holders.THREE, 26);
+        board.gameEnded(game);
+
         result.add(board);
 
         return result;
@@ -65,9 +96,10 @@ public class PartiesList extends Activity {
 
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
-                // When clicked, show a toast with the TextView text
-                Toast.makeText(getApplicationContext(), ((TextView) view).getText(),
-                        Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(PartiesList.this, PartyBoard.class);
+                PlayerBoard board = getParties().get(position);
+                intent.putExtra(PartyBoard.BOARD, board);
+                startActivity(intent);
             }
 
         });
@@ -82,7 +114,6 @@ public class PartiesList extends Activity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle item selection
         switch (item.getItemId()) {
             case R.id.new_party:
                 Intent i = new Intent(this, AddParty.class);

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+    <TableLayout android:layout_width="match_parent"
+                 android:layout_height="match_parent">
+        <TableRow>
+            <TextView android:text="@string/taker"/>
+            <Spinner android:id="@+id/taker"
+                     android:layout_height="wrap_content"
+                     android:layout_width="wrap_content"
+                     android:layout_weight="1"/>
+        </TableRow>
+        <TableRow>
+            <TextView android:text="@string/secondTaker"/>
+            <Spinner android:id="@+id/secondTaker"
+                     android:layout_height="wrap_content"
+                     android:layout_width="wrap_content"
+                     android:layout_weight="1"/>
+        </TableRow>
+        <TableRow>
+            <TextView android:text="@string/contract"/>
+            <Spinner android:id="@+id/contract"
+                     android:layout_height="wrap_content"
+                     android:layout_width="wrap_content"
+                     android:layout_weight="1"/>
+        </TableRow>
+        <TableRow>
+            <TextView android:text="@string/holders"/>
+            <RadioGroup android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:id="@+id/holders">
+                <RadioButton android:checked="false"
+                             android:layout_width="wrap_content"
+                             android:layout_height="wrap_content"
+                             android:id="@+id/c_b_0"
+                             android:text="0"/>
+                <RadioButton android:checked="true"
+                             android:layout_width="wrap_content"
+                             android:layout_height="wrap_content"
+                             android:id="@+id/c_b_1"
+                             android:text="1"/>
+                <RadioButton android:checked="false"
+                             android:layout_width="wrap_content"
+                             android:layout_height="wrap_content"
+                             android:id="@+id/c_b_2"
+                             android:text="2"/>
+                <RadioButton android:checked="false"
+                             android:layout_width="wrap_content"
+                             android:layout_height="wrap_content"
+                             android:id="@+id/c_b_3"
+                             android:text="3"/>
+            </RadioGroup>
+        </TableRow>
+        <TableRow>
+            <TextView android:text="@string/score"/>
+            <EditText android:id="@+id/score"
+                      android:layout_height="wrap_content"
+                      android:layout_width="wrap_content"
+                      android:layout_weight="1"/>
+        </TableRow>
+        <TableRow>
+            <Button android:layout_height="wrap_content"
+                    android:text="Terminé"
+                    android:id="@+id/saveButton"
+                    android:layout_width="match_parent"
+                    android:layout_weight="1"/>
+        </TableRow>
+
+    </TableLayout>
+</ScrollView>

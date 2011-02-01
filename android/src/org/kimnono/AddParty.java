@@ -7,6 +7,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
 import org.kimnono.tarot.engine.PlayerBoard;
 
 import java.util.ArrayList;
@@ -62,7 +64,12 @@ public class AddParty extends Activity {
         board.newParty(players);
 
         Intent intent = new Intent(this, PartyBoard.class);
+        intent.putExtra(PartyBoard.BOARD, board);
         startActivity(intent);
+
+        Toast.makeText(getApplicationContext(), "Partie créée",
+                        Toast.LENGTH_SHORT).show();
+
     }
 
 }

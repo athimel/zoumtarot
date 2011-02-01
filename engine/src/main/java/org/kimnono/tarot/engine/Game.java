@@ -1,9 +1,13 @@
 package org.kimnono.tarot.engine;
 
+import java.io.Serializable;
+
 /**
  * @author Arnaud Thimel <thimel@codelutin.com>
  */
-public class Game {
+public class Game implements Serializable {
+
+    private static final long serialVersionUID = -3415746288521792447L;
 
     protected String taker;
 
@@ -71,6 +75,11 @@ public class Game {
 
     public void setScore(double score) {
         this.score = score;
+    }
+
+    public boolean isWon() {
+        boolean result = score >= holders.target;
+        return result;
     }
 
     public boolean isTaker(String player) {
