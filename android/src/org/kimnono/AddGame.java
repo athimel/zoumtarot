@@ -69,7 +69,6 @@ public class AddGame extends Activity {
 
         score = (EditText) findViewById(R.id.score);
         score.setInputType(InputType.TYPE_CLASS_NUMBER);
-        score.setText("0");
 
         saveButton = (Button) findViewById(R.id.saveButton);
 
