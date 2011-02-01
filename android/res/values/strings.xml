@@ -13,4 +13,10 @@
     <string name="contract">Contrat</string>
     <string name="holders">Bouts</string>
     <string name="score">Score</string>
+
+    <string name="J1">Joueur 1</string>
+    <string name="J2">Joueur 2</string>
+    <string name="J3">Joueur 3</string>
+    <string name="J4">Joueur 4</string>
+    <string name="J5">Joueur 5</string>
 </resources>
