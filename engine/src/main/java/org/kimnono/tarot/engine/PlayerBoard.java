@@ -34,7 +34,7 @@ public class PlayerBoard implements Serializable {
         }
     }
 
-    public void newParty(String ... players) {
+    public void newParty(String... players) {
         scores.clear();
         games.clear();
         int playersCount = 0;
@@ -56,7 +56,7 @@ public class PlayerBoard implements Serializable {
             games.add(game);
 
             int scoreSeed = getScoreSeed(game);
-            for (Map.Entry<String, Integer> entry: scores.entrySet()) {
+            for (Map.Entry<String, Integer> entry : scores.entrySet()) {
                 String playerName = entry.getKey();
                 Integer playerScore = entry.getValue();
 

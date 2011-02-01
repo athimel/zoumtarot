@@ -16,4 +16,17 @@ public enum Contract {
         this.value = value;
     }
 
+    public String toShortString() {
+        switch (this) {
+            case PRISE:
+                return "P";
+            case GARDE:
+                return "G";
+            case GARDE_SANS:
+                return "GS";
+            default:
+                return "GC";
+        }
+    }
+
 }

@@ -3,7 +3,6 @@ package org.kimnono;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -11,9 +10,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
-import junit.framework.Assert;
 import org.kimnono.tarot.engine.Contract;
 import org.kimnono.tarot.engine.Game;
 import org.kimnono.tarot.engine.Holders;
@@ -25,8 +21,10 @@ import java.util.List;
 public class PartiesList extends Activity {
 
     protected List<PlayerBoard> getParties() {
-        List<PlayerBoard> result = new ArrayList<PlayerBoard>();
 
+        // TODO AThimel 01/02/2011 Store/restore this information over several runs
+
+        List<PlayerBoard> result = new ArrayList<PlayerBoard>();
 
         PlayerBoard board = new PlayerBoard();
         board.newParty("Corentin", "Yannick", "Kévin", "Julien", "Florian");

@@ -29,8 +29,10 @@
     </properties>
 
     <scm>
-        <connection>scm:svn:svn://src.kimnono.org/svnroot/tarot/trunk</connection>
-        <developerConnection>scm:svn:svn://src.kimnono.org/svnroot/tarot/trunk</developerConnection>
+        <connection>scm:svn:svn://src.kimnono.org/svnroot/tarot/trunk
+        </connection>
+        <developerConnection>scm:svn:svn://src.kimnono.org/svnroot/tarot/trunk
+        </developerConnection>
         <url>svn://src.kimnono.org/svnroot/tarot/trunk</url>
     </scm>
 

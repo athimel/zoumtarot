@@ -6,15 +6,14 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.Toast;
-import org.kimnono.tarot.engine.Contract;
 import org.kimnono.tarot.engine.Game;
-import org.kimnono.tarot.engine.Holders;
 import org.kimnono.tarot.engine.PlayerBoard;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -50,7 +49,10 @@ public class PartyBoard extends Activity {
 
             map = new HashMap<String, String>();
             for (String player : players) {
-                map.put(player, "" + copy.getScores().get(player));
+                String format = "%d%s";
+                Integer score = copy.getScores().get(player);
+                String suffix = game.isTaker(player) ? " " + game.getContract().toShortString() : "";
+                map.put(player, String.format(format, score, suffix));
             }
             result.add(map);
 
@@ -61,7 +63,7 @@ public class PartyBoard extends Activity {
 
     protected PlayerBoard getBoard() {
 
-        PlayerBoard result = (PlayerBoard)getIntent().getSerializableExtra(BOARD);
+        PlayerBoard result = (PlayerBoard) getIntent().getSerializableExtra(BOARD);
 
         return result;
     }
@@ -72,10 +74,26 @@ public class PartyBoard extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.party_board);
 
-        resetList();
+        ListView listView = resetList();
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View view,
+                                    int position, long id) {
+
+//                Intent intent = new Intent(PartyBoard.this, AddGame.class);
+//                ArrayList<String> players = new ArrayList<String>(getBoard().getScores().keySet());
+//                intent.putExtra(AddGame.PLAYERS, players);
+//                int index = position - 1;
+//                intent.putExtra(AddGame.GAME, getBoard().getGames().get(index));
+//                intent.putExtra(AddGame.INDEX, index);
+//                startActivityForResult(intent, code);
+                Toast.makeText(getApplicationContext(), "Édition non supportée pour le moment",
+                        Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
-    private void resetList() {
+    private ListView resetList() {
         ListView list = (ListView) findViewById(R.id.party_board_list);
 
         PlayerBoard board = getBoard();
@@ -86,6 +104,8 @@ public class PartyBoard extends Activity {
                 board.getPlayers(),
                 new int[]{R.id.player1, R.id.player2, R.id.player3, R.id.player4, R.id.player5});
         list.setAdapter(adapter);
+
+        return list;
     }
 
 
@@ -112,10 +132,10 @@ public class PartyBoard extends Activity {
     }
 
     protected void onActivityResult(int requestCode, int resultCode,
-            Intent data) {
+                                    Intent data) {
         if (requestCode == code) {
             if (resultCode == RESULT_OK) {
-                Game game = (Game)data.getSerializableExtra(GAME);
+                Game game = (Game) data.getSerializableExtra(GAME);
                 getBoard().gameEnded(game);
 
                 resetList();
@@ -123,7 +143,7 @@ public class PartyBoard extends Activity {
                 String message = "%s et %s totalisent %.1f points pour %.0f : %s";
                 message = String.format(message,
                         game.getTaker(), game.getSecondTaker(), game.getScore(), game.getHolders().getTarget(),
-                        game.isWon() ? "gagné!": "perdu :(");
+                        game.isWon() ? "gagné!" : "perdu :(");
                 Toast.makeText(getApplicationContext(), message,
                         Toast.LENGTH_LONG).show();
             }

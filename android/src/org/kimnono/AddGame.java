@@ -10,14 +10,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
-import android.widget.TextView;
-import android.widget.Toast;
 import org.kimnono.tarot.engine.Contract;
 import org.kimnono.tarot.engine.Game;
 import org.kimnono.tarot.engine.Holders;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -26,13 +23,15 @@ import java.util.List;
 public class AddGame extends Activity {
 
     public static final String PLAYERS = "players";
+    public static final String GAME = "game"; //optional
+    public static final String INDEX = "index"; //optional
 
-    Spinner taker;
-    Spinner secondTaker;
-    Spinner contract;
-    RadioGroup holders;
-    EditText score;
-    Button saveButton;
+    protected Spinner taker;
+    protected Spinner secondTaker;
+    protected Spinner contract;
+    protected RadioGroup holders;
+    protected EditText score;
+    protected Button saveButton;
 
     protected List<String> getPlayers() {
         return (ArrayList<String>) getIntent().getSerializableExtra(PLAYERS);
@@ -68,19 +67,23 @@ public class AddGame extends Activity {
         holders = (RadioGroup) findViewById(R.id.holders);
 
         score = (EditText) findViewById(R.id.score);
-        score.setInputType(InputType.TYPE_CLASS_NUMBER);
+        score.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
+
+        final int index = getIntent().getIntExtra(INDEX, -1);
 
         saveButton = (Button) findViewById(R.id.saveButton);
 
         saveButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                onSaveButtonClicked();
+                onSaveButtonClicked(index);
             }
         });
 
     }
 
-    private void onSaveButtonClicked() {
+    private void onSaveButtonClicked(int index) {
+
+        // TODO AThimel 01/02/2011 Manage edit mode and index
 
         Game game = new Game();
 
@@ -97,7 +100,7 @@ public class AddGame extends Activity {
                 gameHolders = Holders.NONE;
                 break;
             case R.id.c_b_1:
-            gameHolders = Holders.ONE;
+                gameHolders = Holders.ONE;
                 break;
             case R.id.c_b_2:
                 gameHolders = Holders.TWO;

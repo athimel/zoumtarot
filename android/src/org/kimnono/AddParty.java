@@ -3,11 +3,9 @@ package org.kimnono;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 import org.kimnono.tarot.engine.PlayerBoard;
 
@@ -68,7 +66,7 @@ public class AddParty extends Activity {
         startActivity(intent);
 
         Toast.makeText(getApplicationContext(), "Partie créée",
-                        Toast.LENGTH_SHORT).show();
+                Toast.LENGTH_SHORT).show();
 
     }
 
