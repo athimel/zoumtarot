@@ -61,8 +61,8 @@ public class AddParty extends Activity {
         List<String> players = new ArrayList<String>();
         safeAddPlayer(players, player1, player2, player3, player4, player5);
 
-        if (players.size() < 5) {
-            Toast.makeText(getApplicationContext(), "Seules les parties à 5 joueurs sont supportées pour le moment",
+        if (players.size() < 4) {
+            Toast.makeText(getApplicationContext(), "Seules les parties à 4 et 5 joueurs sont supportées pour le moment",
                     Toast.LENGTH_LONG).show();
         } else {
 

@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
+import android.widget.TableRow;
 import org.kimnono.tarot.engine.Contract;
 import org.kimnono.tarot.engine.Game;
 import org.kimnono.tarot.engine.Holders;
@@ -28,6 +29,7 @@ public class AddGame extends Activity {
 
     protected Spinner taker;
     protected Spinner secondTaker;
+    protected TableRow secondTakerRow;
     protected Spinner contract;
     protected RadioGroup holders;
     protected EditText score;
@@ -56,9 +58,15 @@ public class AddGame extends Activity {
         taker = (Spinner) findViewById(R.id.taker);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, players);
         taker.setAdapter(adapter);
-        secondTaker = (Spinner) findViewById(R.id.secondTaker);
-        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, players);
-        secondTaker.setAdapter(adapter);
+
+        if (players.size() == 5) {
+            secondTaker = (Spinner) findViewById(R.id.secondTaker);
+            adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, players);
+            secondTaker.setAdapter(adapter);
+        } else {
+            secondTakerRow = (TableRow) findViewById(R.id.secondTakerRow);
+            secondTakerRow.setVisibility(View.INVISIBLE);
+        }
 
         contract = (Spinner) findViewById(R.id.contract);
         adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, getContracts());
@@ -89,7 +97,10 @@ public class AddGame extends Activity {
 
         game.setTaker(taker.getSelectedItem().toString());
 
-        game.setSecondTaker(secondTaker.getSelectedItem().toString());
+        List<String> players = getPlayers();
+        if (players.size() == 5) {
+            game.setSecondTaker(secondTaker.getSelectedItem().toString());
+        }
 
         Contract gameContract = Contract.valueOf(contract.getSelectedItem().toString());
         game.setContract(gameContract);

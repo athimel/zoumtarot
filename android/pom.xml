@@ -57,8 +57,8 @@
                         <platform>2.2</platform>
                     </sdk>
                     <deleteConflictingFiles>true</deleteConflictingFiles>
-                    <device>emulator</device>
-                    <!--<device>usb</device>-->
+                    <!--<device>emulator</device>-->
+                    <device>usb</device>
 
                 </configuration>
                 <extensions>true</extensions>

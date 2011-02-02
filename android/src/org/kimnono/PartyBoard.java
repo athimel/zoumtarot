@@ -28,6 +28,12 @@ public class PartyBoard extends Activity {
 
     public static final int code = 0;
 
+    /**
+     * From a PlayerBoard, generate the rows (including the header)
+     *
+     * @param board the board containing data
+     * @return a list of HashMap with player names and stats
+     */
     protected ArrayList<HashMap<String, String>> getLines(PlayerBoard board) {
 
         ArrayList<HashMap<String, String>> result = new ArrayList<HashMap<String, String>>();
@@ -51,7 +57,18 @@ public class PartyBoard extends Activity {
             for (String player : players) {
                 String format = "%d%s";
                 Integer score = copy.getScores().get(player);
-                String suffix = game.isTaker(player) ? " " + game.getContract().toShortString() : "";
+                String contractMark = "";
+                String secondTakerMark = "";
+                String wonMark = "";
+                if (game.isTaker(player)) {
+                    contractMark = game.getContract().toShortString();
+                    wonMark = game.isWon() ? "\u2191" : "\u2193"; // up or down arrow
+                }
+                if (game.isSecondTaker(player)) {
+                    secondTakerMark = "\u002A"; // star
+                }
+                String suffix =
+                        String.format(" %s%s%s", contractMark, secondTakerMark, wonMark);
                 map.put(player, String.format(format, score, suffix));
             }
             result.add(map);
@@ -100,14 +117,21 @@ public class PartyBoard extends Activity {
 
         ArrayList<HashMap<String, String>> lines = getLines(board);
 
-        SimpleAdapter adapter = new SimpleAdapter(this, lines, R.layout.party_line,
-                board.getPlayers(),
-                new int[]{R.id.player1, R.id.player2, R.id.player3, R.id.player4, R.id.player5});
+        String[] players = board.getPlayers();
+        SimpleAdapter adapter;
+        if (players.length == 5) {
+            adapter = new SimpleAdapter(this, lines, R.layout.party_line_5players,
+                    players,
+                    new int[]{R.id.player1, R.id.player2, R.id.player3, R.id.player4, R.id.player5});
+        } else {
+            adapter = new SimpleAdapter(this, lines, R.layout.party_line,
+                    players,
+                    new int[]{R.id.player1, R.id.player2, R.id.player3, R.id.player4});
+        }
         list.setAdapter(adapter);
 
         return list;
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -140,10 +164,18 @@ public class PartyBoard extends Activity {
 
                 resetList();
 
-                String message = "%s et %s totalisent %.1f points pour %.0f : %s";
-                message = String.format(message,
-                        game.getTaker(), game.getSecondTaker(), game.getScore(), game.getHolders().getTarget(),
-                        game.isWon() ? "gagné!" : "perdu :(");
+                String message;
+                if (getBoard().getPlayers().length == 5) {
+                    message = "%s et %s totalisent %.1f points pour %.0f : %s";
+                    message = String.format(message,
+                            game.getTaker(), game.getSecondTaker(), game.getScore(), game.getHolders().getTarget(),
+                            game.isWon() ? "gagné!" : "perdu :(");
+                } else {
+                    message = "%s totalise %.1f points pour %.0f : %s";
+                    message = String.format(message,
+                            game.getTaker(), game.getScore(), game.getHolders().getTarget(),
+                            game.isWon() ? "gagné!" : "perdu :(");
+                }
                 Toast.makeText(getApplicationContext(), message,
                         Toast.LENGTH_LONG).show();
             }
