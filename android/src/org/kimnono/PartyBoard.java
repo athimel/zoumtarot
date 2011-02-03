@@ -183,19 +183,22 @@ public class PartyBoard extends Activity {
 
                 resetList();
 
-                String message;
                 boolean is5PlayersGame = (board.getPlayers().length == 5 && !game.isTakerAlone());
+
+                String who;
                 if (is5PlayersGame) {
-                    message = "%s et %s totalisent %.1f points pour %.0f : %s";
-                    message = String.format(message,
-                            game.getTaker(), game.getSecondTaker(), game.getScore(), game.getHolders().getTarget(),
-                            game.isWon() ? "gagné!" : "perdu :(");
+                    who = String.format("%s et %s totalisent", game.getTaker(), game.getSecondTaker());
                 } else {
-                    message = "%s totalise %.0f points pour %.0f : %s";
-                    message = String.format(message,
-                            game.getTaker(), game.getScore(), game.getHolders().getTarget(),
-                            game.isWon() ? "gagné!" : "perdu :(");
+                    who = String.format("%s totalise", game.getTaker());
                 }
+                double target = game.getHolders().getTarget();
+                double score = game.getScore();
+                double diff = Math.abs(target - score);
+
+                String message = String.format("%s %s points pour %.0f : tour %s de %s points.",
+                        who, toString(score), target,
+                        game.isWon() ? "gagné" : "perdu", toString(diff));
+
                 Toast.makeText(getApplicationContext(), message,
                         Toast.LENGTH_LONG).show();
 
@@ -204,9 +207,17 @@ public class PartyBoard extends Activity {
                             Toast.LENGTH_LONG).show();
                 }
             } else if (requestCode == EDIT_PLAYERS) {
-                resetList((PlayerBoard)data.getSerializableExtra(BOARD));
+                resetList((PlayerBoard) data.getSerializableExtra(BOARD));
             }
         }
+    }
+
+    protected String toString(double number) {
+        String result = String.format("%.1f", number);
+        if (result.endsWith(".0") || result.endsWith(",0")) {
+            result = result.substring(0, result.length() - 2);
+        }
+        return result;
     }
 
 }

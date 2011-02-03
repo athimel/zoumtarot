@@ -192,9 +192,9 @@ public class AddGame extends Activity {
         if (score < 0 || score > 91) {
             return "Le score doit être compris entre 0 et 91";
         }
-        if (score != Math.round(score)) { // multiple de '.0'
+        if ((score + 0.5) != Math.round(score)) { // multiple de '0.0'
             if (playerCount == 5) {
-                if (score != Math.round(score)) { // multiple de '.5'
+                if (score != Math.round(score + 0.5)) { // multiple de '0.5'
                     return "À 5 joueurs, le score doit être un multiple de 0.5";
                 }
             } else {
