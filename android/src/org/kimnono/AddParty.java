@@ -25,6 +25,8 @@ public class AddParty extends Activity {
     EditText player5;
     Button saveButton;
 
+    public static final String BOARD = "board";
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
 
@@ -36,6 +38,28 @@ public class AddParty extends Activity {
         player3 = (EditText) findViewById(R.id.player3);
         player4 = (EditText) findViewById(R.id.player4);
         player5 = (EditText) findViewById(R.id.player5);
+
+        // load players for edition
+        PlayerBoard board =
+                (PlayerBoard) getIntent().getSerializableExtra(BOARD);
+        if (board != null) {
+            String[] players = board.getPlayers();
+            if (players.length > 0) {
+                player1.setText(players[0]);
+            }
+            if (players.length > 1) {
+                player2.setText(players[1]);
+            }
+            if (players.length > 2) {
+                player3.setText(players[2]);
+            }
+            if (players.length > 3) {
+                player4.setText(players[3]);
+            }
+            if (players.length > 4) {
+                player5.setText(players[4]);
+            }
+        }
 
         saveButton = (Button) findViewById(R.id.saveButton);
 
@@ -62,18 +86,30 @@ public class AddParty extends Activity {
         safeAddPlayer(players, player1, player2, player3, player4, player5);
 
         if (players.size() < 4) {
-            Toast.makeText(getApplicationContext(), "Seules les parties à 4 et 5 joueurs sont supportées pour le moment",
+            Toast.makeText(getApplicationContext(),
+                    "Seules les parties à 4 et 5 joueurs sont supportées pour le moment",
                     Toast.LENGTH_LONG).show();
         } else {
 
-            PlayerBoard board = new PlayerBoard();
-            board.newParty(players);
+            PlayerBoard board =
+                    (PlayerBoard) getIntent().getSerializableExtra(BOARD);
+            String message;
+            if (board != null) {
+                board.replacePlayers(players);
+
+                message = "Noms des joueurs modifiés";
+            } else {
+                board = new PlayerBoard();
+                board.newParty(players);
+
+                message = "Partie créée";
+            }
 
             Intent intent = new Intent(this, PartyBoard.class);
             intent.putExtra(PartyBoard.BOARD, board);
             startActivity(intent);
 
-            Toast.makeText(getApplicationContext(), "Partie créée",
+            Toast.makeText(getApplicationContext(), message,
                     Toast.LENGTH_SHORT).show();
         }
 

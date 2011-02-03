@@ -3,6 +3,8 @@ package org.kimnono.tarot.engine;
 import junit.framework.Assert;
 import junit.framework.TestCase;
 
+import java.util.Arrays;
+
 /**
  * @author Arnaud Thimel <thimel@codelutin.com>
  */
@@ -289,4 +291,45 @@ public class ScoreTest extends TestCase {
         Assert.assertTrue(board.isScoreCoherent());
 
     }
+
+
+    public void testPlayersRenaming() throws Exception {
+
+        PlayerBoard board = new PlayerBoard();
+        board.newParty("Kevin", "Florian", "Yannick", "Julien", "Corentin");
+
+        Game game = new Game();
+        game.set5PlayersCase("Kevin", "Julien", Contract.GARDE_SANS, Holders.ONE, 61);
+        board.gameEnded(game);
+        game = new Game();
+        game.set5PlayersCase("Kevin", "Yannick", Contract.GARDE, Holders.TWO, 31);
+        board.gameEnded(game);
+        game = new Game();
+        game.set5PlayersCase("Corentin", "Julien", Contract.GARDE, Holders.THREE, 26);
+        board.gameEnded(game);
+        game = new Game();
+        game.set5PlayersCase("Yannick", "Florian", Contract.GARDE_SANS, Holders.NONE, 46);
+        board.gameEnded(game);
+        game = new Game();
+        game.set5PlayersCase("Yannick", "Corentin", Contract.GARDE_CONTRE, Holders.NONE, 46);
+        board.gameEnded(game);
+
+        Assert.assertEquals(560, (int) board.getScores().get("Kevin"));
+        Assert.assertEquals(70, (int) board.getScores().get("Florian"));
+        Assert.assertEquals(-840, (int) board.getScores().get("Yannick"));
+        Assert.assertEquals(490, (int) board.getScores().get("Julien"));
+        Assert.assertEquals(-280, (int) board.getScores().get("Corentin"));
+        Assert.assertTrue(board.isScoreCoherent());
+
+        board.replacePlayers(Arrays.asList("Kévin", "Éric", "Toto", "Corentin", "Arno"));
+
+        Assert.assertEquals(560, (int) board.getScores().get("Kévin"));
+        Assert.assertEquals(70, (int) board.getScores().get("Éric"));
+        Assert.assertEquals(-840, (int) board.getScores().get("Toto"));
+        Assert.assertEquals(490, (int) board.getScores().get("Corentin"));
+        Assert.assertEquals(-280, (int) board.getScores().get("Arno"));
+        Assert.assertTrue(board.isScoreCoherent());
+
+    }
+
 }

@@ -154,17 +154,33 @@ public class PlayerBoard implements Serializable {
         }
     }
 
-//    public List<Map<String, Integer>> getScoresList() {
-//        PlayerBoard copy = cloneForNewParty();
-//        List<Map<String, Integer>> result =
-//                new ArrayList<Map<String, Integer>>(games.size());
-//        for (Game game : games) {
-//            copy.gameEnded(game);
-//            Map<String, Integer> score =
-//                    new LinkedHashMap<String, Integer>(copy.getScores());
-//            result.add(score);
-//        }
-//        return result;
-//    }
+    public void replacePlayers(List<String> players) {
+        String[] inPlacePlayers = getPlayers();
+        if (inPlacePlayers.length != players.size()) {
+            throw new UnsupportedOperationException("It is no possible to modify player count");
+        }
+        String key = "__replaceBy#" + System.currentTimeMillis() + "#";
+        // Rename in two phase to avoid player name collision during renaming
+        for (int i = 0; i < inPlacePlayers.length; i++) {
+            renamePlayer(inPlacePlayers[i], key + i);
+        }
+        for (int i = 0; i < inPlacePlayers.length; i++) {
+            renamePlayer(key + i, players.get(i));
+        }
+    }
 
+    protected void renamePlayer(String from, String to) {
+        Integer score = scores.get(from);
+        scores.remove(from);
+        scores.put(to, score);
+
+        for (Game game : games) {
+            if (game.isTaker(from)) {
+                game.setTaker(to);
+            }
+            if (game.isSecondTaker(from)) {
+                game.setSecondTaker(to);
+            }
+        }
+    }
 }

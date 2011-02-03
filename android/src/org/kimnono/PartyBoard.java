@@ -29,6 +29,7 @@ public class PartyBoard extends Activity {
 
     public static final int NEW_GAME = 0;
     public static final int EDIT_GAME = 1;
+    public static final int EDIT_PLAYERS = 2;
 
     /**
      * From a PlayerBoard, generate the rows (including the header)
@@ -99,15 +100,17 @@ public class PartyBoard extends Activity {
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
 
+                PlayerBoard board = getBoard();
                 if (position == 0) {
-                    Toast.makeText(getApplicationContext(), "Players edition not yet supported",
-                            Toast.LENGTH_LONG).show();
+                    Intent intent = new Intent(PartyBoard.this, AddParty.class);
+                    intent.putExtra(AddParty.BOARD, board);
+                    startActivityForResult(intent, EDIT_PLAYERS);
                 } else {
                     Intent intent = new Intent(PartyBoard.this, AddGame.class);
-                    ArrayList<String> players = new ArrayList<String>(getBoard().getScores().keySet());
+                    ArrayList<String> players = new ArrayList<String>(board.getScores().keySet());
                     intent.putExtra(AddGame.PLAYERS, players);
                     int index = position - 1;
-                    intent.putExtra(AddGame.GAME, getBoard().getGames().get(index));
+                    intent.putExtra(AddGame.GAME, board.getGames().get(index));
                     intent.putExtra(AddGame.INDEX, index);
                     startActivityForResult(intent, EDIT_GAME);
                 }
@@ -201,6 +204,9 @@ public class PartyBoard extends Activity {
                     Toast.makeText(getApplicationContext(), "ERROR: Score is not coherent !",
                             Toast.LENGTH_LONG).show();
                 }
+            } else if (requestCode == EDIT_PLAYERS) {
+                PlayerBoard board = getBoard();
+                // nothing to do ??
             }
         }
     }
