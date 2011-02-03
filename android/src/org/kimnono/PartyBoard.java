@@ -23,6 +23,8 @@ import java.util.List;
  */
 public class PartyBoard extends Activity {
 
+    protected PlayerBoard board;
+
     public static final String BOARD = "board";
     public static final String GAME = "game";
     public static final String INDEX = "index";
@@ -81,26 +83,19 @@ public class PartyBoard extends Activity {
         return result;
     }
 
-    protected PlayerBoard getBoard() {
-
-        PlayerBoard result = (PlayerBoard) getIntent().getSerializableExtra(BOARD);
-
-        return result;
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.party_board);
 
-        ListView listView = resetList();
+        ListView listView = resetList((PlayerBoard) getIntent().getSerializableExtra(BOARD));
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
 
-                PlayerBoard board = getBoard();
+                PlayerBoard board = PartyBoard.this.board;
                 if (position == 0) {
                     Intent intent = new Intent(PartyBoard.this, AddParty.class);
                     intent.putExtra(AddParty.BOARD, board);
@@ -119,9 +114,12 @@ public class PartyBoard extends Activity {
     }
 
     private ListView resetList() {
-        ListView list = (ListView) findViewById(R.id.party_board_list);
+        return resetList(this.board);
+    }
 
-        PlayerBoard board = getBoard();
+    private ListView resetList(PlayerBoard board) {
+        this.board = board;
+        ListView list = (ListView) findViewById(R.id.party_board_list);
 
         ArrayList<HashMap<String, String>> lines = getLines(board);
 
@@ -154,7 +152,7 @@ public class PartyBoard extends Activity {
         switch (item.getItemId()) {
             case R.id.new_game:
                 Intent intent = new Intent(this, AddGame.class);
-                ArrayList<String> players = new ArrayList<String>(getBoard().getScores().keySet());
+                ArrayList<String> players = new ArrayList<String>(this.board.getScores().keySet());
                 intent.putExtra(AddGame.PLAYERS, players);
                 startActivityForResult(intent, NEW_GAME);
                 return true;
@@ -169,7 +167,7 @@ public class PartyBoard extends Activity {
             if (requestCode == NEW_GAME || requestCode == EDIT_GAME) {
                 Game game = (Game) data.getSerializableExtra(GAME);
 
-                PlayerBoard board = getBoard();
+                PlayerBoard board = this.board;
                 if (requestCode == EDIT_GAME) {
                     int replaceIndex = data.getIntExtra(INDEX, -1);
                     List<Game> games = board.getGames();
@@ -186,7 +184,8 @@ public class PartyBoard extends Activity {
                 resetList();
 
                 String message;
-                if (board.getPlayers().length == 5) {
+                boolean is5PlayersGame = (board.getPlayers().length == 5 && !game.isTakerAlone());
+                if (is5PlayersGame) {
                     message = "%s et %s totalisent %.1f points pour %.0f : %s";
                     message = String.format(message,
                             game.getTaker(), game.getSecondTaker(), game.getScore(), game.getHolders().getTarget(),
@@ -205,8 +204,7 @@ public class PartyBoard extends Activity {
                             Toast.LENGTH_LONG).show();
                 }
             } else if (requestCode == EDIT_PLAYERS) {
-                PlayerBoard board = getBoard();
-                // nothing to do ??
+                resetList((PlayerBoard)data.getSerializableExtra(BOARD));
             }
         }
     }

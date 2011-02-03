@@ -97,17 +97,22 @@ public class AddParty extends Activity {
             if (board != null) {
                 board.replacePlayers(players);
 
+                Intent intent = new Intent();
+                intent.putExtra(PartyBoard.BOARD, board);
+                setResult(RESULT_OK, intent);
+                finish();
+
                 message = "Noms des joueurs modifiés";
             } else {
                 board = new PlayerBoard();
                 board.newParty(players);
 
+                Intent intent = new Intent(this, PartyBoard.class);
+                intent.putExtra(PartyBoard.BOARD, board);
+                startActivity(intent);
+
                 message = "Partie créée";
             }
-
-            Intent intent = new Intent(this, PartyBoard.class);
-            intent.putExtra(PartyBoard.BOARD, board);
-            startActivity(intent);
 
             Toast.makeText(getApplicationContext(), message,
                     Toast.LENGTH_SHORT).show();
