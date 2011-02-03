@@ -101,6 +101,25 @@ public class ScoreTest extends TestCase {
 
     }
 
+    public void test4PlayersPartyScoreCumulBogus() throws Exception {
+
+        PlayerBoard board = new PlayerBoard();
+        board.newParty("Jean", "Estelle", "Arno", "Matthieu");
+        Game game = new Game();
+        game.setNominalCase("Arno", Contract.GARDE_SANS, Holders.ONE, 61);
+        board.gameEnded(game);
+        Assert.assertTrue(board.isScoreCoherent());
+        game = new Game();
+        game.setNominalCase("Jean", Contract.GARDE, Holders.TWO, 31);
+        board.gameEnded(game);
+        Assert.assertTrue(board.isScoreCoherent());
+        game = new Game();
+        game.setNominalCase("Matthieu", Contract.GARDE_CONTRE, Holders.THREE, 26);
+        board.gameEnded(game);
+        Assert.assertTrue(board.isScoreCoherent());
+
+    }
+
     public void test5PlayersParty() throws Exception {
 
         PlayerBoard board = new PlayerBoard();
@@ -218,4 +237,56 @@ public class ScoreTest extends TestCase {
         Assert.assertTrue(board.isScoreCoherent());
     }
 
+
+    public void testReplaceGame() throws Exception {
+
+        PlayerBoard board = new PlayerBoard();
+        board.newParty("Kevin", "Florian", "Yannick", "Julien", "Corentin");
+
+        Game game = new Game();
+        game.set5PlayersCase("Kevin", "Florian", Contract.PRISE, Holders.TWO, 41.5);
+        board.gameEnded(game);
+
+        Assert.assertEquals(52, (int) board.getScores().get("Kevin"));
+        Assert.assertEquals(26, (int) board.getScores().get("Florian"));
+        Assert.assertEquals(-26, (int) board.getScores().get("Yannick"));
+        Assert.assertEquals(-26, (int) board.getScores().get("Julien"));
+        Assert.assertEquals(-26, (int) board.getScores().get("Corentin"));
+        Assert.assertTrue(board.isScoreCoherent());
+
+        game = new Game();
+        game.set5PlayersCase("Kevin", "Florian", Contract.PRISE, Holders.TWO, 40.5);
+        board.gameEnded(game);
+
+        Assert.assertEquals(0, (int) board.getScores().get("Kevin"));
+        Assert.assertEquals(0, (int) board.getScores().get("Florian"));
+        Assert.assertEquals(0, (int) board.getScores().get("Yannick"));
+        Assert.assertEquals(0, (int) board.getScores().get("Julien"));
+        Assert.assertEquals(0, (int) board.getScores().get("Corentin"));
+        Assert.assertTrue(board.isScoreCoherent());
+
+        game = new Game();
+        game.set5PlayersCase("Kevin", "Florian", Contract.PRISE, Holders.TWO, 40.5);
+        board.replaceGame(0, game);
+
+
+        Assert.assertEquals(-104, (int) board.getScores().get("Kevin"));
+        Assert.assertEquals(-52, (int) board.getScores().get("Florian"));
+        Assert.assertEquals(52, (int) board.getScores().get("Yannick"));
+        Assert.assertEquals(52, (int) board.getScores().get("Julien"));
+        Assert.assertEquals(52, (int) board.getScores().get("Corentin"));
+        Assert.assertTrue(board.isScoreCoherent());
+
+        game = new Game();
+        game.set5PlayersCase("Kevin", "Florian", Contract.PRISE, Holders.TWO, 41.5);
+        board.replaceGame(1, game);
+
+        Assert.assertEquals(0, (int) board.getScores().get("Kevin"));
+        Assert.assertEquals(0, (int) board.getScores().get("Florian"));
+        Assert.assertEquals(0, (int) board.getScores().get("Yannick"));
+        Assert.assertEquals(0, (int) board.getScores().get("Julien"));
+        Assert.assertEquals(0, (int) board.getScores().get("Corentin"));
+        Assert.assertTrue(board.isScoreCoherent());
+
+    }
 }

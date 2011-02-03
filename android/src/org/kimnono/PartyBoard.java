@@ -25,8 +25,10 @@ public class PartyBoard extends Activity {
 
     public static final String BOARD = "board";
     public static final String GAME = "game";
+    public static final String INDEX = "index";
 
-    public static final int code = 0;
+    public static final int NEW_GAME = 0;
+    public static final int EDIT_GAME = 1;
 
     /**
      * From a PlayerBoard, generate the rows (including the header)
@@ -97,15 +99,18 @@ public class PartyBoard extends Activity {
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
 
-//                Intent intent = new Intent(PartyBoard.this, AddGame.class);
-//                ArrayList<String> players = new ArrayList<String>(getBoard().getScores().keySet());
-//                intent.putExtra(AddGame.PLAYERS, players);
-//                int index = position - 1;
-//                intent.putExtra(AddGame.GAME, getBoard().getGames().get(index));
-//                intent.putExtra(AddGame.INDEX, index);
-//                startActivityForResult(intent, code);
-                Toast.makeText(getApplicationContext(), "Édition non supportée pour le moment",
-                        Toast.LENGTH_LONG).show();
+                if (position == 0) {
+                    Toast.makeText(getApplicationContext(), "Players edition not yet supported",
+                            Toast.LENGTH_LONG).show();
+                } else {
+                    Intent intent = new Intent(PartyBoard.this, AddGame.class);
+                    ArrayList<String> players = new ArrayList<String>(getBoard().getScores().keySet());
+                    intent.putExtra(AddGame.PLAYERS, players);
+                    int index = position - 1;
+                    intent.putExtra(AddGame.GAME, getBoard().getGames().get(index));
+                    intent.putExtra(AddGame.INDEX, index);
+                    startActivityForResult(intent, EDIT_GAME);
+                }
             }
         });
     }
@@ -148,7 +153,7 @@ public class PartyBoard extends Activity {
                 Intent intent = new Intent(this, AddGame.class);
                 ArrayList<String> players = new ArrayList<String>(getBoard().getScores().keySet());
                 intent.putExtra(AddGame.PLAYERS, players);
-                startActivityForResult(intent, code);
+                startActivityForResult(intent, NEW_GAME);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -157,27 +162,45 @@ public class PartyBoard extends Activity {
 
     protected void onActivityResult(int requestCode, int resultCode,
                                     Intent data) {
-        if (requestCode == code) {
-            if (resultCode == RESULT_OK) {
+        if (resultCode == RESULT_OK) {
+            if (requestCode == NEW_GAME || requestCode == EDIT_GAME) {
                 Game game = (Game) data.getSerializableExtra(GAME);
-                getBoard().gameEnded(game);
+
+                PlayerBoard board = getBoard();
+                if (requestCode == EDIT_GAME) {
+                    int replaceIndex = data.getIntExtra(INDEX, -1);
+                    List<Game> games = board.getGames();
+                    if (replaceIndex < 0 || replaceIndex >= games.size()) {
+                        Toast.makeText(getApplicationContext(), "WTF!?? index:" + replaceIndex + " size:" + games.size(),
+                                Toast.LENGTH_LONG).show();
+                    } else {
+                        board.replaceGame(replaceIndex, game);
+                    }
+                } else {
+                    board.gameEnded(game);
+                }
 
                 resetList();
 
                 String message;
-                if (getBoard().getPlayers().length == 5) {
+                if (board.getPlayers().length == 5) {
                     message = "%s et %s totalisent %.1f points pour %.0f : %s";
                     message = String.format(message,
                             game.getTaker(), game.getSecondTaker(), game.getScore(), game.getHolders().getTarget(),
                             game.isWon() ? "gagné!" : "perdu :(");
                 } else {
-                    message = "%s totalise %.1f points pour %.0f : %s";
+                    message = "%s totalise %.0f points pour %.0f : %s";
                     message = String.format(message,
                             game.getTaker(), game.getScore(), game.getHolders().getTarget(),
                             game.isWon() ? "gagné!" : "perdu :(");
                 }
                 Toast.makeText(getApplicationContext(), message,
                         Toast.LENGTH_LONG).show();
+
+                if (!board.isScoreCoherent()) {
+                    Toast.makeText(getApplicationContext(), "ERROR: Score is not coherent !",
+                            Toast.LENGTH_LONG).show();
+                }
             }
         }
     }

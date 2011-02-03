@@ -1,6 +1,8 @@
 package org.kimnono.tarot.engine;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
@@ -18,28 +20,24 @@ public class PlayerBoard implements Serializable {
     protected LinkedList<Game> games = new LinkedList<Game>();
 
     public void newParty(Collection<String> players) {
-        scores.clear();
-        games.clear();
-        int playersCount = 0;
-        if (players != null) {
-            playersCount = players.size();
-        }
-        if (playersCount == 0 || (playersCount != 4 && playersCount != 5)) {
-            String message =
-                    "Only 4 and 5 players are supported for the moment. You gave %d player names.";
-            throw new UnsupportedOperationException(String.format(message, playersCount));
-        }
-        for (String player : players) {
-            scores.put(player, 0);
-        }
+        ArrayList<String> playersCopy = new ArrayList<String>(players); // To be sure we're not working on the same list
+        clear();
+        initPlayers(playersCopy);
     }
 
     public void newParty(String... players) {
+        newParty(Arrays.asList(players));
+    }
+
+    protected void clear() {
         scores.clear();
         games.clear();
+    }
+
+    protected void initPlayers(List<String> players) {
         int playersCount = 0;
         if (players != null) {
-            playersCount = players.length;
+            playersCount = players.size();
         }
         if (playersCount == 0 || (playersCount != 4 && playersCount != 5)) {
             String message =
@@ -140,5 +138,33 @@ public class PlayerBoard implements Serializable {
         result = scores.keySet().toArray(result);
         return result;
     }
+
+    public void replaceGame(int index, Game newGame) {
+        games.remove(index);
+        games.add(index, newGame);
+        resetScore();
+    }
+
+    protected void resetScore() {
+        String[] players = getPlayers();
+        List<Game> gamesCopy = new ArrayList<Game>(games);
+        newParty(players);
+        for (Game game : gamesCopy) {
+            gameEnded(game);
+        }
+    }
+
+//    public List<Map<String, Integer>> getScoresList() {
+//        PlayerBoard copy = cloneForNewParty();
+//        List<Map<String, Integer>> result =
+//                new ArrayList<Map<String, Integer>>(games.size());
+//        for (Game game : games) {
+//            copy.gameEnded(game);
+//            Map<String, Integer> score =
+//                    new LinkedHashMap<String, Integer>(copy.getScores());
+//            result.add(score);
+//        }
+//        return result;
+//    }
 
 }

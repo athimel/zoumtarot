@@ -47,7 +47,7 @@ public class AddParty extends Activity {
 
     }
 
-    protected void safeAddPlayer(List<String> players, TextView ... views) {
+    protected void safeAddPlayer(List<String> players, TextView... views) {
         for (TextView view : views) {
             String playerName = view.getText().toString();
             if (playerName != null && !"".equals(playerName.trim())) {

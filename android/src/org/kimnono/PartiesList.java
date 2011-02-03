@@ -46,15 +46,15 @@ public class PartiesList extends Activity {
         result.add(board);
 
         board = new PlayerBoard();
-        board.newParty("Jean", "Estelle", "Arno", "Éric", "Matthieu");
+        board.newParty("Jean", "Estelle", "Arno", "Matthieu");
         game = new Game();
-        game.set5PlayersCase("Arno", "Estelle", Contract.GARDE_SANS, Holders.ONE, 61);
+        game.setNominalCase("Arno", Contract.GARDE_SANS, Holders.ONE, 61);
         board.gameEnded(game);
         game = new Game();
-        game.set5PlayersCase("Éric", "Jean", Contract.GARDE, Holders.TWO, 31);
+        game.setNominalCase("Jean", Contract.GARDE, Holders.TWO, 31);
         board.gameEnded(game);
         game = new Game();
-        game.set5PlayersCase("Matthieu", "Matthieu", Contract.GARDE, Holders.THREE, 26);
+        game.setNominalCase("Matthieu", Contract.GARDE, Holders.THREE, 26);
         board.gameEnded(game);
 
         result.add(board);
