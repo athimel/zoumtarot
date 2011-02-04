@@ -13,6 +13,7 @@ import android.widget.SimpleAdapter;
 import android.widget.Toast;
 import org.kimnono.tarot.engine.Game;
 import org.kimnono.tarot.engine.PlayerBoard;
+import org.kimnono.tarot.engine.PointsCounter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -197,10 +198,22 @@ public class PartyBoard extends Activity {
 
                 String message = String.format("%s %s points pour %.0f : tour %s de %s points.",
                         who, toString(score), target,
-                        game.isWon() ? "gagné" : "perdu", toString(diff));
+                        game.isWon() ? "GAGNÉ" : "PERDU", toString(diff));
 
                 Toast.makeText(getApplicationContext(), message,
                         Toast.LENGTH_LONG).show();
+
+                String onePlayerFormat = "%s marque %d points\n";
+                String otherPlayersFormat = "Les autres joueurs marquent %d points";
+                String taker = game.getTaker();
+                String text = String.format(onePlayerFormat, taker, PointsCounter.getPlayerGameScore(board, game, taker));
+                if (is5PlayersGame && !game.isTakerAlone()) {
+                    String secondTaker = game.getSecondTaker();
+                    text += String.format(onePlayerFormat, secondTaker, PointsCounter.getPlayerGameScore(board, game, secondTaker));
+                }
+                text += String.format(otherPlayersFormat, PointsCounter.getScoreSeed(game) * -1);
+
+                Toast.makeText(getApplicationContext(), text, Toast.LENGTH_LONG).show();
 
                 if (!board.isScoreCoherent()) {
                     Toast.makeText(getApplicationContext(), "ERROR: Score is not coherent !",
