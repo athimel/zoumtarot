@@ -3,6 +3,7 @@ package org.kimnono;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -33,11 +34,18 @@ public class AddParty extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.new_party);
 
+        int type = InputType.TYPE_CLASS_TEXT;  // 1st letter capital ?
+
         player1 = (EditText) findViewById(R.id.player1);
+        player1.setInputType(type);
         player2 = (EditText) findViewById(R.id.player2);
+        player2.setInputType(type);
         player3 = (EditText) findViewById(R.id.player3);
+        player3.setInputType(type);
         player4 = (EditText) findViewById(R.id.player4);
+        player4.setInputType(type);
         player5 = (EditText) findViewById(R.id.player5);
+        player5.setInputType(type);
 
         // load players for edition
         PlayerBoard board =
