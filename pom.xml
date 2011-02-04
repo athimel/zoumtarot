@@ -49,6 +49,12 @@
                 <scope>test</scope>
             </dependency>
 
+            <dependency>
+                <groupId>com.thoughtworks</groupId>
+                <artifactId>xstream</artifactId>
+                <version>1.2.2-android-patched</version>
+            </dependency>
+
         </dependencies>
 
     </dependencyManagement>

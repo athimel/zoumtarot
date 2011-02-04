@@ -1,6 +1,5 @@
 package org.kimnono;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -22,13 +21,14 @@ import java.util.List;
 /**
  * @author Arnaud Thimel <thimel@codelutin.com>
  */
-public class PartyBoard extends Activity {
+public class PartyBoard extends TarotActivity {
 
     protected PlayerBoard board;
 
     public static final String BOARD = "board";
+    public static final String BOARD_INDEX = "board-index"; // optional
     public static final String GAME = "game";
-    public static final String INDEX = "index";
+    public static final String GAME_INDEX = "game-index";
 
     public static final int NEW_GAME = 0;
     public static final int EDIT_GAME = 1;
@@ -137,6 +137,18 @@ public class PartyBoard extends Activity {
         }
         list.setAdapter(adapter);
 
+        try {
+            int index = getIntent().getIntExtra(BOARD_INDEX, -1);
+            saveBoard(index, board);
+        } catch (Exception eee) {
+
+            eee.printStackTrace();
+
+            Toast.makeText(getApplicationContext(), String.format("Unable to save board: %s", eee.getMessage()),
+                    Toast.LENGTH_LONG).show();
+
+        }
+
         return list;
     }
 
@@ -170,7 +182,7 @@ public class PartyBoard extends Activity {
 
                 PlayerBoard board = this.board;
                 if (requestCode == EDIT_GAME) {
-                    int replaceIndex = data.getIntExtra(INDEX, -1);
+                    int replaceIndex = data.getIntExtra(GAME_INDEX, -1);
                     List<Game> games = board.getGames();
                     if (replaceIndex < 0 || replaceIndex >= games.size()) {
                         Toast.makeText(getApplicationContext(), "WTF!?? index:" + replaceIndex + " size:" + games.size(),

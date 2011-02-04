@@ -160,7 +160,13 @@ public class AddGame extends Activity {
         }
         game.setHolders(gameHolders);
 
-        double gameScore = Double.parseDouble(score.getText().toString());
+        String scoreText = score.getText().toString();
+        double gameScore = -1.0;
+        try {
+            gameScore = Double.parseDouble(scoreText);
+        } catch (NumberFormatException nfe) {
+            // Not valid, validation will fail
+        }
         game.setScore(gameScore);
 
         String validationMessage = validate(game, players.size());
@@ -168,7 +174,7 @@ public class AddGame extends Activity {
         if (validationMessage == null) {
             Intent intent = new Intent();
             intent.putExtra(PartyBoard.GAME, game);
-            intent.putExtra(PartyBoard.INDEX, index);
+            intent.putExtra(PartyBoard.GAME_INDEX, index);
             setResult(RESULT_OK, intent);
             finish();
         } else {

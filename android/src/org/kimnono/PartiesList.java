@@ -1,6 +1,5 @@
 package org.kimnono;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -10,20 +9,21 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 import org.kimnono.tarot.engine.Contract;
 import org.kimnono.tarot.engine.Game;
 import org.kimnono.tarot.engine.Holders;
 import org.kimnono.tarot.engine.PlayerBoard;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PartiesList extends Activity {
+public class PartiesList extends TarotActivity {
 
-    protected List<PlayerBoard> getParties() {
+    public static final int DISPLAY_BOARD = 0;
 
-        // TODO AThimel 01/02/2011 Store/restore this information over several runs
-
+    protected List<PlayerBoard> loadDemoDatas() {
         List<PlayerBoard> result = new ArrayList<PlayerBoard>();
 
         PlayerBoard board = new PlayerBoard();
@@ -63,13 +63,15 @@ public class PartiesList extends Activity {
     }
 
     protected List<String> getPartiesAsString(List<PlayerBoard> boards) {
-        List<String> result = new ArrayList<String>(boards.size());
-        for (PlayerBoard board : boards) {
-            String message = "%s - %d tour(s)";
-            String players = board.getScores().keySet().toString();
-            players = players.substring(1, players.length() - 1);
-            message = String.format(message, players, board.getGames().size());
-            result.add(message);
+        List<String> result = new ArrayList<String>();
+        if (boards != null) {
+            for (PlayerBoard board : boards) {
+                String message = "%s - %d tour(s)";
+                String players = board.getScores().keySet().toString();
+                players = players.substring(1, players.length() - 1);
+                message = String.format(message, players, board.getGames().size());
+                result.add(message);
+            }
         }
         return result;
     }
@@ -83,7 +85,12 @@ public class PartiesList extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
 
-        List<PlayerBoard> parties = getParties();
+        resetList();
+    }
+
+    protected void resetList() {
+
+        final List<PlayerBoard> parties = getParties();
         List<String> partiesAsString = getPartiesAsString(parties);
         ListView listView = (ListView) findViewById(R.id.listview);
         listView.setAdapter(new ArrayAdapter<String>(this, R.layout.party, partiesAsString));
@@ -95,12 +102,48 @@ public class PartiesList extends Activity {
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
                 Intent intent = new Intent(PartiesList.this, PartyBoard.class);
-                PlayerBoard board = getParties().get(position);
+                PlayerBoard board = parties.get(position);
                 intent.putExtra(PartyBoard.BOARD, board);
-                startActivity(intent);
+                intent.putExtra(PartyBoard.BOARD_INDEX, position);
+                startActivityForResult(intent, DISPLAY_BOARD);
             }
 
         });
+
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                try {
+                    removeBoard(position);
+
+                    Toast.makeText(getApplicationContext(), "Partie supprimée",
+                            Toast.LENGTH_LONG).show();
+
+                    resetList();
+                    return true;
+                } catch (Exception eee) {
+
+                    eee.printStackTrace();
+
+                    Toast.makeText(getApplicationContext(),
+                            String.format("Unable to remove board: %s", eee.getMessage()),
+                            Toast.LENGTH_LONG).show();
+                    return false;
+                }
+            }
+        });
+    }
+
+    private List<PlayerBoard> getParties() {
+        List<PlayerBoard> result;
+        try {
+            result = loadBoards();
+        } catch (FileNotFoundException e) {
+            System.out.println("No party found from disk");
+            result = new ArrayList<PlayerBoard>();
+        }
+        return result;
     }
 
     @Override
@@ -114,11 +157,20 @@ public class PartiesList extends Activity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.new_party:
-                Intent i = new Intent(this, AddParty.class);
-                startActivity(i);
+                Intent intent = new Intent(this, AddParty.class);
+                startActivityForResult(intent, DISPLAY_BOARD);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
+
+
+    protected void onActivityResult(int requestCode, int resultCode,
+                                    Intent data) {
+        if (requestCode == DISPLAY_BOARD && resultCode == RESULT_CANCELED) {
+            resetList();
+        }
+    }
+
 }
