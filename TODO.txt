@@ -1,0 +1,12 @@
+Gérer les annonces
+Boutons add permanents
+Menu sur clic long pour supprimer une partie
+
+Refaire les listes
+Rotation
+Couleurs pour les premiers/derniers
+
+Menu home : bouton crédits et bouton QR-code
+Envoi de partie par email
+Bouton règles
+
