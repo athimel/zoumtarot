@@ -13,12 +13,12 @@
     <parent>
         <groupId>org.kimnono</groupId>
         <artifactId>mavenpom</artifactId>
-        <version>0.1-SNAPSHOT</version>
+        <version>0.1</version>
     </parent>
 
     <groupId>org.kimnono</groupId>
     <artifactId>tarot</artifactId>
-    <version>0.1-SNAPSHOT</version>
+    <version>1.0-SNAPSHOT</version>
 
     <modules>
         <module>engine</module>

@@ -7,7 +7,7 @@
     <parent>
         <groupId>org.kimnono</groupId>
         <artifactId>tarot</artifactId>
-        <version>0.1-SNAPSHOT</version>
+        <version>1.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>tarot-android</artifactId>
@@ -62,8 +62,8 @@
                         <platform>1.6</platform>
                     </sdk>
                     <deleteConflictingFiles>true</deleteConflictingFiles>
-                    <device>emulator</device>
-                    <!--<device>usb</device>-->
+                    <!--<device>emulator</device>-->
+                    <device>usb</device>
 
                 </configuration>
                 <extensions>true</extensions>
