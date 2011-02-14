@@ -16,7 +16,7 @@
 
     <groupId>org.kimnono</groupId>
     <artifactId>tarot</artifactId>
-    <version>1.0</version>
+    <version>1.1-SNAPSHOT</version>
 
     <modules>
         <module>engine</module>
@@ -103,11 +103,11 @@
     </properties>
 
     <scm>
-        <connection>scm:svn:svn://src.kimnono.org/svnroot/tarot/tags/tarot-1.0
+        <connection>scm:svn:svn://src.kimnono.org/svnroot/tarot/trunk
         </connection>
-        <developerConnection>scm:svn:svn://src.kimnono.org/svnroot/tarot/tags/tarot-1.0
+        <developerConnection>scm:svn:svn://src.kimnono.org/svnroot/tarot/trunk
         </developerConnection>
-        <url>svn://src.kimnono.org/svnroot/tarot/tags/tarot-1.0</url>
+        <url>svn://src.kimnono.org/svnroot/tarot/trunk</url>
     </scm>
 
     <build>
