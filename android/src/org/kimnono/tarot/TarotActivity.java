@@ -1,4 +1,4 @@
-package org.kimnono;
+package org.kimnono.tarot;
 
 import android.app.Activity;
 import android.content.Context;
@@ -85,8 +85,10 @@ public abstract class TarotActivity extends Activity {
         if (boards == null) {
             boards = new ArrayList<PlayerBoard>();
         }
-        if (index != -1) {
-            boards.remove(index);
+        if (index != -1 || index == boards.size()) {
+            if (index != boards.size()) {
+                boards.remove(index);
+            }
             boards.add(index, board);
         } else {
             boards.add(board);

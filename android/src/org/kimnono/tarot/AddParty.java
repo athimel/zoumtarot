@@ -1,4 +1,4 @@
-package org.kimnono;
+package org.kimnono.tarot;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -79,21 +79,30 @@ public class AddParty extends Activity {
 
     }
 
-    protected void safeAddPlayer(List<String> players, TextView... views) {
+    protected boolean safeAddPlayer(List<String> players, TextView... views) {
         for (TextView view : views) {
             String playerName = view.getText().toString();
             if (playerName != null && !"".equals(playerName.trim())) {
+                if (players.contains(playerName)) {
+                    return false;
+                }
                 players.add(playerName);
             }
         }
+        return true;
     }
 
     private void onSaveButtonClicked() {
 
         List<String> players = new ArrayList<String>();
-        safeAddPlayer(players, player1, player2, player3, player4, player5);
+        boolean safeAddResult = safeAddPlayer(players, player1, player2, player3, player4, player5);
 
-        if (players.size() < 4) {
+
+        if (!safeAddResult) {
+            Toast.makeText(getApplicationContext(),
+                    "Vous ne pouvez indiquer 2 joueurs avec le même nom",
+                    Toast.LENGTH_LONG).show();
+        } else if (players.size() < 4) {
             Toast.makeText(getApplicationContext(),
                     "Seules les parties à 4 et 5 joueurs sont supportées pour le moment",
                     Toast.LENGTH_LONG).show();
@@ -103,20 +112,27 @@ public class AddParty extends Activity {
                     (PlayerBoard) getIntent().getSerializableExtra(BOARD);
             String message;
             if (board != null) {
-                board.replacePlayers(players);
+                try {
+                    board.replacePlayers(players);
 
-                Intent intent = new Intent();
-                intent.putExtra(PartyBoard.BOARD, board);
-                setResult(RESULT_OK, intent);
-                finish();
+                    Intent intent = new Intent();
+                    intent.putExtra(PartyBoard.BOARD, board);
+                    setResult(RESULT_OK, intent);
+                    finish();
 
-                message = "Noms des joueurs modifiés";
+                    message = "Noms des joueurs modifiés";
+                } catch (UnsupportedOperationException uoe) {
+                    message = String.format("Erreur: %s", uoe.getMessage());
+                }
+
             } else {
                 board = new PlayerBoard();
                 board.newParty(players);
 
                 Intent intent = new Intent(this, PartyBoard.class);
                 intent.putExtra(PartyBoard.BOARD, board);
+                int index = getIntent().getIntExtra(PartyBoard.BOARD_INDEX, -1);
+                intent.putExtra(PartyBoard.BOARD_INDEX, index);
                 startActivity(intent);
 
                 message = "Partie créée";

@@ -1,4 +1,4 @@
-package org.kimnono;
+package org.kimnono.tarot;
 
 import android.content.Intent;
 import android.os.Bundle;

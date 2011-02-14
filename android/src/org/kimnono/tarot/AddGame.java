@@ -1,4 +1,4 @@
-package org.kimnono;
+package org.kimnono.tarot;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -115,6 +115,7 @@ public class AddGame extends Activity {
             if (gameScore == Math.round(gameScore)) { // Ends with '.0' or ',0'
                 text = text.substring(0, text.length() - 2);
             }
+            text = text.replace(',', '.');
             score.setText(text);
         }
 

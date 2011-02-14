@@ -1,4 +1,4 @@
-package org.kimnono;
+package org.kimnono.tarot;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -158,6 +158,7 @@ public class PartiesList extends TarotActivity {
         switch (item.getItemId()) {
             case R.id.new_party:
                 Intent intent = new Intent(this, AddParty.class);
+                intent.putExtra(PartyBoard.BOARD_INDEX, getParties().size());
                 startActivityForResult(intent, DISPLAY_BOARD);
                 return true;
             default:

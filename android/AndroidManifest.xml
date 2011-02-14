@@ -1,32 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="org.kimnono"
+          package="org.kimnono.tarot"
           android:versionCode="1"
           android:versionName="1.0">
-    <application android:label="@string/app_name" android:icon="@drawable/icon">
+    <application android:label="@string/app_name"
+                 android:icon="@drawable/tarot_17_resized">
         <activity android:name=".PartiesList"
-                  android:label="@string/app_name">
+                  android:label="@string/app_name"
+                  android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
         <activity android:name=".AddParty"
-                  android:label="@string/party_create" android:noHistory="true">
+                  android:label="@string/party_create" android:noHistory="true"
+                  android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="org.kimnono.tarot.ADD_PARTY"/>
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
         <activity android:name=".PartyBoard"
-                  android:label="@string/party_board">
+                  android:label="@string/party_board"
+                  android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="org.kimnono.tarot.PARTY_BOARD"/>
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
         <activity android:name=".AddGame"
-                  android:label="@string/game_create" android:noHistory="true">
+                  android:label="@string/game_create" android:noHistory="true"
+                  android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="org.kimnono.tarot.ADD_GAME"/>
                 <category android:name="android.intent.category.DEFAULT"/>

@@ -120,7 +120,7 @@ public class PlayerBoard implements Serializable {
     public void replacePlayers(List<String> players) {
         String[] inPlacePlayers = getPlayers();
         if (inPlacePlayers.length != players.size()) {
-            throw new UnsupportedOperationException("It is no possible to modify player count");
+            throw new UnsupportedOperationException("It is not possible to modify player count");
         }
         String key = "__replaceBy#" + System.currentTimeMillis() + "#";
         // Rename in two phase to avoid player name collision during renaming
