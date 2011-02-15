@@ -11,6 +11,7 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.Toast;
 import org.kimnono.tarot.engine.Game;
+import org.kimnono.tarot.engine.Handful;
 import org.kimnono.tarot.engine.PlayerBoard;
 import org.kimnono.tarot.engine.PointsCounter;
 
@@ -217,6 +218,14 @@ public class PartyBoard extends TarotActivity {
                 String message = String.format("%s %s points pour %.0f : %s",
                         who, toString(score), target, gameConclusion);
 
+                // Announcements
+                if (!Handful.NONE.equals(game.getHandful())) {
+                    String handfulText = Tools.toPrettyPrint(game.getHandful().toString());
+                    message += String.format("\n%s poignée anoncée.", handfulText);
+                }
+                if (game.getOneIsLast() != 0) {
+                    message += String.format("\n%s enmène le petit au bout.", Game.ONE_IS_LAST_TAKER == game.getOneIsLast() ? "L'attaque" : "La défense");
+                }
 
                 Toast.makeText(getApplicationContext(), message,
                         Toast.LENGTH_LONG).show();

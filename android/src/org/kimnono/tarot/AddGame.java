@@ -45,17 +45,10 @@ public class AddGame extends Activity {
         return (ArrayList<String>) getIntent().getSerializableExtra(PLAYERS);
     }
 
-    protected String toPretty(String str) {
-        String result = str.toLowerCase();
-        result = result.replaceAll("_", " ");
-        result = result.substring(0, 1).toUpperCase() + result.substring(1);
-        return result;
-    }
-
     protected List<String> getContracts() {
         List<String> result = new ArrayList<String>(Contract.values().length);
         for (Contract contract : Contract.values()) {
-            result.add(toPretty(contract.toString()));
+            result.add(Tools.toPrettyPrint(contract.toString()));
         }
         return result;
     }
@@ -63,9 +56,9 @@ public class AddGame extends Activity {
     protected List<String> getHandfuls(boolean is5playersGame) {
         List<String> result = new ArrayList<String>(Handful.values().length);
         result.add("Non");
-        result.add(String.format("Simple (%d atouts)", is5playersGame ? 8 : 10));
-        result.add(String.format("Double (%d atouts)", is5playersGame ? 10 : 13));
-        result.add(String.format("Triple (%d atouts)", is5playersGame ? 13 : 15));
+        result.add(String.format("Simple (%d)", is5playersGame ? 8 : 10));
+        result.add(String.format("Double (%d)", is5playersGame ? 10 : 13));
+        result.add(String.format("Triple (%d)", is5playersGame ? 13 : 15));
         return result;
     }
 
@@ -123,7 +116,7 @@ public class AddGame extends Activity {
                 secondTaker.setSelection(secondTakerIndex);
             }
 
-            int contractIndex = getContracts().indexOf(toPretty(game.getContract().toString()));
+            int contractIndex = getContracts().indexOf(Tools.toPrettyPrint(game.getContract().toString()));
             contract.setSelection(contractIndex);
 
             switch (game.getOudlers()) {
@@ -273,7 +266,7 @@ public class AddGame extends Activity {
         String contractText = contract.getSelectedItem().toString();
         Contract gameContract = Contract.PRISE;
         for (Contract contractValue : Contract.values()) {
-            if (toPretty(contractValue.toString()).equals(contractText)) {
+            if (Tools.toPrettyPrint(contractValue.toString()).equals(contractText)) {
                 gameContract = contractValue;
                 break;
             }
