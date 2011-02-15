@@ -6,7 +6,7 @@ import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.converters.basic.AbstractSingleValueConverter;
 import org.kimnono.tarot.engine.Contract;
 import org.kimnono.tarot.engine.Game;
-import org.kimnono.tarot.engine.Holders;
+import org.kimnono.tarot.engine.Oudlers;
 import org.kimnono.tarot.engine.PlayerBoard;
 
 import java.io.FileInputStream;
@@ -44,9 +44,9 @@ public abstract class TarotActivity extends Activity {
         result.alias("board", PlayerBoard.class);
         result.alias("game", Game.class);
         result.alias("contract", Contract.class);
-        result.alias("holders", Holders.class);
+        result.alias("oudlers", Oudlers.class);
         result.registerConverter(new SingleValueEnumConverter(Contract.class));
-        result.registerConverter(new SingleValueEnumConverter(Holders.class));
+        result.registerConverter(new SingleValueEnumConverter(Oudlers.class));
 
         return result;
     }

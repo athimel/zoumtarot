@@ -3,7 +3,7 @@ package org.kimnono.tarot.engine;
 /**
  * @author Arnaud Thimel <thimel@codelutin.com>
  */
-public enum Holders {
+public enum Oudlers {
 
     NONE(56),
     ONE(51),
@@ -16,7 +16,7 @@ public enum Holders {
         return target;
     }
 
-    Holders(double target) {
+    Oudlers(double target) {
         this.target = target;
     }
 

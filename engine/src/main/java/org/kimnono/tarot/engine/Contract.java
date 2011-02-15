@@ -12,6 +12,10 @@ public enum Contract {
 
     protected int value;
 
+    public int getValue() {
+        return value;
+    }
+
     Contract(int value) {
         this.value = value;
     }

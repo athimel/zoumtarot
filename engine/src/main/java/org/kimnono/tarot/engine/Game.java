@@ -9,31 +9,50 @@ public class Game implements Serializable {
 
     private static final long serialVersionUID = -3415746288521792447L;
 
+    public static final int ONE_IS_LAST_TAKER = 1;
+    public static final int ONE_IS_LAST_DEFENSE = -1;
+
+    ////////////////////
+    // Nominal fields //
+    ////////////////////
+
     protected String taker;
 
     protected String secondTaker;
 
     protected Contract contract;
 
-    protected Holders holders;
+    protected Oudlers oudlers;
 
     protected double score;
 
+    ////////////////////
+    // Announcements  //
+    ////////////////////
+
+    protected Handful handful = Handful.NONE;
+
+    protected boolean slamRealized = false;
+
+    protected boolean slamAnnounced = false;
+
+    protected int oneIsLast = 0; // 1 means for the takers ; -1 means for the defense
+
     public void setNominalCase(
-            String taker, Contract contract, Holders holders, double score) {
+            String taker, Contract contract, Oudlers oudlers, double score) {
         setTaker(taker);
         setContract(contract);
-        setHolders(holders);
+        setOudlers(oudlers);
         setScore(score);
     }
 
     public void set5PlayersCase(
             String taker, String secondTaker, Contract contract,
-            Holders holders, double score) {
+            Oudlers oudlers, double score) {
         setTaker(taker);
         setSecondTaker(secondTaker);
         setContract(contract);
-        setHolders(holders);
+        setOudlers(oudlers);
         setScore(score);
     }
 
@@ -61,12 +80,12 @@ public class Game implements Serializable {
         this.contract = contract;
     }
 
-    public Holders getHolders() {
-        return holders;
+    public Oudlers getOudlers() {
+        return oudlers;
     }
 
-    public void setHolders(Holders holders) {
-        this.holders = holders;
+    public void setOudlers(Oudlers oudlers) {
+        this.oudlers = oudlers;
     }
 
     public double getScore() {
@@ -77,8 +96,40 @@ public class Game implements Serializable {
         this.score = score;
     }
 
+    public Handful getHandful() {
+        return handful;
+    }
+
+    public void setHandful(Handful handful) {
+        this.handful = handful;
+    }
+
+    public boolean isSlamRealized() {
+        return slamRealized;
+    }
+
+    public void setSlamRealized(boolean slamRealized) {
+        this.slamRealized = slamRealized;
+    }
+
+    public boolean isSlamAnnounced() {
+        return slamAnnounced;
+    }
+
+    public void setSlamAnnounced(boolean slamAnnounced) {
+        this.slamAnnounced = slamAnnounced;
+    }
+
+    public int getOneIsLast() {
+        return oneIsLast;
+    }
+
+    public void setOneIsLast(int oneIsLast) {
+        this.oneIsLast = oneIsLast;
+    }
+
     public boolean isWon() {
-        boolean result = score >= holders.target;
+        boolean result = score >= oudlers.target;
         return result;
     }
 

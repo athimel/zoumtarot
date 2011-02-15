@@ -204,7 +204,7 @@ public class PartyBoard extends TarotActivity {
                 } else {
                     who = String.format("%s totalise", game.getTaker());
                 }
-                double target = game.getHolders().getTarget();
+                double target = game.getOudlers().getTarget();
                 double score = game.getScore();
                 double diff = Math.abs(target - score);
 

@@ -14,7 +14,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 import org.kimnono.tarot.engine.Contract;
 import org.kimnono.tarot.engine.Game;
-import org.kimnono.tarot.engine.Holders;
+import org.kimnono.tarot.engine.Oudlers;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -74,7 +74,7 @@ public class AddGame extends Activity {
         adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, getContracts());
         contract.setAdapter(adapter);
 
-        holders = (RadioGroup) findViewById(R.id.holders);
+        holders = (RadioGroup) findViewById(R.id.oudlers);
 
         score = (EditText) findViewById(R.id.score);
         score.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
@@ -95,7 +95,7 @@ public class AddGame extends Activity {
             int contractIndex = getContracts().indexOf(game.getContract().toString());
             contract.setSelection(contractIndex);
 
-            switch (game.getHolders()) {
+            switch (game.getOudlers()) {
                 case NONE:
                     ((RadioButton) findViewById(R.id.c_b_0)).setChecked(true);
                     break;
@@ -144,22 +144,22 @@ public class AddGame extends Activity {
         Contract gameContract = Contract.valueOf(contract.getSelectedItem().toString());
         game.setContract(gameContract);
 
-        Holders gameHolders;
+        Oudlers gameOudlers;
         switch (holders.getCheckedRadioButtonId()) {
             case R.id.c_b_0:
-                gameHolders = Holders.NONE;
+                gameOudlers = Oudlers.NONE;
                 break;
             case R.id.c_b_1:
-                gameHolders = Holders.ONE;
+                gameOudlers = Oudlers.ONE;
                 break;
             case R.id.c_b_2:
-                gameHolders = Holders.TWO;
+                gameOudlers = Oudlers.TWO;
                 break;
             default:
-                gameHolders = Holders.THREE;
+                gameOudlers = Oudlers.THREE;
                 break;
         }
-        game.setHolders(gameHolders);
+        game.setOudlers(gameOudlers);
 
         String scoreText = score.getText().toString();
         double gameScore = -1.0;
@@ -192,7 +192,7 @@ public class AddGame extends Activity {
         if (game.getContract() == null) {
             return "Vous devez indiquer le contrat";
         }
-        if (game.getHolders() == null) {
+        if (game.getOudlers() == null) {
             return "Vous devez indiquer combien de bouts a le preneur";
         }
         double score = game.getScore();

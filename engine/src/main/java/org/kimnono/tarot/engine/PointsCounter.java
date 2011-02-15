@@ -7,7 +7,7 @@ public class PointsCounter {
 
     public static int getScoreSeed(Game game) {
 
-        double score = game.score - game.getHolders().target;
+        double score = game.score - game.getOudlers().getTarget();
         boolean gameWon = score >= 0.0;
         if (gameWon) {
             score = Math.round(score); // Arrondi toujours à l'absolu supérieur
@@ -17,7 +17,34 @@ public class PointsCounter {
             score -= 25;
         }
 
-        score *= game.getContract().value;
+        int contractCoeff = game.getContract().getValue();
+        score *= contractCoeff;
+
+        // Announcements : Handful. Always counts for the wining team
+        if (gameWon) {
+            score += game.getHandful().getValue();
+        } else {
+            score -= game.getHandful().getValue();
+        }
+
+        // Announcements : One Is Last. Counts for the team realizing it
+        score += game.getOneIsLast() * 10 * contractCoeff;
+
+        // Announcements : Slam
+        double slamScore = 0d;
+        if (game.isSlamAnnounced() && game.isSlamRealized()) {
+            slamScore = 400d;
+        } else if (!game.isSlamAnnounced() && game.isSlamRealized()) {
+            slamScore = 200d;
+        } else if (game.isSlamAnnounced() && !game.isSlamRealized()) {
+            // need to check if the game is won
+            if (gameWon) {
+                slamScore = -200d; // points for the defense
+            } else {
+                slamScore = 200d;
+            }
+        }
+        score += slamScore;
 
         Long scoreRounded = Math.round(score);
         int result = scoreRounded.intValue();

@@ -12,7 +12,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 import org.kimnono.tarot.engine.Contract;
 import org.kimnono.tarot.engine.Game;
-import org.kimnono.tarot.engine.Holders;
+import org.kimnono.tarot.engine.Oudlers;
 import org.kimnono.tarot.engine.PlayerBoard;
 
 import java.io.FileNotFoundException;
@@ -29,32 +29,32 @@ public class PartiesList extends TarotActivity {
         PlayerBoard board = new PlayerBoard();
         board.newParty("Corentin", "Yannick", "Kévin", "Julien", "Florian");
         Game game = new Game();
-        game.set5PlayersCase("Kévin", "Julien", Contract.GARDE_SANS, Holders.ONE, 61);
+        game.set5PlayersCase("Kévin", "Julien", Contract.GARDE_SANS, Oudlers.ONE, 61);
         board.gameEnded(game);
         game = new Game();
-        game.set5PlayersCase("Kévin", "Yannick", Contract.GARDE, Holders.TWO, 31);
+        game.set5PlayersCase("Kévin", "Yannick", Contract.GARDE, Oudlers.TWO, 31);
         board.gameEnded(game);
         game = new Game();
-        game.set5PlayersCase("Corentin", "Julien", Contract.GARDE, Holders.THREE, 26);
+        game.set5PlayersCase("Corentin", "Julien", Contract.GARDE, Oudlers.THREE, 26);
         board.gameEnded(game);
         game = new Game();
-        game.set5PlayersCase("Yannick", "Florian", Contract.GARDE_SANS, Holders.NONE, 46);
+        game.set5PlayersCase("Yannick", "Florian", Contract.GARDE_SANS, Oudlers.NONE, 46);
         board.gameEnded(game);
         game = new Game();
-        game.set5PlayersCase("Yannick", "Corentin", Contract.GARDE_CONTRE, Holders.NONE, 46);
+        game.set5PlayersCase("Yannick", "Corentin", Contract.GARDE_CONTRE, Oudlers.NONE, 46);
 
         result.add(board);
 
         board = new PlayerBoard();
         board.newParty("Jean", "Estelle", "Arno", "Matthieu");
         game = new Game();
-        game.setNominalCase("Arno", Contract.GARDE_SANS, Holders.ONE, 61);
+        game.setNominalCase("Arno", Contract.GARDE_SANS, Oudlers.ONE, 61);
         board.gameEnded(game);
         game = new Game();
-        game.setNominalCase("Jean", Contract.GARDE, Holders.TWO, 31);
+        game.setNominalCase("Jean", Contract.GARDE, Oudlers.TWO, 31);
         board.gameEnded(game);
         game = new Game();
-        game.setNominalCase("Matthieu", Contract.GARDE, Holders.THREE, 26);
+        game.setNominalCase("Matthieu", Contract.GARDE, Oudlers.THREE, 26);
         board.gameEnded(game);
 
         result.add(board);
