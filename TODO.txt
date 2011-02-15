@@ -2,6 +2,7 @@ v1.1
 Gérer les annonces (Fait dans le module engine ; manque le chelem dans le module android)
 Boutons add permanents
 Menu sur clic long pour supprimer une partie
+Liste home: sur 2 lignes avec la date et le nb de tours sur la 2ème ligne (avec style si possible)
 
 v1.2
 Refaire les listes
