@@ -7,6 +7,8 @@ import android.text.InputType;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -14,6 +16,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 import org.kimnono.tarot.engine.Contract;
 import org.kimnono.tarot.engine.Game;
+import org.kimnono.tarot.engine.Handful;
 import org.kimnono.tarot.engine.Oudlers;
 
 import java.util.ArrayList;
@@ -33,17 +36,36 @@ public class AddGame extends Activity {
     protected Spinner contract;
     protected RadioGroup holders;
     protected EditText score;
+    protected Spinner handful;
+    protected CheckBox oneIsLast;
+    protected CheckBox forDefense;
     protected Button saveButton;
 
     protected List<String> getPlayers() {
         return (ArrayList<String>) getIntent().getSerializableExtra(PLAYERS);
     }
 
+    protected String toPretty(String str) {
+        String result = str.toLowerCase();
+        result = result.replaceAll("_", " ");
+        result = result.substring(0, 1).toUpperCase() + result.substring(1);
+        return result;
+    }
+
     protected List<String> getContracts() {
         List<String> result = new ArrayList<String>(Contract.values().length);
         for (Contract contract : Contract.values()) {
-            result.add(contract.toString());
+            result.add(toPretty(contract.toString()));
         }
+        return result;
+    }
+
+    protected List<String> getHandfuls(boolean is5playersGame) {
+        List<String> result = new ArrayList<String>(Handful.values().length);
+        result.add("Non");
+        result.add(String.format("Simple (%d atouts)", is5playersGame ? 8 : 10));
+        result.add(String.format("Double (%d atouts)", is5playersGame ? 10 : 13));
+        result.add(String.format("Triple (%d atouts)", is5playersGame ? 13 : 15));
         return result;
     }
 
@@ -73,11 +95,20 @@ public class AddGame extends Activity {
         contract = (Spinner) findViewById(R.id.contract);
         adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, getContracts());
         contract.setAdapter(adapter);
+        contract.setSelection(1); // Set default to 'Garde'
 
         holders = (RadioGroup) findViewById(R.id.oudlers);
 
         score = (EditText) findViewById(R.id.score);
         score.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
+
+        // Announcements
+        handful = (Spinner) findViewById(R.id.handful);
+        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, getHandfuls(is5playersGame));
+        handful.setAdapter(adapter);
+
+        oneIsLast = (CheckBox) findViewById(R.id.oneIsLast);
+        forDefense = (CheckBox) findViewById(R.id.forDefense);
 
         final int index = getIntent().getIntExtra(INDEX, -1);
 
@@ -92,7 +123,7 @@ public class AddGame extends Activity {
                 secondTaker.setSelection(secondTakerIndex);
             }
 
-            int contractIndex = getContracts().indexOf(game.getContract().toString());
+            int contractIndex = getContracts().indexOf(toPretty(game.getContract().toString()));
             contract.setSelection(contractIndex);
 
             switch (game.getOudlers()) {
@@ -117,7 +148,47 @@ public class AddGame extends Activity {
             }
             text = text.replace(',', '.');
             score.setText(text);
+
+            int handfulIndex;
+            switch (game.getHandful()) {
+                case SIMPLE:
+                    handfulIndex = 1;
+                    break;
+                case DOUBLE:
+                    handfulIndex = 2;
+                    break;
+                case TRIPLE:
+                    handfulIndex = 3;
+                    break;
+                case NONE:
+                default:
+                    handfulIndex = 0;
+                    break;
+            }
+            handful.setSelection(handfulIndex);
+
+            if (game.getOneIsLast() != 0) {
+                oneIsLast.setChecked(true);
+                if (Game.ONE_IS_LAST_DEFENSE == game.getOneIsLast()) {
+                    forDefense.setChecked(true);
+                }
+            }
         }
+
+        forDefense.setEnabled(oneIsLast.isChecked());
+        oneIsLast.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    forDefense.setEnabled(true);
+                } else {
+                    forDefense.setChecked(false);
+                    forDefense.setEnabled(false);
+                }
+            }
+
+        });
 
         saveButton = (Button) findViewById(R.id.saveButton);
 
@@ -141,7 +212,7 @@ public class AddGame extends Activity {
             game.setSecondTaker(secondTaker.getSelectedItem().toString());
         }
 
-        Contract gameContract = Contract.valueOf(contract.getSelectedItem().toString());
+        Contract gameContract = getContractValue(contract);
         game.setContract(gameContract);
 
         Oudlers gameOudlers;
@@ -170,6 +241,19 @@ public class AddGame extends Activity {
         }
         game.setScore(gameScore);
 
+        Handful gameHandful = getHandfulValue(handful);
+        game.setHandful(gameHandful);
+
+        int gameOneIsLast = 0;
+        if (oneIsLast.isChecked()) {
+            gameOneIsLast = Game.ONE_IS_LAST_TAKER;
+            if (forDefense.isChecked()) {
+                gameOneIsLast = Game.ONE_IS_LAST_DEFENSE;
+            }
+        }
+        game.setOneIsLast(gameOneIsLast);
+
+        // Read is over, now validate
         String validationMessage = validate(game, players.size());
 
         if (validationMessage == null) {
@@ -183,6 +267,30 @@ public class AddGame extends Activity {
                     Toast.LENGTH_LONG).show();
         }
 
+    }
+
+    protected Contract getContractValue(Spinner contract) {
+        String contractText = contract.getSelectedItem().toString();
+        Contract gameContract = Contract.PRISE;
+        for (Contract contractValue : Contract.values()) {
+            if (toPretty(contractValue.toString()).equals(contractText)) {
+                gameContract = contractValue;
+                break;
+            }
+        }
+        return gameContract;
+    }
+
+    protected Handful getHandfulValue(Spinner handful) {
+        String handfulText = handful.getSelectedItem().toString().toLowerCase();
+        Handful gameHandful = Handful.NONE;
+        for (Handful handfulValue : Handful.values()) {
+            if (handfulText.startsWith(handfulValue.toString().toLowerCase())) {
+                gameHandful = handfulValue;
+                break;
+            }
+        }
+        return gameHandful;
     }
 
     protected String validate(Game game, int playerCount) {

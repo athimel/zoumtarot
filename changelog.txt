@@ -1,7 +1,10 @@
 xxx arno xx/xx/2011
 
-  * Support for announcements
-  * Rename Holders to Oudlers
+  * [engine] Support for announcements
+  * [engine] Rename Holders to Oudlers
+  * [android] Support for announcements (no slam yet)
+  * [android] Set default contract to 'Garde'
+  * [android] Pretty print contract
 
 1.0 arno 14/02/2011
 

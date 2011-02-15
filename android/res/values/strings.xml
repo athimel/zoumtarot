@@ -13,6 +13,9 @@
     <string name="contract">Contrat</string>
     <string name="oudlers">Bouts</string>
     <string name="score">Score</string>
+    <string name="handful">Poignée</string>
+    <string name="oneIsLast">Petit au bout</string>
+    <string name="forDefense">Pour la défense</string>
 
     <string name="J1">Joueur 1</string>
     <string name="J2">Joueur 2</string>
