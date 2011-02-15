@@ -6,6 +6,7 @@ import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.converters.basic.AbstractSingleValueConverter;
 import org.kimnono.tarot.engine.Contract;
 import org.kimnono.tarot.engine.Game;
+import org.kimnono.tarot.engine.Handful;
 import org.kimnono.tarot.engine.Oudlers;
 import org.kimnono.tarot.engine.PlayerBoard;
 
@@ -21,7 +22,7 @@ import java.util.List;
  */
 public abstract class TarotActivity extends Activity {
 
-    public static final String BOARDS_FILENAME = "org.kimnono.tarot-parties.xml";
+    public static final String BOARDS_FILENAME = "org.kimnono.tarot-1.1-parties.xml";
 
     public class SingleValueEnumConverter extends AbstractSingleValueConverter {
         private final Class enumType;
@@ -45,8 +46,10 @@ public abstract class TarotActivity extends Activity {
         result.alias("game", Game.class);
         result.alias("contract", Contract.class);
         result.alias("oudlers", Oudlers.class);
+        result.alias("handful", Handful.class);
         result.registerConverter(new SingleValueEnumConverter(Contract.class));
         result.registerConverter(new SingleValueEnumConverter(Oudlers.class));
+        result.registerConverter(new SingleValueEnumConverter(Handful.class));
 
         return result;
     }

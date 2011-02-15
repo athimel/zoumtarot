@@ -208,9 +208,15 @@ public class PartyBoard extends TarotActivity {
                 double score = game.getScore();
                 double diff = Math.abs(target - score);
 
-                String message = String.format("%s %s points pour %.0f : tour %s de %s points.",
-                        who, toString(score), target,
-                        game.isWon() ? "GAGNÉ" : "PERDU", toString(diff));
+                String gameConclusion;
+                if (diff == 0d) {
+                    gameConclusion = "tour \"Juste fait\" (de 0 points).";
+                } else {
+                    gameConclusion = String.format("tour %s de %s points.", game.isWon() ? "GAGNÉ" : "PERDU", toString(diff));
+                }
+                String message = String.format("%s %s points pour %.0f : %s",
+                        who, toString(score), target, gameConclusion);
+
 
                 Toast.makeText(getApplicationContext(), message,
                         Toast.LENGTH_LONG).show();

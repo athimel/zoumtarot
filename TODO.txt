@@ -1,4 +1,4 @@
-Gérer les annonces
+Gérer les annonces (Fait dans le module engine)
 Boutons add permanents
 Menu sur clic long pour supprimer une partie
 
