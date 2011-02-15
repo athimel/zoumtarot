@@ -16,7 +16,9 @@ import org.kimnono.tarot.engine.Oudlers;
 import org.kimnono.tarot.engine.PlayerBoard;
 
 import java.io.FileNotFoundException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class PartiesList extends TarotActivity {
@@ -62,14 +64,20 @@ public class PartiesList extends TarotActivity {
         return result;
     }
 
+    protected static SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+
     protected List<String> getPartiesAsString(List<PlayerBoard> boards) {
         List<String> result = new ArrayList<String>();
         if (boards != null) {
             for (PlayerBoard board : boards) {
-                String message = "%s - %d tour(s)";
+                String message = "%s\n%s - %d tour(s)";
                 String players = board.getScores().keySet().toString();
                 players = players.substring(1, players.length() - 1);
-                message = String.format(message, players, board.getGames().size());
+
+                long creationDate = board.getCreationDate();
+                String date = creationDate > 0 ? df.format(new Date(creationDate)) : "n/c";
+
+                message = String.format(message, players, date, board.getGames().size());
                 result.add(message);
             }
         }

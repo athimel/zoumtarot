@@ -18,11 +18,14 @@ public class PlayerBoard implements Serializable {
 
     protected LinkedHashMap<String, Integer> scores = new LinkedHashMap<String, Integer>();
     protected LinkedList<Game> games = new LinkedList<Game>();
+    protected long creationDate;
+
 
     public void newParty(Collection<String> players) {
         ArrayList<String> playersCopy = new ArrayList<String>(players); // To be sure we're not working on the same list
         clear();
         initPlayers(playersCopy);
+        creationDate = System.currentTimeMillis();
     }
 
     public void newParty(String... players) {
@@ -62,6 +65,10 @@ public class PlayerBoard implements Serializable {
                 entry.setValue(playerScore);
             }
         }
+    }
+
+    public long getCreationDate() {
+        return creationDate;
     }
 
     public Map<String, Integer> getScores() {
