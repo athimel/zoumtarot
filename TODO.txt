@@ -8,6 +8,7 @@ Refaire les listes
 Rotation
 Couleurs pour les premiers/derniers
 Couleur de fond
+Support 3 joueurs
 
 v1.3
 Menu home : bouton crédits et bouton QR-code
