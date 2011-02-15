@@ -1,11 +1,15 @@
-Gérer les annonces (Fait dans le module engine)
+v1.1
+Gérer les annonces (Fait dans le module engine ; manque le chelem dans le module android)
 Boutons add permanents
 Menu sur clic long pour supprimer une partie
 
+v1.2
 Refaire les listes
 Rotation
 Couleurs pour les premiers/derniers
+Couleur de fond
 
+v1.3
 Menu home : bouton crédits et bouton QR-code
 Envoi de partie par email
 Bouton règles
