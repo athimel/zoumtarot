@@ -1,3 +1,8 @@
+xxx arno xx/xx/2011
+
+  * Support for announcements
+  * Rename Holders to Oudlers
+
 1.0 arno 14/02/2011
 
   * Initial version - Supports 4 & 5 players
