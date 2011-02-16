@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2007 XStream Committers
- * Created on 17.05.2007 by Jörg Schaible
+ * Created on 17.05.2007 by JÃ¶rg Schaible
  */
 package com.thoughtworks.xstream.converters.reflection;
 

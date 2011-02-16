@@ -3,11 +3,36 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
-<modelVersion>4.0.0</modelVersion>
+	<modelVersion>4.0.0</modelVersion>
 
-<groupId>com.thoughtworks</groupId>
-<artifactId>xstream</artifactId>
-<version>1.2.2-android-patched</version>
+    <!-- ************************************************************* -->
+    <!-- *** POM Relationships *************************************** -->
+    <!-- ************************************************************* -->
+
+    <!-- Use the Kimnono parent pom -->
+    <parent>
+        <groupId>org.kimnono</groupId>
+        <artifactId>mavenpom</artifactId>
+        <version>0.1</version>
+    </parent>
+
+	<groupId>org.kimnono.thirdparty.com-thoughtworks</groupId>
+	<artifactId>xstream</artifactId>
+	<version>1.2.2-android-patched</version>
+
+    <!-- ************************************************************* -->
+    <!-- *** Maven Environment *************************************** -->
+    <!-- ************************************************************* -->
+
+    <repositories>
+
+        <repository>
+            <id>kimnono-repository</id>
+            <name>Kimnono releases repository</name>
+            <url>http://repo.kimnono.org/releases/</url>
+        </repository>
+
+    </repositories>
 
 </project>
 

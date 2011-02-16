@@ -7,7 +7,7 @@
     <!-- *** POM Relationships *************************************** -->
     <!-- ************************************************************* -->
 
-    <!-- Use the WSP parent pom -->
+    <!-- Use the Kimnono parent pom -->
     <parent>
         <groupId>org.kimnono</groupId>
         <artifactId>mavenpom</artifactId>
@@ -48,7 +48,7 @@
             </dependency>
 
             <dependency>
-                <groupId>com.thoughtworks</groupId>
+                <groupId>org.kimnono.thirdparty.com-thoughtworks</groupId>
                 <artifactId>xstream</artifactId>
                 <version>1.2.2-android-patched</version>
             </dependency>

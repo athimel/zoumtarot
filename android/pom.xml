@@ -28,7 +28,7 @@
         </dependency>
 
         <dependency>
-            <groupId>com.thoughtworks</groupId>
+            <groupId>org.kimnono.thirdparty.com-thoughtworks</groupId>
             <artifactId>xstream</artifactId>
         </dependency>
 
