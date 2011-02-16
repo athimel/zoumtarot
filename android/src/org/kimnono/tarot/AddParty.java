@@ -83,6 +83,7 @@ public class AddParty extends Activity {
         for (TextView view : views) {
             String playerName = view.getText().toString();
             if (playerName != null && !"".equals(playerName.trim())) {
+                playerName = playerName.trim();
                 if (players.contains(playerName)) {
                     return false;
                 }

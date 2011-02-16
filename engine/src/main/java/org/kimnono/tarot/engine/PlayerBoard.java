@@ -48,7 +48,7 @@ public class PlayerBoard implements Serializable {
             throw new UnsupportedOperationException(String.format(message, playersCount));
         }
         for (String player : players) {
-            scores.put(player, 0);
+            scores.put(player.trim(), 0);
         }
     }
 
