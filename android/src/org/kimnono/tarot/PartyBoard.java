@@ -230,8 +230,8 @@ public class PartyBoard extends TarotActivity {
                 Toast.makeText(getApplicationContext(), message,
                         Toast.LENGTH_LONG).show();
 
-                String onePlayerFormat = "%s marque %d points\n";
-                String otherPlayersFormat = "Les autres joueurs marquent %d points";
+                String onePlayerFormat = "%s marque %d points.\n";
+                String otherPlayersFormat = "Les autres joueurs marquent %d points.";
                 String taker = game.getTaker();
                 String text = String.format(onePlayerFormat, taker, PointsCounter.getPlayerGameScore(board, game, taker));
                 if (is5PlayersGame && !game.isTakerAlone()) {
