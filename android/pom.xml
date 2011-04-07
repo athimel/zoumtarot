@@ -3,12 +3,12 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>org.kimnono</groupId>
+        <groupId>org.zoumbox</groupId>
         <artifactId>tarot</artifactId>
         <version>1.1-SNAPSHOT</version>
     </parent>
 
-    <groupId>org.kimnono.tarot</groupId>
+    <groupId>org.zoumbox.tarot</groupId>
     <artifactId>tarot-android</artifactId>
 
     <name>${project.artifactId}</name>
@@ -28,7 +28,7 @@
         </dependency>
 
         <dependency>
-            <groupId>org.kimnono.thirdparty.com-thoughtworks</groupId>
+            <groupId>org.zoumbox.thirdparty.com-thoughtworks</groupId>
             <artifactId>xstream</artifactId>
         </dependency>
 
@@ -81,3 +81,4 @@
     </profiles>
 
 </project>
+

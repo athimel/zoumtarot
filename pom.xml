@@ -7,14 +7,14 @@
     <!-- *** POM Relationships *************************************** -->
     <!-- ************************************************************* -->
 
-    <!-- Use the Kimnono parent pom -->
+    <!-- Use the Zoumbox parent pom -->
     <parent>
-        <groupId>org.kimnono</groupId>
+        <groupId>org.zoumbox</groupId>
         <artifactId>mavenpom</artifactId>
-        <version>0.1</version>
+        <version>0.2</version>
     </parent>
 
-    <groupId>org.kimnono</groupId>
+    <groupId>org.zoumbox</groupId>
     <artifactId>tarot</artifactId>
     <version>1.1-SNAPSHOT</version>
 
@@ -48,7 +48,7 @@
             </dependency>
 
             <dependency>
-                <groupId>org.kimnono.thirdparty.com-thoughtworks</groupId>
+                <groupId>org.zoumbox.thirdparty.com-thoughtworks</groupId>
                 <artifactId>xstream</artifactId>
                 <version>1.2.2-android-patched</version>
             </dependency>
@@ -78,8 +78,8 @@
         <developer>
             <name>Arnaud Thimel</name>
             <id>arno</id>
-            <email>a.thimel@gmail.com</email>
-            <organization>Kimnono</organization>
+            <email>arno@zoumbox.org</email>
+            <organization>Zoumbox</organization>
             <timezone>+2</timezone>
             <roles>
                 <role>Développeur</role>
@@ -89,8 +89,8 @@
     </developers>
 
     <organization>
-        <name>Kimnono</name>
-        <url>www.kimnono.org</url>
+        <name>Zoumbox</name>
+        <url>dev.zoumbox.org</url>
     </organization>
 
     <!-- ************************************************************* -->
@@ -103,11 +103,11 @@
     </properties>
 
     <scm>
-        <connection>scm:svn:svn://src.kimnono.org/svnroot/tarot/trunk
+        <connection>scm:svn:svn://dev.zoumbox.org/svnroot/tarot/trunk
         </connection>
-        <developerConnection>scm:svn:svn://src.kimnono.org/svnroot/tarot/trunk
+        <developerConnection>scm:svn:svn://dev.zoumbox.org/svnroot/tarot/trunk
         </developerConnection>
-        <url>svn://src.kimnono.org/svnroot/tarot/trunk</url>
+        <url>svn://dev.zoumbox.org/svnroot/tarot/trunk</url>
     </scm>
 
     <build>
@@ -124,15 +124,15 @@
     <repositories>
 
         <repository>
-            <id>kimnono-repository</id>
-            <name>Kimnono releases repository</name>
-            <url>http://repo.kimnono.org/releases/</url>
+            <id>zoumbox-repository</id>
+            <name>Zoumbox releases repository</name>
+            <url>http://dev.zoumbox.org/repo/releases/</url>
         </repository>
 
         <repository>
-            <id>kimnono-snapshots-repository</id>
-            <name>Kimnono snapshots repository</name>
-            <url>http://repo.kimnono.org/snapshots/</url>
+            <id>zoumbox-snapshots-repository</id>
+            <name>Zoumbox snapshots repository</name>
+            <url>http://dev.zoumbox.org/repo/snapshots/</url>
         </repository>
 
     </repositories>
@@ -141,3 +141,4 @@
     </pluginRepositories>
 
 </project>
+

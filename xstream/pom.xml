@@ -9,14 +9,14 @@
     <!-- *** POM Relationships *************************************** -->
     <!-- ************************************************************* -->
 
-    <!-- Use the Kimnono parent pom -->
+    <!-- Use the Zoumbox parent pom -->
     <parent>
-        <groupId>org.kimnono</groupId>
+        <groupId>org.zoumbox</groupId>
         <artifactId>mavenpom</artifactId>
-        <version>0.1</version>
+        <version>0.2</version>
     </parent>
 
-	<groupId>org.kimnono.thirdparty.com-thoughtworks</groupId>
+	<groupId>org.zoumbox.thirdparty.com-thoughtworks</groupId>
 	<artifactId>xstream</artifactId>
 	<version>1.2.2-android-patched</version>
 
@@ -27,9 +27,9 @@
     <repositories>
 
         <repository>
-            <id>kimnono-repository</id>
-            <name>Kimnono releases repository</name>
-            <url>http://repo.kimnono.org/releases/</url>
+            <id>zoumbox-repository</id>
+            <name>Zoumbox releases repository</name>
+            <url>http://dev.zoumbox.org/repo/releases/</url>
         </repository>
 
     </repositories>
