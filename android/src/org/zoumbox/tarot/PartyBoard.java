@@ -1,4 +1,4 @@
-package org.kimnono.tarot;
+package org.zoumbox.tarot;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,10 +10,10 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.Toast;
-import org.kimnono.tarot.engine.Game;
-import org.kimnono.tarot.engine.Handful;
-import org.kimnono.tarot.engine.PlayerBoard;
-import org.kimnono.tarot.engine.PointsCounter;
+import org.zoumbox.tarot.engine.Game;
+import org.zoumbox.tarot.engine.Handful;
+import org.zoumbox.tarot.engine.PlayerBoard;
+import org.zoumbox.tarot.engine.PointsCounter;
 
 import java.util.ArrayList;
 import java.util.HashMap;

@@ -1,14 +1,14 @@
-package org.kimnono.tarot;
+package org.zoumbox.tarot;
 
 import android.app.Activity;
 import android.content.Context;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.converters.basic.AbstractSingleValueConverter;
-import org.kimnono.tarot.engine.Contract;
-import org.kimnono.tarot.engine.Game;
-import org.kimnono.tarot.engine.Handful;
-import org.kimnono.tarot.engine.Oudlers;
-import org.kimnono.tarot.engine.PlayerBoard;
+import org.zoumbox.tarot.engine.Contract;
+import org.zoumbox.tarot.engine.Game;
+import org.zoumbox.tarot.engine.Handful;
+import org.zoumbox.tarot.engine.Oudlers;
+import org.zoumbox.tarot.engine.PlayerBoard;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -22,7 +22,7 @@ import java.util.List;
  */
 public abstract class TarotActivity extends Activity {
 
-    public static final String BOARDS_FILENAME = "org.kimnono.tarot-1.1-parties.xml";
+    public static final String BOARDS_FILENAME = "org.zoumbox.tarot-1.1-parties.xml";
 
     public class SingleValueEnumConverter extends AbstractSingleValueConverter {
         private final Class enumType;

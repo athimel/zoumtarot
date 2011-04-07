@@ -1,4 +1,4 @@
-package org.kimnono.tarot;
+package org.zoumbox.tarot;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,10 +10,10 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
-import org.kimnono.tarot.engine.Contract;
-import org.kimnono.tarot.engine.Game;
-import org.kimnono.tarot.engine.Oudlers;
-import org.kimnono.tarot.engine.PlayerBoard;
+import org.zoumbox.tarot.engine.Contract;
+import org.zoumbox.tarot.engine.Game;
+import org.zoumbox.tarot.engine.Oudlers;
+import org.zoumbox.tarot.engine.PlayerBoard;
 
 import java.io.FileNotFoundException;
 import java.text.SimpleDateFormat;

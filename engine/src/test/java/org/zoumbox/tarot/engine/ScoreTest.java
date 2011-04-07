@@ -1,4 +1,4 @@
-package org.kimnono.tarot.engine;
+package org.zoumbox.tarot.engine;
 
 import junit.framework.Assert;
 import junit.framework.TestCase;

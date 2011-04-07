@@ -1,7 +1,7 @@
-package org.kimnono.tarot.engine;
+package org.zoumbox.tarot.engine;
 
 /**
- * @author Arnaud Thimel <arno@kimnono.org>
+ * @author Arnaud Thimel <arno@zoumbox.org>
  */
 public enum Contract {
 

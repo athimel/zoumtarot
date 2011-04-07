@@ -1,4 +1,4 @@
-package org.kimnono.tarot;
+package org.zoumbox.tarot;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -9,7 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-import org.kimnono.tarot.engine.PlayerBoard;
+import org.zoumbox.tarot.engine.PlayerBoard;
 
 import java.util.ArrayList;
 import java.util.List;

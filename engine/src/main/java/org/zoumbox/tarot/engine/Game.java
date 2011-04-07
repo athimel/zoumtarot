@@ -1,4 +1,4 @@
-package org.kimnono.tarot.engine;
+package org.zoumbox.tarot.engine;
 
 import java.io.Serializable;
 

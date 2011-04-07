@@ -1,4 +1,4 @@
-package org.kimnono.tarot;
+package org.zoumbox.tarot;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -14,10 +14,10 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.Toast;
-import org.kimnono.tarot.engine.Contract;
-import org.kimnono.tarot.engine.Game;
-import org.kimnono.tarot.engine.Handful;
-import org.kimnono.tarot.engine.Oudlers;
+import org.zoumbox.tarot.engine.Contract;
+import org.zoumbox.tarot.engine.Game;
+import org.zoumbox.tarot.engine.Handful;
+import org.zoumbox.tarot.engine.Oudlers;
 
 import java.util.ArrayList;
 import java.util.List;

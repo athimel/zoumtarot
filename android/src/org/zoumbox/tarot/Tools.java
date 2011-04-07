@@ -1,4 +1,4 @@
-package org.kimnono.tarot;
+package org.zoumbox.tarot;
 
 /**
  * @author Arnaud Thimel <thimel@codelutin.com>

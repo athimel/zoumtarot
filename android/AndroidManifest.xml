@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="org.kimnono.tarot"
+          package="org.zoumbox.tarot"
           android:versionCode="1"
           android:versionName="1.0">
     <application android:label="@string/app_name"
@@ -17,7 +17,7 @@
                   android:label="@string/party_create" android:noHistory="true"
                   android:screenOrientation="portrait">
             <intent-filter>
-                <action android:name="org.kimnono.tarot.ADD_PARTY"/>
+                <action android:name="org.zoumbox.tarot.ADD_PARTY"/>
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
@@ -25,7 +25,7 @@
                   android:label="@string/party_board"
                   android:screenOrientation="portrait">
             <intent-filter>
-                <action android:name="org.kimnono.tarot.PARTY_BOARD"/>
+                <action android:name="org.zoumbox.tarot.PARTY_BOARD"/>
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
@@ -33,7 +33,7 @@
                   android:label="@string/game_create" android:noHistory="true"
                   android:screenOrientation="portrait">
             <intent-filter>
-                <action android:name="org.kimnono.tarot.ADD_GAME"/>
+                <action android:name="org.zoumbox.tarot.ADD_GAME"/>
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
