@@ -85,6 +85,16 @@
                 <role>Développeur</role>
             </roles>
         </developer>
+        
+        <developer>
+            <name>Kevin Morin</name>
+            <id>ironAss</id>
+            <email>dev@kevinmorin.net</email>
+            <timezone>+2</timezone>
+            <roles>
+                <role>Développeur</role>
+            </roles>
+        </developer>
 
     </developers>
 
