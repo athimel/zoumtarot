@@ -49,10 +49,19 @@
         </TableRow>
         <TableRow>
             <TextView android:text="@string/score"/>
-            <EditText android:id="@+id/score"
-                      android:layout_height="wrap_content"
-                      android:layout_width="wrap_content"
-                      android:layout_weight="1"/>
+            <LinearLayout android:orientation="vertical"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:layout_weight="1">
+                <EditText android:id="@+id/score"
+                          android:layout_height="wrap_content"
+                          android:layout_width="fill_parent"/>
+                <CheckBox android:id="@+id/isDefenseScore"
+                          android:layout_height="wrap_content"
+                          android:layout_width="wrap_content"
+                          android:checked="false"
+                          android:text="@string/forDefense"/>
+            </LinearLayout>
         </TableRow>
         <TableRow>
             <TextView android:text="@string/handful"/>

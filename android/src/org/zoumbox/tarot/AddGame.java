@@ -30,12 +30,15 @@ public class AddGame extends Activity {
     public static final String PLAYERS = "players";
     public static final String GAME = "game"; //optional
     public static final String INDEX = "index"; //optional
+    
+    public static final int MAX_SCORE = 91;
 
     protected Spinner taker;
     protected Spinner secondTaker;
     protected Spinner contract;
     protected RadioGroup holders;
     protected EditText score;
+    protected CheckBox isDefenseScore;
     protected Spinner handful;
     protected CheckBox oneIsLast;
     protected CheckBox forDefense;
@@ -94,7 +97,8 @@ public class AddGame extends Activity {
 
         score = (EditText) findViewById(R.id.score);
         score.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
-
+        isDefenseScore = (CheckBox) findViewById(R.id.isDefenseScore); 
+        
         // Announcements
         handful = (Spinner) findViewById(R.id.handful);
         adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, getHandfuls(is5playersGame));
@@ -231,6 +235,9 @@ public class AddGame extends Activity {
             gameScore = Double.parseDouble(scoreText);
         } catch (NumberFormatException nfe) {
             // Not valid, validation will fail
+        }
+        if (isDefenseScore.isChecked()) {
+            gameScore = MAX_SCORE - gameScore;
         }
         game.setScore(gameScore);
 
