@@ -154,25 +154,30 @@ public class PartiesList extends TarotActivity {
         return result;
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_main, menu);
-        return true;
+    public void onNewPartyButtonClicked(View target) {
+        Intent intent = new Intent(this, AddParty.class);
+        intent.putExtra(PartyBoard.BOARD_INDEX, getParties().size());
+        startActivityForResult(intent, DISPLAY_BOARD);
     }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.new_party:
-                Intent intent = new Intent(this, AddParty.class);
-                intent.putExtra(PartyBoard.BOARD_INDEX, getParties().size());
-                startActivityForResult(intent, DISPLAY_BOARD);
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        MenuInflater inflater = getMenuInflater();
+//        inflater.inflate(R.menu.menu_main, menu);
+//        return true;
+//    }
+//
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        switch (item.getItemId()) {
+//            case R.id.new_party:
+//                Intent intent = new Intent(this, AddParty.class);
+//                intent.putExtra(PartyBoard.BOARD_INDEX, getParties().size());
+//                startActivityForResult(intent, DISPLAY_BOARD);
+//                return true;
+//            default:
+//                return super.onOptionsItemSelected(item);
+//        }
+//    }
 
 
     protected void onActivityResult(int requestCode, int resultCode,
