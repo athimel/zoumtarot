@@ -52,10 +52,17 @@ public class PartiesList extends TarotActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
 
-        resetList();
+        int partiesCount = resetList();
+        if (partiesCount == 0) {
+            String newParty = getResources().getString(R.string.new_party);
+            String message = String.format(
+                    "Pour créer une partie, appuyez sur '%s'", newParty);
+            Toast.makeText(getApplicationContext(), message,
+                    Toast.LENGTH_LONG).show();
+        }
     }
 
-    protected void resetList() {
+    protected int resetList() {
 
         final List<PlayerBoard> parties = getParties();
         List<String> partiesAsString = getPartiesAsString(parties);
@@ -78,6 +85,9 @@ public class PartiesList extends TarotActivity {
         });
 
         registerForContextMenu(listView);
+
+        int result = parties != null ? parties.size() : 0;
+        return result;
     }
 
     @Override

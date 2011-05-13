@@ -6,9 +6,10 @@
     <string name="remove_all">Effacer tout</string>
     <string name="party_removed">1 partie supprimée</string>
     <string name="parties_removed">%d parties supprimées</string>
-    <string name="party_create">Création d\'une partie</string>
-    <string name="game_create">Création d\'un tour</string>
-    <string name="party_board">Tableau des scores</string>
+    <string name="party_create">ZoumTarot - Création/édition d\'une partie</string>
+    <string name="game_create">ZoumTarot - Création/édition d\'un tour</string>
+    <string name="party_board">ZoumTarot - Tableau des scores</string>
+
     <string name="new_game">Nouveau tour</string>
     <string name="new_party">Nouvelle partie</string>
 

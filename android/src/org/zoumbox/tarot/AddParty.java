@@ -66,6 +66,8 @@ public class AddParty extends Activity {
             }
             if (players.length > 4) {
                 player5.setText(players[4]);
+            } else {
+                player5.setEnabled(false);
             }
         }
 
