@@ -2,20 +2,18 @@ package org.zoumbox.tarot;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.ContextMenu;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
-import org.zoumbox.tarot.engine.Contract;
-import org.zoumbox.tarot.engine.Game;
-import org.zoumbox.tarot.engine.Oudlers;
 import org.zoumbox.tarot.engine.PlayerBoard;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -25,46 +23,7 @@ public class PartiesList extends TarotActivity {
 
     public static final int DISPLAY_BOARD = 0;
 
-    protected List<PlayerBoard> loadDemoDatas() {
-        List<PlayerBoard> result = new ArrayList<PlayerBoard>();
-
-        PlayerBoard board = new PlayerBoard();
-        board.newParty("Corentin", "Yannick", "Kévin", "Julien", "Florian");
-        Game game = new Game();
-        game.set5PlayersCase("Kévin", "Julien", Contract.GARDE_SANS, Oudlers.ONE, 61);
-        board.gameEnded(game);
-        game = new Game();
-        game.set5PlayersCase("Kévin", "Yannick", Contract.GARDE, Oudlers.TWO, 31);
-        board.gameEnded(game);
-        game = new Game();
-        game.set5PlayersCase("Corentin", "Julien", Contract.GARDE, Oudlers.THREE, 26);
-        board.gameEnded(game);
-        game = new Game();
-        game.set5PlayersCase("Yannick", "Florian", Contract.GARDE_SANS, Oudlers.NONE, 46);
-        board.gameEnded(game);
-        game = new Game();
-        game.set5PlayersCase("Yannick", "Corentin", Contract.GARDE_CONTRE, Oudlers.NONE, 46);
-
-        result.add(board);
-
-        board = new PlayerBoard();
-        board.newParty("Jean", "Estelle", "Arno", "Matthieu");
-        game = new Game();
-        game.setNominalCase("Arno", Contract.GARDE_SANS, Oudlers.ONE, 61);
-        board.gameEnded(game);
-        game = new Game();
-        game.setNominalCase("Jean", Contract.GARDE, Oudlers.TWO, 31);
-        board.gameEnded(game);
-        game = new Game();
-        game.setNominalCase("Matthieu", Contract.GARDE, Oudlers.THREE, 26);
-        board.gameEnded(game);
-
-        result.add(board);
-
-        return result;
-    }
-
-    protected static SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+    protected SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 
     protected List<String> getPartiesAsString(List<PlayerBoard> boards) {
         List<String> result = new ArrayList<String>();
@@ -118,29 +77,48 @@ public class PartiesList extends TarotActivity {
 
         });
 
-        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+        registerForContextMenu(listView);
+    }
 
-            @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                try {
-                    removeBoard(position);
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v,
+                                    ContextMenu.ContextMenuInfo menuInfo) {
+        if (v.getId() == R.id.listview) {
+            menu.setHeaderTitle(getResources().getString(R.string.app_name));
+            menu.add(Menu.NONE, 0, 0, getResources().getString(R.string.remove_one));
+            menu.add(Menu.NONE, 1, 1, getResources().getString(R.string.remove_all));
+        }
+    }
 
-                    Toast.makeText(getApplicationContext(), "Partie supprimée",
-                            Toast.LENGTH_LONG).show();
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        int menuItemIndex = item.getItemId();
 
-                    resetList();
-                    return true;
-                } catch (Exception eee) {
-
-                    eee.printStackTrace();
-
-                    Toast.makeText(getApplicationContext(),
-                            String.format("Unable to remove board: %s", eee.getMessage()),
-                            Toast.LENGTH_LONG).show();
-                    return false;
+        try {
+            String message = getResources().getString(R.string.party_removed);
+            if (menuItemIndex == 1) {
+                int nbPartiesRemoved = clearBoards();
+                if (nbPartiesRemoved > 1) {
+                    String str = getResources().getString(R.string.parties_removed);
+                    message = String.format(str, nbPartiesRemoved);
                 }
+            } else {
+                removeBoard(info.position);
             }
-        });
+
+            Toast.makeText(getApplicationContext(), message,
+                    Toast.LENGTH_LONG).show();
+
+            resetList();
+            return true;
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
+            Toast.makeText(getApplicationContext(),
+                    String.format("Unable to remove board: %s", ioe.getMessage()),
+                    Toast.LENGTH_LONG).show();
+            return false;
+        }
     }
 
     private List<PlayerBoard> getParties() {
@@ -159,26 +137,6 @@ public class PartiesList extends TarotActivity {
         intent.putExtra(PartyBoard.BOARD_INDEX, getParties().size());
         startActivityForResult(intent, DISPLAY_BOARD);
     }
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        MenuInflater inflater = getMenuInflater();
-//        inflater.inflate(R.menu.menu_main, menu);
-//        return true;
-//    }
-//
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        switch (item.getItemId()) {
-//            case R.id.new_party:
-//                Intent intent = new Intent(this, AddParty.class);
-//                intent.putExtra(PartyBoard.BOARD_INDEX, getParties().size());
-//                startActivityForResult(intent, DISPLAY_BOARD);
-//                return true;
-//            default:
-//                return super.onOptionsItemSelected(item);
-//        }
-//    }
-
 
     protected void onActivityResult(int requestCode, int resultCode,
                                     Intent data) {

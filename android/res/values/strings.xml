@@ -2,6 +2,10 @@
 <resources>
     <string name="app_name">ZoumTarot</string>
     <string name="parties_list">ZoumTarot - Liste des parties</string>
+    <string name="remove_one">Effacer cette partie</string>
+    <string name="remove_all">Effacer tout</string>
+    <string name="party_removed">1 partie supprimée</string>
+    <string name="parties_removed">%d parties supprimées</string>
     <string name="party_create">Création d\'une partie</string>
     <string name="game_create">Création d\'un tour</string>
     <string name="party_board">Tableau des scores</string>

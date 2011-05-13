@@ -49,9 +49,9 @@
         <TableRow>
             <TextView android:text="@string/score"/>
             <LinearLayout android:orientation="vertical"
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:layout_weight="1">
+                          android:layout_height="wrap_content"
+                          android:layout_width="wrap_content"
+                          android:layout_weight="1">
                 <EditText android:id="@+id/score"
                           android:layout_height="wrap_content"
                           android:layout_width="fill_parent"/>

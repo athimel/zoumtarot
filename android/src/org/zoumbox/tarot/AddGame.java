@@ -30,7 +30,7 @@ public class AddGame extends Activity {
     public static final String PLAYERS = "players";
     public static final String GAME = "game"; //optional
     public static final String INDEX = "index"; //optional
-    
+
     public static final int MAX_SCORE = 91;
 
     protected Spinner taker;
@@ -97,8 +97,8 @@ public class AddGame extends Activity {
 
         score = (EditText) findViewById(R.id.score);
         score.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
-        isDefenseScore = (CheckBox) findViewById(R.id.isDefenseScore); 
-        
+        isDefenseScore = (CheckBox) findViewById(R.id.isDefenseScore);
+
         // Announcements
         handful = (Spinner) findViewById(R.id.handful);
         adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, getHandfuls(is5playersGame));

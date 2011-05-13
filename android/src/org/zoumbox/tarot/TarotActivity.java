@@ -116,4 +116,18 @@ public abstract class TarotActivity extends Activity {
 
     }
 
+    protected int clearBoards() throws IOException {
+
+        int result = 0;
+        try {
+            List<PlayerBoard> boards = loadBoards();
+            result = boards.size();
+            boards.clear();
+            saveBoards(boards);
+        } catch (FileNotFoundException fnfe) {
+            // This might append if this is the first time
+        }
+        return result;
+    }
+
 }
