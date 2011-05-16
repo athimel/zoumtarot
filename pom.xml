@@ -16,7 +16,7 @@
 
     <groupId>org.zoumbox</groupId>
     <artifactId>tarot</artifactId>
-    <version>1.1</version>
+    <version>1.2-SNAPSHOT</version>
 
     <modules>
         <module>engine</module>
@@ -119,11 +119,11 @@
     </properties>
 
     <scm>
-        <connection>scm:svn:svn://dev.zoumbox.org/svnroot/tarot/tags/tarot-1.1
+        <connection>scm:svn:svn://dev.zoumbox.org/svnroot/tarot/trunk
         </connection>
-        <developerConnection>scm:svn:svn://dev.zoumbox.org/svnroot/tarot/tags/tarot-1.1
+        <developerConnection>scm:svn:svn://dev.zoumbox.org/svnroot/tarot/trunk
         </developerConnection>
-        <url>svn://dev.zoumbox.org/svnroot/tarot/tags/tarot-1.1</url>
+        <url>svn://dev.zoumbox.org/svnroot/tarot/trunk</url>
     </scm>
 
     <build>
