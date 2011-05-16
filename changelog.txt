@@ -1,11 +1,2 @@
-xxx arno xx/xx/2011
 
-  * [engine] Support for announcements
-  * [engine] Rename Holders to Oudlers
-  * [android] Support for announcements (no slam yet)
-  * [android] Pretty print contract
-  * [android] Set default contract to 'Garde'
-
-1.0 arno 14/02/2011
-
-  * Initial version - Supports 4 & 5 players
+Now see http://dev.zoumbox.org/projects/zoumtarot/roadmap
