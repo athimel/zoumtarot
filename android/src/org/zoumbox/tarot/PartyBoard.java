@@ -157,28 +157,6 @@ public class PartyBoard extends TarotActivity {
         startActivityForResult(intent, NEW_GAME);
     }
 
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        MenuInflater inflater = getMenuInflater();
-//        inflater.inflate(R.menu.menu_party, menu);
-//        return true;
-//    }
-
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        // Handle item selection
-//        switch (item.getItemId()) {
-//            case R.id.new_game:
-//                Intent intent = new Intent(this, AddGame.class);
-//                ArrayList<String> players = new ArrayList<String>(this.board.getScores().keySet());
-//                intent.putExtra(AddGame.PLAYERS, players);
-//                startActivityForResult(intent, NEW_GAME);
-//                return true;
-//            default:
-//                return super.onOptionsItemSelected(item);
-//        }
-//    }
-
     protected void onActivityResult(int requestCode, int resultCode,
                                     Intent data) {
         if (resultCode == RESULT_OK) {

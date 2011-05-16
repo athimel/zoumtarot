@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.ContextMenu;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -152,6 +153,28 @@ public class PartiesList extends TarotActivity {
                                     Intent data) {
         if (requestCode == DISPLAY_BOARD && resultCode == RESULT_CANCELED) {
             resetList();
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+            case R.id.qr_code:
+                Intent intent = new Intent(this, QRCode.class);
+                startActivity(intent);
+                return true;
+            case R.id.credits:
+                // TODO AThimel 16/05/11 Implement credits page
+            default:
+                return super.onOptionsItemSelected(item);
         }
     }
 

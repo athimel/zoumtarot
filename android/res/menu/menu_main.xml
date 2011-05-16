@@ -2,8 +2,13 @@
 
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:id="@+id/new_party"
-          android:icon="@android:drawable/btn_plus"
-          android:title="@string/new_party"/>
+    <item android:id="@+id/qr_code"
+          android:icon="@android:drawable/ic_menu_share"
+          android:title="@string/qr_code"/>
+
+    <item android:id="@+id/credits"
+          android:icon="@android:drawable/ic_menu_info_details"
+          android:title="@string/credits"
+            android:enabled="false"/>
 
 </menu>

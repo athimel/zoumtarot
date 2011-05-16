@@ -21,6 +21,13 @@
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
+        <activity android:name=".QRCode"
+                  android:noHistory="true">
+            <intent-filter>
+                <action android:name="org.zoumbox.tarot.QR_CODE"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
         <activity android:name=".PartyBoard"
                   android:label="@string/party_board">
             <intent-filter>
