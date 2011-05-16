@@ -1,18 +1,2 @@
-v1.1
-Gérer les annonces (Fait dans le module engine ; manque le chelem dans le module android)
-Boutons add permanents
-Menu sur clic long pour supprimer une partie
-Liste home: sur 2 lignes avec la date et le nb de tours sur la 2ème ligne (avec style si possible)
 
-v1.2
-Refaire les listes
-Rotation
-Couleurs pour les premiers/derniers
-Couleur de fond
-Support 3 joueurs
-
-v1.3
-Menu home : bouton crédits et bouton QR-code
-Envoi de partie par email
-Bouton règles
-
+Now see http://dev.zoumbox.org/projects/zoumtarot/issues
