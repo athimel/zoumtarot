@@ -167,9 +167,13 @@ public class PartiesList extends TarotActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection
         switch (item.getItemId()) {
-            case R.id.qr_code:
-                Intent intent = new Intent(this, QRCode.class);
-                startActivity(intent);
+            case R.id.qr_code_market:
+                Intent intent_market = new Intent(this, QRCodeMarket.class);
+                startActivity(intent_market);
+                return true;
+            case R.id.qr_code_version:
+                Intent intent_version = new Intent(this, QRCodeVersion.class);
+                startActivity(intent_version);
                 return true;
             case R.id.credits:
                 // TODO AThimel 16/05/11 Implement credits page

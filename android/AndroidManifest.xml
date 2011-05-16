@@ -21,10 +21,17 @@
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
-        <activity android:name=".QRCode"
+        <activity android:name=".QRCodeMarket"
                   android:noHistory="true">
             <intent-filter>
-                <action android:name="org.zoumbox.tarot.QR_CODE"/>
+                <action android:name="org.zoumbox.tarot.QR_CODE_MARKET"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+        <activity android:name=".QRCodeVersion"
+                  android:noHistory="true">
+            <intent-filter>
+                <action android:name="org.zoumbox.tarot.QR_CODE_VERSION"/>
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
