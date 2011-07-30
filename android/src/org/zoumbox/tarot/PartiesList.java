@@ -8,41 +8,18 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 import org.zoumbox.tarot.engine.PlayerBoard;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class PartiesList extends TarotActivity {
 
     public static final int DISPLAY_BOARD = 0;
-
-    protected SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-
-    protected List<String> getPartiesAsString(List<PlayerBoard> boards) {
-        List<String> result = new ArrayList<String>();
-        if (boards != null) {
-            for (PlayerBoard board : boards) {
-                String message = "%s\n%s - %d tour(s)";
-                String players = board.getScores().keySet().toString();
-                players = players.substring(1, players.length() - 1);
-
-                long creationDate = board.getCreationDate();
-                String date = creationDate > 0 ? df.format(new Date(creationDate)) : "n/c";
-
-                message = String.format(message, players, date, board.getGames().size());
-                result.add(message);
-            }
-        }
-        return result;
-    }
 
     /**
      * Called when the activity is first created.
@@ -65,10 +42,12 @@ public class PartiesList extends TarotActivity {
 
     protected int resetList() {
 
-        final List<PlayerBoard> parties = getParties();
-        List<String> partiesAsString = getPartiesAsString(parties);
+        final List<PlayerBoard> boards = getParties();
+
         ListView listView = (ListView) findViewById(R.id.listview);
-        listView.setAdapter(new ArrayAdapter<String>(this, R.layout.party, partiesAsString));
+
+        PartyListAdapter listAdapter = new PartyListAdapter(this, boards);
+        listView.setAdapter(listAdapter);
 
         listView.setTextFilterEnabled(true);
 
@@ -77,7 +56,7 @@ public class PartiesList extends TarotActivity {
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
                 Intent intent = new Intent(PartiesList.this, PartyBoard.class);
-                PlayerBoard board = parties.get(position);
+                PlayerBoard board = boards.get(position);
                 intent.putExtra(PartyBoard.BOARD, board);
                 intent.putExtra(PartyBoard.BOARD_INDEX, position);
                 startActivityForResult(intent, DISPLAY_BOARD);
@@ -87,7 +66,7 @@ public class PartiesList extends TarotActivity {
 
         registerForContextMenu(listView);
 
-        int result = parties != null ? parties.size() : 0;
+        int result = boards != null ? boards.size() : 0;
         return result;
     }
 

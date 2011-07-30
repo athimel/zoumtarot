@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="ZoumTarot">
+    </style>
+
+    <style name="List" parent="ZoumTarot">
+        <item name="android:background">#FFFFFF</item>
+    </style>
+    <style name="PartiesList" parent="List">
+    </style>
+    <style name="PartyBoard" parent="List">
+    </style>
+</resources>
