@@ -46,7 +46,7 @@ public class PartiesList extends TarotActivity {
 
         ListView listView = (ListView) findViewById(R.id.listview);
 
-        PartyListAdapter listAdapter = new PartyListAdapter(this, boards);
+        PartiesListAdapter listAdapter = new PartiesListAdapter(this, boards);
         listView.setAdapter(listAdapter);
 
         listView.setTextFilterEnabled(true);

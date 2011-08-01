@@ -92,6 +92,11 @@ public class PlayerBoard implements Serializable {
         return result;
     }
 
+    public int getPlayersCount() {
+        int result = scores.size();
+        return result;
+    }
+
     public boolean isA5PlayersGame() {
         boolean result = (scores.size() == 5);
         return result;

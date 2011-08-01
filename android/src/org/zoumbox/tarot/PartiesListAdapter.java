@@ -20,12 +20,12 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-public class PartyListAdapter extends BaseAdapter {
+public class PartiesListAdapter extends BaseAdapter {
 
     private List<PlayerBoard> boards;
     private Activity context;
 
-    public PartyListAdapter(Activity context, List<PlayerBoard> boards) {
+    public PartiesListAdapter(Activity context, List<PlayerBoard> boards) {
         // save the activity/context ref
         this.context = context;
         this.boards = boards;

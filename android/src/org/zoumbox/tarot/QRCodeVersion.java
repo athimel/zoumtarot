@@ -15,7 +15,7 @@ public class QRCodeVersion extends Activity {
         setContentView(R.layout.qr_code);
 
         // Instantiate an ImageView and define its properties
-        ImageView i = (ImageView)findViewById(R.id.qr_image);
+        ImageView i = (ImageView) findViewById(R.id.qr_image);
         i.setImageResource(R.drawable.qrcode_1_1);
 
     }

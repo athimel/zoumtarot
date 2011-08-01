@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
 import android.widget.Toast;
 import org.zoumbox.tarot.engine.Game;
 import org.zoumbox.tarot.engine.Handful;
@@ -13,7 +12,6 @@ import org.zoumbox.tarot.engine.PlayerBoard;
 import org.zoumbox.tarot.engine.PointsCounter;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -32,56 +30,6 @@ public class PartyBoard extends TarotActivity {
     public static final int EDIT_GAME = 1;
     public static final int EDIT_PLAYERS = 2;
 
-    /**
-     * From a PlayerBoard, generate the rows (including the header)
-     *
-     * @param board the board containing data
-     * @return a list of HashMap with player names and stats
-     */
-    protected ArrayList<HashMap<String, String>> getLines(PlayerBoard board) {
-
-        ArrayList<HashMap<String, String>> result = new ArrayList<HashMap<String, String>>();
-
-        HashMap<String, String> map = new HashMap<String, String>();
-        List<String> players = new ArrayList<String>();
-
-        for (String player : board.getScores().keySet()) {
-            map.put(player, player);
-            players.add(player);
-        }
-        result.add(map);
-
-        PlayerBoard copy = board.cloneForNewParty();
-
-        for (Game game : board.getGames()) {
-
-            copy.gameEnded(game);
-
-            map = new HashMap<String, String>();
-            for (String player : players) {
-                String format = "%d%s";
-                Integer score = copy.getScores().get(player);
-                String contractMark = "";
-                String secondTakerMark = "";
-                String wonMark = "";
-                if (game.isTaker(player)) {
-                    contractMark = game.getContract().toShortString();
-                    wonMark = game.isWon() ? "\u2191" : "\u2193"; // up or down arrow
-                }
-                if (game.isSecondTaker(player)) {
-                    secondTakerMark = "\u002A"; // star
-                }
-                String suffix =
-                        String.format(" %s%s%s", contractMark, secondTakerMark, wonMark);
-                map.put(player, String.format(format, score, suffix));
-            }
-            result.add(map);
-
-        }
-
-        return result;
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
 
@@ -95,10 +43,15 @@ public class PartyBoard extends TarotActivity {
                                     int position, long id) {
 
                 PlayerBoard board = PartyBoard.this.board;
+
+                boolean isTotal = (position > board.getGames().size());
+
                 if (position == 0) {
                     Intent intent = new Intent(PartyBoard.this, AddParty.class);
                     intent.putExtra(AddParty.BOARD, board);
                     startActivityForResult(intent, EDIT_PLAYERS);
+                } else if (isTotal) {
+                    // Nothing to do
                 } else {
                     Intent intent = new Intent(PartyBoard.this, AddGame.class);
                     ArrayList<String> players = new ArrayList<String>(board.getScores().keySet());
@@ -120,19 +73,7 @@ public class PartyBoard extends TarotActivity {
         this.board = board;
         ListView list = (ListView) findViewById(R.id.party_board_list);
 
-        ArrayList<HashMap<String, String>> lines = getLines(board);
-
-        String[] players = board.getPlayers();
-        SimpleAdapter adapter;
-        if (players.length == 5) {
-            adapter = new SimpleAdapter(this, lines, R.layout.party_line_5players,
-                    players,
-                    new int[]{R.id.player1, R.id.player2, R.id.player3, R.id.player4, R.id.player5});
-        } else {
-            adapter = new SimpleAdapter(this, lines, R.layout.party_line,
-                    players,
-                    new int[]{R.id.player1, R.id.player2, R.id.player3, R.id.player4});
-        }
+        PartyBoardAdapter adapter = new PartyBoardAdapter(this, board);
         list.setAdapter(adapter);
 
         try {
