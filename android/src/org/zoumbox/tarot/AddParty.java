@@ -63,6 +63,8 @@ public class AddParty extends Activity {
             }
             if (players.length > 3) {
                 player4.setText(players[3]);
+            } else {
+                player4.setEnabled(false);
             }
             if (players.length > 4) {
                 player5.setText(players[4]);
@@ -105,9 +107,9 @@ public class AddParty extends Activity {
             Toast.makeText(getApplicationContext(),
                     "Vous ne pouvez indiquer 2 joueurs avec le même nom",
                     Toast.LENGTH_LONG).show();
-        } else if (players.size() < 4) {
+        } else if (players.size() < 3) {
             Toast.makeText(getApplicationContext(),
-                    "Seules les parties à 4 et 5 joueurs sont supportées pour le moment",
+                    "Seules les parties à 3, 4 et 5 joueurs sont supportées pour le moment",
                     Toast.LENGTH_LONG).show();
         } else {
 

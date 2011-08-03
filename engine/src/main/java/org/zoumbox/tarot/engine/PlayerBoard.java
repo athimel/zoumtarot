@@ -1,5 +1,7 @@
 package org.zoumbox.tarot.engine;
 
+import com.google.common.collect.Lists;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -22,7 +24,7 @@ public class PlayerBoard implements Serializable {
 
 
     public void newParty(Collection<String> players) {
-        ArrayList<String> playersCopy = new ArrayList<String>(players); // To be sure we're not working on the same list
+        ArrayList<String> playersCopy = Lists.newArrayList(players); // To be sure we're not working on the same list
         clear();
         initPlayers(playersCopy);
         creationDate = System.currentTimeMillis();
@@ -42,9 +44,9 @@ public class PlayerBoard implements Serializable {
         if (players != null) {
             playersCount = players.size();
         }
-        if (playersCount == 0 || (playersCount != 4 && playersCount != 5)) {
+        if (playersCount == 0 || (playersCount != 3 && playersCount != 4 && playersCount != 5)) {
             String message =
-                    "Only 4 and 5 players are supported for the moment. You gave %d player names.";
+                    "Only 3, 4 and 5 players are supported for the moment. You gave %d player names.";
             throw new UnsupportedOperationException(String.format(message, playersCount));
         }
         for (String player : players) {
@@ -99,6 +101,11 @@ public class PlayerBoard implements Serializable {
 
     public boolean isA5PlayersGame() {
         boolean result = (scores.size() == 5);
+        return result;
+    }
+
+    public boolean isA3PlayersGame() {
+        boolean result = (scores.size() == 3);
         return result;
     }
 

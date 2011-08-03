@@ -62,10 +62,13 @@ public class PointsCounter {
 
         // Cas particulier du score du preneur
         if (isTaker) {
-            // A 4 joueurs, coeff=3
+            // Par défaut, 4 joueurs, coeff=3
             int takerCoeff = 3;
 
-            if (board.isA5PlayersGame()) {
+            if (board.isA3PlayersGame()) {
+                // A 3 joueurs, le coeff n'est que de 2
+                takerCoeff = 2;
+            } else if (board.isA5PlayersGame()) {
                 // A 5 joueurs, ca dépend de s'il est tout seul ou pas
                 takerCoeff = game.isTakerAlone() ? 4 : 2;
             }
