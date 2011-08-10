@@ -11,7 +11,7 @@
     <groupId>org.zoumbox.tarot</groupId>
     <artifactId>tarot-engine</artifactId>
 
-    <name>${project.artifactId}</name>
+    <name>ZoumTarot :: engine</name>
 
     <packaging>jar</packaging>
 

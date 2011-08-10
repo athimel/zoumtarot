@@ -68,8 +68,8 @@
     <!-- *** Project Information ************************************* -->
     <!-- ************************************************************* -->
 
-    <name>${project.artifactId}</name>
-    <description>Tarot counter</description>
+    <name>ZoumTarot</name>
+    <description>ZoumTarot - Application de comptage de points du Tarot</description>
     <inceptionYear>2011</inceptionYear>
     <url>http://dev.zoumbox.org/projects/zoumtarot</url>
 
@@ -87,7 +87,7 @@
             <name>Arnaud Thimel</name>
             <id>arno</id>
             <email>arno@zoumbox.org</email>
-            <organization>Zoumbox</organization>
+            <organization>Zoumbox.org</organization>
             <timezone>+2</timezone>
             <roles>
                 <role>Développeur</role>
@@ -107,7 +107,7 @@
     </developers>
 
     <organization>
-        <name>Zoumbox</name>
+        <name>Zoumbox.org</name>
         <url>dev.zoumbox.org</url>
     </organization>
 
@@ -135,16 +135,19 @@
 
     <build>
 
-        <plugins>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>license-maven-plugin</artifactId>
-                <version>1.0-beta-2</version>
-                <configuration>
-                    <licenseName>gpl_v3</licenseName>
-                </configuration>
-            </plugin>
-        </plugins>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>license-maven-plugin</artifactId>
+                    <version>1.0-beta-2</version>
+                    <configuration>
+                        <licenseName>gpl_v3</licenseName>
+                        <addSvnKeyWords>true</addSvnKeyWords>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
 
     </build>
 
