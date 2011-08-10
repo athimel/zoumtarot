@@ -30,6 +30,7 @@
 
     <style name="List" parent="ZoumTarot">
         <item name="android:background">#FFFFFF</item>
+        <item name="android:cacheColorHint">#FFFFFF</item>
     </style>
     <style name="PartiesList" parent="List">
     </style>
