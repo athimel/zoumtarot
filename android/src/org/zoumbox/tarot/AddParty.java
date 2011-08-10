@@ -128,9 +128,9 @@ public class AddParty extends TarotActivity {
 
 
         if (!safeAddResult) {
-            showToast("Vous ne pouvez indiquer 2 joueurs avec le même nom");
+            showToast(getString(R.string.party_player_names));
         } else if (players.size() < 3) {
-            showToast("Seules les parties à 3, 4 et 5 joueurs sont supportées pour le moment");
+            showToast(getString(R.string.party_player_count));
         } else {
 
             PlayerBoard board =
@@ -145,9 +145,9 @@ public class AddParty extends TarotActivity {
                     setResult(RESULT_OK, intent);
                     finish();
 
-                    message = "Noms des joueurs modifiés";
+                    message = getString(R.string.party_players_modified);
                 } catch (UnsupportedOperationException uoe) {
-                    message = String.format("Erreur: %s", uoe.getMessage());
+                    message = getString(R.string.error, uoe.getMessage());
                 }
 
             } else {
@@ -160,7 +160,7 @@ public class AddParty extends TarotActivity {
                 intent.putExtra(PartyBoard.BOARD_INDEX, index);
                 startActivity(intent);
 
-                message = "Partie créée";
+                message = getString(R.string.party_created);
             }
 
             showToast(message);

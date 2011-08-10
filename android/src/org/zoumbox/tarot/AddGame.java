@@ -38,6 +38,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.Toast;
+import com.google.common.collect.Lists;
 import org.zoumbox.tarot.engine.Contract;
 import org.zoumbox.tarot.engine.Game;
 import org.zoumbox.tarot.engine.Handful;
@@ -81,13 +82,22 @@ public class AddGame extends TarotActivity {
     }
 
     protected List<String> getHandfuls(boolean is5playersGame) {
-        List<String> result = new ArrayList<String>(Handful.values().length);
-        result.add("Non");
-        result.add(String.format("Simple (%d)", is5playersGame ? 8 : 10));
-        result.add(String.format("Double (%d)", is5playersGame ? 10 : 13));
-        result.add(String.format("Triple (%d)", is5playersGame ? 13 : 15));
+        List<String> result = Lists.newArrayListWithCapacity(Handful.values().length);
+        result.add(getString(R.string.handful_none));
+        result.add(getString(R.string.handful_simple, is5playersGame ? 8 : 10));
+        result.add(getString(R.string.handful_double, is5playersGame ? 10 : 13));
+        result.add(getString(R.string.handful_triple, is5playersGame ? 13 : 15));
         return result;
     }
+//
+//    protected String formatFromId(int id, Object ... args) {
+//        CharSequence text = getText(id);
+//        String result = text.toString();
+//        if (args != null) {
+//            result = String.format(result, args);
+//        }
+//        return result;
+//    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -318,30 +328,30 @@ public class AddGame extends TarotActivity {
 
     protected String validate(Game game, int playerCount) {
         if (game.getTaker() == null) {
-            return "Vous devez indiquer qui a pris";
+            return getString(R.string.game_no_taker);
         }
         if (game.getContract() == null) {
-            return "Vous devez indiquer le contrat";
+            return getString(R.string.game_no_contract);
         }
         if (game.getOudlers() == null) {
-            return "Vous devez indiquer combien de bouts a le preneur";
+            return getString(R.string.game_no_oudlers);
         }
         double score = game.getScore();
         if (score < 0 || score > 91) {
-            return "Le score doit être compris entre 0 et 91";
+            return getString(R.string.game_score_range);
         }
         if (score != Math.round(score)) { // multiple de '0.0'
             if (playerCount == 5) {
                 if ((score + 0.5) != Math.round(score + 0.5)) { // multiple de '0.5'
-                    return "À 5 joueurs, le score doit être un multiple de 0.5";
+                    return getString(R.string.game_score_5players);
                 }
             } else {
-                return "À 4 joueurs, le score est forcément un nombre entier";
+                return getString(R.string.game_score_4players);
             }
         }
         double minimalScore = 0.5 * playerCount;
         if ((score > 0.0 && score < minimalScore) || (score > (91.0 - minimalScore) && score < 91.0)) {
-            return String.format("%.1f n'est pas un score possible à %d joueurs", score, playerCount);
+            return String.format("%.1f n'est pas un score possible à %d joueurs", score, playerCount); //FIXME AThimel 10/08/2011 #29 : Do for several params messages
         }
 
         return null; // nothing went wrong

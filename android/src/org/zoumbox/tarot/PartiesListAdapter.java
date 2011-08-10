@@ -64,7 +64,6 @@ public class PartiesListAdapter extends BaseAdapter {
     @Override
     public Object getItem(int index) {
         PlayerBoard board = boards.get(index);
-        Log.i(getClass().getSimpleName(), "getItem(" + index + ") = " + board);
         return board;
     }
 
@@ -79,7 +78,6 @@ public class PartiesListAdapter extends BaseAdapter {
 
         if (cellRenderer == null) {
             // create the cell renderer
-            Log.i(getClass().getSimpleName(), "creating a PartyCellRenderedView object");
             cellRendererView = new PartyCellRenderedView(this.context);
         } else {
             cellRendererView = (PartyCellRenderedView) cellRenderer;

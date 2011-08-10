@@ -56,9 +56,8 @@ public class PartiesList extends TarotActivity {
 
         int partiesCount = resetList();
         if (partiesCount == 0) {
-            String newParty = getResources().getString(R.string.new_party);
-            String message = String.format(
-                    "Pour créer une partie, appuyez sur '%s'", newParty);
+            String newParty = getString(R.string.new_party);
+            String message = getString(R.string.parties_new, newParty);
             showToast(message);
         }
     }

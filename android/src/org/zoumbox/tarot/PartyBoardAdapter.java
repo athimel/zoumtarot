@@ -81,7 +81,6 @@ public class PartyBoardAdapter extends BaseAdapter {
 
         if (cellRenderer == null) {
             // create the cell renderer
-            Log.i(getClass().getSimpleName(), "creating a GameCellRenderedView object");
             cellRendererView = new GameCellRenderedView(this.context, board.getPlayersCount());
         } else {
             cellRendererView = (GameCellRenderedView) cellRenderer;
@@ -131,9 +130,9 @@ public class PartyBoardAdapter extends BaseAdapter {
             if (index == 0) {
                 for (int coll = 0; coll < playersCount; coll++) {
                     TextView cell = cells.get(coll);
-                    cell.setTextColor(Color.BLACK);
                     String playerName = board.getPlayers()[coll];
 
+                    cell.setTextColor(Color.BLACK);
                     SpannableString str = SpannableString.valueOf(playerName);
                     str.setSpan(new StyleSpan(Typeface.BOLD), 0, str.length(), 0);
 
@@ -148,19 +147,16 @@ public class PartyBoardAdapter extends BaseAdapter {
 
                     String message = String.format("%d", score);
 
-                    int style = Typeface.ITALIC;
                     if (isMax(score)) {
                         cell.setTextColor(Color.parseColor("#009400"));
-                        style = Typeface.BOLD_ITALIC;
                     } else if (isMin(score)) {
                         cell.setTextColor(Color.RED);
-                        style = Typeface.BOLD_ITALIC;
                     } else {
                         cell.setTextColor(Color.BLACK);
                     }
 
                     SpannableString str = SpannableString.valueOf(message);
-                    str.setSpan(new StyleSpan(style), 0, str.length(), 0);
+                    str.setSpan(new StyleSpan(Typeface.BOLD_ITALIC), 0, str.length(), 0);
 
                     cell.setText(str);
                 }
@@ -187,7 +183,7 @@ public class PartyBoardAdapter extends BaseAdapter {
                             String.format(" %s%s%s", contractMark, secondTakerMark, wonMark);
                     String text = String.format("%d%s", score, suffix);
 
-                    cell.setTextColor(Color.parseColor("#868686"));
+                    cell.setTextColor(Color.BLACK);
                     cell.setText(text);
                 }
 

@@ -25,6 +25,8 @@
   -->
 
 <resources>
+    <string name="error">Erreur: %s</string>
+
     <string name="app_name">ZoumTarot</string>
     <string name="parties_list">ZoumTarot - Liste des parties</string>
     <string name="remove_one">Effacer cette partie</string>
@@ -55,4 +57,34 @@
     <string name="J3">Joueur 3</string>
     <string name="J4">Joueur 4</string>
     <string name="J5">Joueur 5</string>
+
+    <string name="handful_none">Non</string>
+    <string name="handful_simple">Simple (%d)</string>
+    <string name="handful_double">Double (%d)</string>
+    <string name="handful_triple">Triple (%d)</string>
+
+    <string name="game_no_taker">Vous devez indiquer qui a pris</string>
+    <string name="game_no_contract">Vous devez indiquer le contrat</string>
+    <string name="game_no_oudlers">Vous devez indiquer combien de bouts a le preneur</string>
+    <string name="game_score_range">Le score doit être compris entre 0 et 91</string>
+    <string name="game_score_5players">À 5 joueurs, le score doit être un multiple de 0.5</string>
+    <string name="game_score_4players">À 4 joueurs, le score est forcément un nombre entier</string>
+
+    <string name="game_taker">%s totalise</string>
+    <string name="game_won">GAGNÉ</string>
+    <string name="game_lost">PERDU</string>
+    <string name="game_attack">L\'attaque</string>
+    <string name="game_defense">La défense</string>
+    <string name="game_just_done">tour "Juste fait" (de 0 points).</string>
+    <string name="game_handful">%s poignée anoncée.</string>
+    <string name="game_one_is_last">%s enmène le petit au bout.</string>
+    <string name="game_score_others_format">Les autres joueurs marquent %d points.</string>
+
+    <string name="party_player_names">Vous ne pouvez indiquer 2 joueurs avec le même nom</string>
+    <string name="party_player_count">Seules les parties à 3, 4 et 5 joueurs sont supportées pour le moment</string>
+    <string name="party_players_modified">Noms des joueurs modifiés</string>
+    <string name="party_created">Partie créée</string>
+
+    <string name="parties_new">Pour créer une partie, appuyez sur \'%s\'</string>
+
 </resources>

@@ -146,9 +146,9 @@ public class PartyBoard extends TarotActivity {
 
                 String who;
                 if (is5PlayersGame) {
-                    who = String.format("%s et %s totalisent", game.getTaker(), game.getSecondTaker());
+                    who = String.format("%s et %s totalisent", game.getTaker(), game.getSecondTaker()); //FIXME AThimel 10/08/2011 #29 : Do for several params messages
                 } else {
-                    who = String.format("%s totalise", game.getTaker());
+                    who = getString(R.string.game_taker, game.getTaker());
                 }
                 double target = game.getOudlers().getTarget();
                 double score = game.getScore();
@@ -156,26 +156,26 @@ public class PartyBoard extends TarotActivity {
 
                 String gameConclusion;
                 if (diff == 0d) {
-                    gameConclusion = "tour \"Juste fait\" (de 0 points).";
+                    gameConclusion = getString(R.string.game_just_done);
                 } else {
-                    gameConclusion = String.format("tour %s de %s points.", game.isWon() ? "GAGNÉ" : "PERDU", toString(diff));
+                    gameConclusion = String.format("tour %s de %s points.", game.isWon() ? getString(R.string.game_won) : getString(R.string.game_lost), toString(diff)); //FIXME AThimel 10/08/2011 #29 : Do for several params messages
                 }
-                String message = String.format("%s %s points pour %.0f : %s",
+                String message = String.format("%s %s points pour %.0f : %s", //FIXME AThimel 10/08/2011 #29 : Do for several params messages
                         who, toString(score), target, gameConclusion);
 
                 // Announcements
                 if (!Handful.NONE.equals(game.getHandful())) {
                     String handfulText = Tools.toPrettyPrint(game.getHandful().toString());
-                    message += String.format("\n%s poignée anoncée.", handfulText);
+                    message += "\n" + getString(R.string.game_handful, handfulText);
                 }
                 if (game.getOneIsLast() != 0) {
-                    message += String.format("\n%s enmène le petit au bout.", Game.ONE_IS_LAST_TAKER == game.getOneIsLast() ? "L'attaque" : "La défense");
+                    message += "\n" + getString(R.string.game_one_is_last, Game.ONE_IS_LAST_TAKER == game.getOneIsLast() ? getString(R.string.game_attack) : getString(R.string.game_defense));
                 }
 
                 showToast(message);
 
-                String onePlayerFormat = "%s marque %d points.\n";
-                String otherPlayersFormat = "Les autres joueurs marquent %d points.";
+                String onePlayerFormat = "%s marque %d points.\n"; //FIXME AThimel 10/08/2011 #29 : Do for several params messages
+                String otherPlayersFormat = getString(R.string.game_score_others_format);
                 String taker = game.getTaker();
                 String text = String.format(onePlayerFormat, taker, PointsCounter.getPlayerGameScore(board, game, taker));
                 if (is5PlayersGame && !game.isTakerAlone()) {
