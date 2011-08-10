@@ -17,7 +17,7 @@ import java.util.List;
 /**
  * @author Arnaud Thimel <thimel@codelutin.com>
  */
-public class AddParty extends Activity {
+public class AddParty extends TarotActivity {
 
     EditText player1;
     EditText player2;
@@ -104,13 +104,9 @@ public class AddParty extends Activity {
 
 
         if (!safeAddResult) {
-            Toast.makeText(getApplicationContext(),
-                    "Vous ne pouvez indiquer 2 joueurs avec le même nom",
-                    Toast.LENGTH_LONG).show();
+            showToast("Vous ne pouvez indiquer 2 joueurs avec le même nom");
         } else if (players.size() < 3) {
-            Toast.makeText(getApplicationContext(),
-                    "Seules les parties à 3, 4 et 5 joueurs sont supportées pour le moment",
-                    Toast.LENGTH_LONG).show();
+            showToast("Seules les parties à 3, 4 et 5 joueurs sont supportées pour le moment");
         } else {
 
             PlayerBoard board =
@@ -143,8 +139,7 @@ public class AddParty extends Activity {
                 message = "Partie créée";
             }
 
-            Toast.makeText(getApplicationContext(), message,
-                    Toast.LENGTH_SHORT).show();
+            showToast(message);
         }
 
     }

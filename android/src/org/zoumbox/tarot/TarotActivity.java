@@ -2,6 +2,7 @@ package org.zoumbox.tarot;
 
 import android.app.Activity;
 import android.content.Context;
+import android.widget.Toast;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.converters.basic.AbstractSingleValueConverter;
 import org.zoumbox.tarot.engine.Contract;
@@ -128,6 +129,11 @@ public abstract class TarotActivity extends Activity {
             // This might append if this is the first time
         }
         return result;
+    }
+
+    protected void showToast(String message) {
+        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
+//        Toast.makeText(getApplicationContext(), message, 5).show();
     }
 
 }

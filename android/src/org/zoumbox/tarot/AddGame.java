@@ -25,7 +25,7 @@ import java.util.List;
 /**
  * @author Arnaud Thimel <thimel@codelutin.com>
  */
-public class AddGame extends Activity {
+public class AddGame extends TarotActivity {
 
     public static final String PLAYERS = "players";
     public static final String GAME = "game"; //optional
@@ -263,8 +263,7 @@ public class AddGame extends Activity {
             setResult(RESULT_OK, intent);
             finish();
         } else {
-            Toast.makeText(getApplicationContext(), validationMessage,
-                    Toast.LENGTH_LONG).show();
+            showToast(validationMessage);
         }
 
     }

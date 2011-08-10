@@ -83,8 +83,7 @@ public class PartyBoard extends TarotActivity {
 
             eee.printStackTrace();
 
-            Toast.makeText(getApplicationContext(), String.format("Unable to save board: %s", eee.getMessage()),
-                    Toast.LENGTH_LONG).show();
+            showToast(String.format("Unable to save board: %s", eee.getMessage()));
 
         }
 
@@ -109,8 +108,7 @@ public class PartyBoard extends TarotActivity {
                     int replaceIndex = data.getIntExtra(GAME_INDEX, -1);
                     List<Game> games = board.getGames();
                     if (replaceIndex < 0 || replaceIndex >= games.size()) {
-                        Toast.makeText(getApplicationContext(), "WTF!?? index:" + replaceIndex + " size:" + games.size(),
-                                Toast.LENGTH_LONG).show();
+                        showToast("WTF!?? index:" + replaceIndex + " size:" + games.size());
                     } else {
                         board.replaceGame(replaceIndex, game);
                     }
@@ -150,8 +148,7 @@ public class PartyBoard extends TarotActivity {
                     message += String.format("\n%s enmène le petit au bout.", Game.ONE_IS_LAST_TAKER == game.getOneIsLast() ? "L'attaque" : "La défense");
                 }
 
-                Toast.makeText(getApplicationContext(), message,
-                        Toast.LENGTH_LONG).show();
+                showToast(message);
 
                 String onePlayerFormat = "%s marque %d points.\n";
                 String otherPlayersFormat = "Les autres joueurs marquent %d points.";
@@ -163,11 +160,10 @@ public class PartyBoard extends TarotActivity {
                 }
                 text += String.format(otherPlayersFormat, PointsCounter.getScoreSeed(game) * -1);
 
-                Toast.makeText(getApplicationContext(), text, Toast.LENGTH_LONG).show();
+                showToast(text);
 
                 if (!board.isScoreCoherent()) {
-                    Toast.makeText(getApplicationContext(), "ERROR: Score is not coherent !",
-                            Toast.LENGTH_LONG).show();
+                    showToast("ERROR: Score is not coherent !");
                 }
             } else if (requestCode == EDIT_PLAYERS) {
                 resetList((PlayerBoard) data.getSerializableExtra(BOARD));

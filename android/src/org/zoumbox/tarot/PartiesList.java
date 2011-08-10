@@ -35,8 +35,7 @@ public class PartiesList extends TarotActivity {
             String newParty = getResources().getString(R.string.new_party);
             String message = String.format(
                     "Pour créer une partie, appuyez sur '%s'", newParty);
-            Toast.makeText(getApplicationContext(), message,
-                    Toast.LENGTH_LONG).show();
+            showToast(message);
         }
     }
 
@@ -97,16 +96,13 @@ public class PartiesList extends TarotActivity {
                 removeBoard(info.position);
             }
 
-            Toast.makeText(getApplicationContext(), message,
-                    Toast.LENGTH_LONG).show();
+            showToast(message);
 
             resetList();
             return true;
         } catch (IOException ioe) {
             ioe.printStackTrace();
-            Toast.makeText(getApplicationContext(),
-                    String.format("Unable to remove board: %s", ioe.getMessage()),
-                    Toast.LENGTH_LONG).show();
+            showToast(String.format("Unable to remove board: %s", ioe.getMessage()));
             return false;
         }
     }
