@@ -29,7 +29,6 @@ import android.content.Context;
 import android.graphics.Color;
 import android.text.SpannableString;
 import android.text.style.StyleSpan;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;

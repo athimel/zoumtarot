@@ -37,11 +37,10 @@
 
     <item android:id="@+id/credits"
           android:icon="@android:drawable/ic_menu_info_details"
-          android:title="@string/credits"
-          android:enabled="false"/>
+          android:title="@string/credits"/>
 
     <item android:id="@+id/general_statistics"
-          android:icon="@android:drawable/ic_menu_info_details"
+          android:icon="@android:drawable/ic_menu_sort_by_size"
           android:title="@string/statistics"
           android:enabled="false"/>
 

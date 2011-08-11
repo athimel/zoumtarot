@@ -24,16 +24,20 @@
  */
 package org.zoumbox.tarot;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.ContextMenu;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
-import android.widget.Toast;
+import android.widget.PopupWindow;
 import org.zoumbox.tarot.engine.PlayerBoard;
 
 import java.io.FileNotFoundException;
@@ -174,7 +178,24 @@ public class PartiesList extends TarotActivity {
                 startActivity(intent_version);
                 return true;
             case R.id.credits:
-                // TODO AThimel 16/05/11 Implement credits page - cf http://dev.zoumbox.org/issues/32
+                LayoutInflater inflater = (LayoutInflater)
+                        this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                final View popupView = inflater.inflate(R.layout.credits, null, false);
+                final PopupWindow credits = new PopupWindow(
+                        popupView,
+                        this.getWindowManager().getDefaultDisplay().getWidth() - 100,
+                        this.getWindowManager().getDefaultDisplay().getHeight() - 200,
+                        true);
+                // The code below assumes that the root container has an id called 'main'
+                credits.showAtLocation(this.findViewById(R.id.main), Gravity.CENTER, 0, 0);
+
+
+                Button btnExitInfo = (Button) popupView.findViewById(R.id.credits_close);
+                btnExitInfo.setOnClickListener(new View.OnClickListener() {
+                    public void onClick(View v) {
+                        credits.dismiss();
+                    }
+                });
             case R.id.general_statistics:
                 // TODO AThimel 16/05/11 Implement credits page - cf http://dev.zoumbox.org/issues/55
             default:

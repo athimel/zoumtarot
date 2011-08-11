@@ -24,7 +24,6 @@
  */
 package org.zoumbox.tarot;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
@@ -37,7 +36,6 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
-import android.widget.Toast;
 import com.google.common.collect.Lists;
 import org.zoumbox.tarot.engine.Contract;
 import org.zoumbox.tarot.engine.Game;

@@ -28,6 +28,9 @@
     <string name="error">Erreur: %s</string>
 
     <string name="app_name">ZoumTarot</string>
+    <string name="version">1.2</string>
+    <string name="version_full">Version 1.2</string>
+
     <string name="parties_list">ZoumTarot - Liste des parties</string>
     <string name="remove_one">Effacer cette partie</string>
     <string name="remove_all">Effacer tout</string>
@@ -43,6 +46,7 @@
     <string name="qr_code_version">QR code</string>
     <string name="credits">Crédits</string>
     <string name="statistics">Statistiques</string>
+    <string name="close">Fermer</string>
 
     <string name="taker">Preneur</string>
     <string name="secondTaker">Avec ?</string>
@@ -92,5 +96,8 @@
     <string name="party_created">Partie créée</string>
 
     <string name="parties_new">Pour créer une partie, appuyez sur \'%s\'</string>
+
+    <string name="credits_leader">Project Leader</string>
+    <string name="credits_contributor">Contributeur</string>
 
 </resources>
