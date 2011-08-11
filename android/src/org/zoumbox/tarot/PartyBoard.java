@@ -24,14 +24,19 @@
  */
 package org.zoumbox.tarot;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
+import android.widget.PopupWindow;
 import org.zoumbox.tarot.engine.Game;
 import org.zoumbox.tarot.engine.Handful;
 import org.zoumbox.tarot.engine.PlayerBoard;
@@ -217,8 +222,30 @@ public class PartyBoard extends TarotActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection
         switch (item.getItemId()) {
+            case R.id.legend:
+                LayoutInflater inflater = (LayoutInflater)
+                        this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                final View popupView = inflater.inflate(R.layout.legend, null, false);
+                final PopupWindow legend = new PopupWindow(
+                        popupView,
+                        this.getWindowManager().getDefaultDisplay().getWidth() - 100,
+                        this.getWindowManager().getDefaultDisplay().getHeight() - 200,
+                        true);
+                // The code below assumes that the root container has an id called 'main'
+                legend.showAtLocation(this.findViewById(R.id.party_board), Gravity.CENTER, 0, 0);
+
+
+                Button btnExitInfo = (Button) popupView.findViewById(R.id.legend_close);
+                btnExitInfo.setOnClickListener(new View.OnClickListener() {
+                    public void onClick(View v) {
+                        legend.dismiss();
+                    }
+                });
+
+                return true;
             case R.id.party_statistics:
-                // TODO AThimel 16/05/11 Implement credits page - cf http://dev.zoumbox.org/issues/49
+                // TODO AThimel 16/05/11 Implement legend page - cf http://dev.zoumbox.org/issues/49
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }

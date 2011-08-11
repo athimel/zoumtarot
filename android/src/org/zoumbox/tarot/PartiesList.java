@@ -196,8 +196,10 @@ public class PartiesList extends TarotActivity {
                         credits.dismiss();
                     }
                 });
+                return true;
             case R.id.general_statistics:
                 // TODO AThimel 16/05/11 Implement credits page - cf http://dev.zoumbox.org/issues/55
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }

@@ -27,6 +27,10 @@
 
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <item android:id="@+id/legend"
+          android:icon="@android:drawable/ic_menu_info_details"
+          android:title="@string/legend"/>
+
     <item android:id="@+id/party_statistics"
           android:icon="@android:drawable/ic_menu_sort_by_size"
           android:title="@string/statistics"
