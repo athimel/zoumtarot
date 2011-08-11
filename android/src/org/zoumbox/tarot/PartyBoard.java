@@ -146,9 +146,9 @@ public class PartyBoard extends TarotActivity {
 
                 String who;
                 if (is5PlayersGame) {
-                    who = String.format("%s et %s totalisent", game.getTaker(), game.getSecondTaker()); //FIXME AThimel 10/08/2011 #29 : Do for several params messages
+                    who = getString(R.string.game_who_5players, game.getTaker(), game.getSecondTaker());
                 } else {
-                    who = getString(R.string.game_taker, game.getTaker());
+                    who = getString(R.string.game_who, game.getTaker());
                 }
                 double target = game.getOudlers().getTarget();
                 double score = game.getScore();
@@ -158,10 +158,9 @@ public class PartyBoard extends TarotActivity {
                 if (diff == 0d) {
                     gameConclusion = getString(R.string.game_just_done);
                 } else {
-                    gameConclusion = String.format("tour %s de %s points.", game.isWon() ? getString(R.string.game_won) : getString(R.string.game_lost), toString(diff)); //FIXME AThimel 10/08/2011 #29 : Do for several params messages
+                    gameConclusion = getString(R.string.game_conclusion, game.isWon() ? getString(R.string.game_won) : getString(R.string.game_lost), toString(diff));
                 }
-                String message = String.format("%s %s points pour %.0f : %s", //FIXME AThimel 10/08/2011 #29 : Do for several params messages
-                        who, toString(score), target, gameConclusion);
+                String message = getString(R.string.game_end, who, toString(score), target, gameConclusion);
 
                 // Announcements
                 if (!Handful.NONE.equals(game.getHandful())) {
@@ -174,14 +173,16 @@ public class PartyBoard extends TarotActivity {
 
                 showToast(message);
 
-                String onePlayerFormat = "%s marque %d points.\n"; //FIXME AThimel 10/08/2011 #29 : Do for several params messages
+                String onePlayerFormat = getString(R.string.game_score_one_player_format);
                 String otherPlayersFormat = getString(R.string.game_score_others_format);
                 String taker = game.getTaker();
                 String text = String.format(onePlayerFormat, taker, PointsCounter.getPlayerGameScore(board, game, taker));
                 if (is5PlayersGame && !game.isTakerAlone()) {
                     String secondTaker = game.getSecondTaker();
+                    text += "\n";
                     text += String.format(onePlayerFormat, secondTaker, PointsCounter.getPlayerGameScore(board, game, secondTaker));
                 }
+                text += "\n";
                 text += String.format(otherPlayersFormat, PointsCounter.getScoreSeed(game) * -1);
 
                 showToast(text);

@@ -351,7 +351,7 @@ public class AddGame extends TarotActivity {
         }
         double minimalScore = 0.5 * playerCount;
         if ((score > 0.0 && score < minimalScore) || (score > (91.0 - minimalScore) && score < 91.0)) {
-            return String.format("%.1f n'est pas un score possible à %d joueurs", score, playerCount); //FIXME AThimel 10/08/2011 #29 : Do for several params messages
+            return getString(R.string.game_score_validity, score, playerCount);
         }
 
         return null; // nothing went wrong
