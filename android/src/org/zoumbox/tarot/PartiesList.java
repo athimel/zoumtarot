@@ -174,7 +174,9 @@ public class PartiesList extends TarotActivity {
                 startActivity(intent_version);
                 return true;
             case R.id.credits:
-                // TODO AThimel 16/05/11 Implement credits page
+                // TODO AThimel 16/05/11 Implement credits page - cf http://dev.zoumbox.org/issues/32
+            case R.id.general_statistics:
+                // TODO AThimel 16/05/11 Implement credits page - cf http://dev.zoumbox.org/issues/55
             default:
                 return super.onOptionsItemSelected(item);
         }

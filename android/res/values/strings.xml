@@ -37,11 +37,12 @@
     <string name="game_create">ZoumTarot - Création/édition d\'un tour</string>
     <string name="party_board">ZoumTarot - Tableau des scores</string>
 
-    <string name="new_game">Nouveau tour</string>
+    <string name="new_game">Nouvelle donne</string>
     <string name="new_party">Nouvelle partie</string>
     <string name="qr_code_market">QR code (Market)</string>
     <string name="qr_code_version">QR code</string>
     <string name="credits">Crédits</string>
+    <string name="statistics">Statistiques</string>
 
     <string name="taker">Preneur</string>
     <string name="secondTaker">Avec ?</string>

@@ -26,6 +26,9 @@ package org.zoumbox.tarot;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -202,6 +205,24 @@ public class PartyBoard extends TarotActivity {
             result = result.substring(0, result.length() - 2);
         }
         return result;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_party, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+            case R.id.party_statistics:
+                // TODO AThimel 16/05/11 Implement credits page - cf http://dev.zoumbox.org/issues/49
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
 }
