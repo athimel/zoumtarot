@@ -37,6 +37,12 @@ public class Game implements Serializable {
     public static final int ONE_IS_LAST_DEFENSE = -1;
 
     ////////////////////
+    // Technical fields //
+    ////////////////////
+
+    protected long date = -1;
+
+    ////////////////////
     // Nominal fields //
     ////////////////////
 
@@ -78,6 +84,14 @@ public class Game implements Serializable {
         setContract(contract);
         setOudlers(oudlers);
         setScore(score);
+    }
+
+    public long getDate() {
+        return date;
+    }
+
+    public void setDate(long date) {
+        this.date = date;
     }
 
     public String getTaker() {
@@ -170,6 +184,12 @@ public class Game implements Serializable {
     public boolean isTakerAlone() {
         boolean result = (secondTaker == null || taker.equals(secondTaker));
         return result;
+    }
+
+    public void initDate() {
+        if (date == -1) { // init only once
+            date = System.currentTimeMillis();
+        }
     }
 
 }

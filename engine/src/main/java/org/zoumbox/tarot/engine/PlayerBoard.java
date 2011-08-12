@@ -44,8 +44,8 @@ public class PlayerBoard implements Serializable {
 
     protected LinkedHashMap<String, Integer> scores = new LinkedHashMap<String, Integer>();
     protected LinkedList<Game> games = new LinkedList<Game>();
-    protected long creationDate;
 
+    protected long creationDate;
 
     public void newParty(Collection<String> players) {
         ArrayList<String> playersCopy = Lists.newArrayList(players); // To be sure we're not working on the same list
@@ -81,6 +81,7 @@ public class PlayerBoard implements Serializable {
     public void gameEnded(Game game) {
         if (isGameComplete(game)) {
             games.add(game);
+            game.initDate();
 
             for (Map.Entry<String, Integer> entry : scores.entrySet()) {
                 String playerName = entry.getKey();
@@ -188,6 +189,18 @@ public class PlayerBoard implements Serializable {
                 game.setSecondTaker(to);
             }
         }
+    }
+
+    public long getDuration() {
+        long result = -1;
+        if (games != null && !games.isEmpty() && creationDate > 0) {
+            Game lastGame = games.getLast();
+            long lastGameDate = lastGame.getDate();
+            if (lastGameDate != -1) {
+                result = lastGameDate - creationDate;
+            }
+        }
+        return result;
     }
 
 }

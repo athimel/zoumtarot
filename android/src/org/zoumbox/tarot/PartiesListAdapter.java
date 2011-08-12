@@ -104,7 +104,7 @@ public class PartiesListAdapter extends BaseAdapter {
 
             {
                 TableRow row = new TableRow(context);
-                row.setPadding(10, 0, 10, 0);
+                row.setPadding(10, 0, 0, 0);
 
                 playerNamesTV = new TextView(context);
 
@@ -114,7 +114,7 @@ public class PartiesListAdapter extends BaseAdapter {
 
             {
                 TableRow row = new TableRow(context);
-                row.setPadding(20, 0, 20, 0);
+                row.setPadding(15, 0, 0, 0);
 
                 detailsTV = new TextView(context);
 
@@ -139,12 +139,32 @@ public class PartiesListAdapter extends BaseAdapter {
 
             int count = board.getGames().size();
 
-            String format = "%s   -   %d tour";
+            long duration = board.getDuration();
+            String durationStr = "n/c";
+            if (duration > 999) { // At least 1 second
+                long seconds = duration / 1000;
+                durationStr = String.format("%ds", seconds);
+
+                if (seconds > 99) {
+                    long minutes = seconds / 60;
+                    durationStr = String.format("%dmin", minutes);
+
+                    if (minutes > 60) {
+                        long hours = minutes / 60;
+                        duration /= 60; // hour
+                        minutes -= (hours * 60);
+                        durationStr = String.format("%dh %dmin", hours, minutes);
+                    }
+                }
+
+            }
+
+            String format = "%s  -  %d tour  -  %s";
             if (count > 1) {
-                format += "s";
+                format = "%s  -  %d tours  -  %s";
             }
             format += " ";
-            String message = String.format(format, date, count);
+            String message = String.format(format, date, count, durationStr);
 
             SpannableString str = SpannableString.valueOf(message);
             str.setSpan(new StyleSpan(android.graphics.Typeface.ITALIC), 0, str.length(), 0);

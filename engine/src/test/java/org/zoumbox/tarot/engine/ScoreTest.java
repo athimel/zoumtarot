@@ -25,15 +25,16 @@
 package org.zoumbox.tarot.engine;
 
 import junit.framework.Assert;
-import junit.framework.TestCase;
+import org.junit.Test;
 
 import java.util.Arrays;
 
 /**
  * @author Arnaud Thimel <thimel@codelutin.com>
  */
-public class ScoreTest extends TestCase {
+public class ScoreTest {
 
+    @Test
     public void test3PlayersParty() throws Exception {
 
         PlayerBoard board = new PlayerBoard();
@@ -63,6 +64,7 @@ public class ScoreTest extends TestCase {
 
     }
 
+    @Test
     public void test4PlayersParty() throws Exception {
 
         PlayerBoard board = new PlayerBoard();
@@ -93,6 +95,7 @@ public class ScoreTest extends TestCase {
 
     }
 
+    @Test
     public void test4PlayersPartyScoreCumul() throws Exception {
 
         PlayerBoard board = new PlayerBoard();
@@ -152,6 +155,7 @@ public class ScoreTest extends TestCase {
 
     }
 
+    @Test
     public void test4PlayersPartyScoreCumulBogus() throws Exception {
 
         PlayerBoard board = new PlayerBoard();
@@ -171,6 +175,7 @@ public class ScoreTest extends TestCase {
 
     }
 
+    @Test
     public void test5PlayersParty() throws Exception {
 
         PlayerBoard board = new PlayerBoard();
@@ -232,6 +237,7 @@ public class ScoreTest extends TestCase {
         Assert.assertTrue(board.isScoreCoherent());
     }
 
+    @Test
     public void test5PlayersPartyTakerAlone() throws Exception {
 
         PlayerBoard board = new PlayerBoard();
@@ -260,6 +266,7 @@ public class ScoreTest extends TestCase {
         Assert.assertTrue(board.isScoreCoherent());
     }
 
+    @Test
     public void test5PlayersPartyRound() throws Exception {
 
         PlayerBoard board = new PlayerBoard();
@@ -288,7 +295,7 @@ public class ScoreTest extends TestCase {
         Assert.assertTrue(board.isScoreCoherent());
     }
 
-
+    @Test
     public void testReplaceGame() throws Exception {
 
         PlayerBoard board = new PlayerBoard();
@@ -341,6 +348,7 @@ public class ScoreTest extends TestCase {
 
     }
 
+    @Test
     public void testPlayersRenaming() throws Exception {
 
         PlayerBoard board = new PlayerBoard();
@@ -380,6 +388,7 @@ public class ScoreTest extends TestCase {
 
     }
 
+    @Test
     public void testOfficialExample1() throws Exception {
 
         PlayerBoard board = new PlayerBoard();
@@ -399,6 +408,7 @@ public class ScoreTest extends TestCase {
 
     }
 
+    @Test
     public void testOfficialExample2() throws Exception {
 
         PlayerBoard board = new PlayerBoard();
@@ -417,6 +427,7 @@ public class ScoreTest extends TestCase {
 
     }
 
+    @Test
     public void testOfficialExample3() throws Exception {
 
         PlayerBoard board = new PlayerBoard();
@@ -436,6 +447,7 @@ public class ScoreTest extends TestCase {
 
     }
 
+    @Test
     public void testOfficialExample4() throws Exception {
 
         PlayerBoard board = new PlayerBoard();
@@ -454,6 +466,7 @@ public class ScoreTest extends TestCase {
 
     }
 
+    @Test
     public void testOfficialExample5() throws Exception {
 
         PlayerBoard board = new PlayerBoard();
