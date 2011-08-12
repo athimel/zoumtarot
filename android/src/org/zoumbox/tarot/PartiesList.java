@@ -183,12 +183,11 @@ public class PartiesList extends TarotActivity {
                 final View popupView = inflater.inflate(R.layout.credits, null, false);
                 final PopupWindow credits = new PopupWindow(
                         popupView,
-                        this.getWindowManager().getDefaultDisplay().getWidth() - 100,
-                        this.getWindowManager().getDefaultDisplay().getHeight() - 200,
+                        this.getWindowManager().getDefaultDisplay().getWidth() - 75,
+                        this.getWindowManager().getDefaultDisplay().getHeight() - 100,
                         true);
                 // The code below assumes that the root container has an id called 'main'
                 credits.showAtLocation(this.findViewById(R.id.main), Gravity.CENTER, 0, 0);
-
 
                 Button btnExitInfo = (Button) popupView.findViewById(R.id.credits_close);
                 btnExitInfo.setOnClickListener(new View.OnClickListener() {

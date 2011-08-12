@@ -62,11 +62,11 @@
         <LinearLayout android:orientation="horizontal" android:layout_width="fill_parent"
                       android:layout_height="wrap_content" android:layout_marginTop="10dip"
                       android:layout_marginLeft="15dip">
-            <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                       android:src="@drawable/ic_contact_picture"/>
+            <ImageView android:layout_width="53px" android:layout_height="53px"
+                       android:src="@drawable/ironass"/>
             <LinearLayout android:orientation="vertical" android:layout_width="wrap_content"
                           android:layout_height="wrap_content" android:layout_marginLeft="10dip">
-                <TextView android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="Kevin M"
+                <TextView android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="IronAss"
                           android:textColor="#444444"/>
                 <TextView android:layout_width="fill_parent" android:layout_height="wrap_content"
                           android:text="@string/credits_contributor" android:textColor="#444444"
@@ -81,12 +81,24 @@
                        android:src="@drawable/ic_contact_picture"/>
             <LinearLayout android:orientation="vertical" android:layout_width="wrap_content"
                           android:layout_height="wrap_content" android:layout_marginLeft="10dip">
-                <TextView android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="Pouic"
+                <TextView android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="Nico"
                           android:textColor="#444444"/>
                 <TextView android:layout_width="fill_parent" android:layout_height="wrap_content"
                           android:text="@string/credits_contributor" android:textColor="#444444"
                           android:textStyle="italic"/>
             </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout android:orientation="vertical" android:layout_width="fill_parent"
+                      android:layout_height="wrap_content" android:layout_marginTop="10dip"
+                      android:layout_marginLeft="15dip">
+            <TextView android:layout_width="fill_parent" android:layout_height="wrap_content"
+                      android:text="Et tous ceux qui testent et proposent de nouvelles fonctionnalités :"
+                      android:textColor="#444444"/>
+            <TextView android:layout_width="fill_parent" android:layout_height="wrap_content"
+                      android:text="Carole, Charlotte, Florian, Julien, Matthieu, Yannick, ..."
+                      android:textColor="#444444"
+                      android:textStyle="italic"/>
         </LinearLayout>
 
         <Button android:id="@+id/credits_close" android:layout_width="fill_parent" android:layout_height="wrap_content"

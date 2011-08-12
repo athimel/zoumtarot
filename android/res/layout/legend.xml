@@ -32,7 +32,8 @@
                   android:layout_height="fill_parent" android:background="#eeeeee">
 
         <TextView android:layout_width="fill_parent" android:layout_height="wrap_content"
-                  android:text="@string/legend" android:textColor="#444444" android:layout_marginBottom="10dip"/>
+                  android:text="@string/legend" android:textStyle="bold" android:textColor="#444444"
+                  android:layout_marginBottom="20dip" android:layout_marginLeft="30dip"/>
 
         <LinearLayout android:orientation="horizontal" android:layout_width="fill_parent"
                       android:layout_height="wrap_content">
