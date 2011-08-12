@@ -91,6 +91,22 @@
                       android:text="Partenaire" android:textColor="#444444"/>
         </LinearLayout>
 
+        <LinearLayout android:orientation="horizontal" android:layout_width="fill_parent"
+                      android:layout_height="wrap_content">
+            <TextView android:layout_width="50px" android:layout_height="wrap_content"
+                      android:text="123" android:textStyle="bold" android:textColor="#009400"/>
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                      android:text="Premier(s)" android:textColor="#444444"/>
+        </LinearLayout>
+
+        <LinearLayout android:orientation="horizontal" android:layout_width="fill_parent"
+                      android:layout_height="wrap_content">
+            <TextView android:layout_width="50px" android:layout_height="wrap_content"
+                      android:text="123" android:textStyle="bold" android:textColor="#FF0000"/>
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                      android:text="Dernier(s)" android:textColor="#444444"/>
+        </LinearLayout>
+
         <Button android:id="@+id/legend_close" android:layout_width="fill_parent" android:layout_height="wrap_content"
                 android:text="@string/close" android:layout_marginTop="30dip"/>
 

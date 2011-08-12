@@ -62,7 +62,7 @@
         <LinearLayout android:orientation="horizontal" android:layout_width="fill_parent"
                       android:layout_height="wrap_content" android:layout_marginTop="10dip"
                       android:layout_marginLeft="15dip">
-            <ImageView android:layout_width="53px" android:layout_height="53px"
+            <ImageView android:layout_width="54px" android:layout_height="54px"
                        android:src="@drawable/ironass"/>
             <LinearLayout android:orientation="vertical" android:layout_width="wrap_content"
                           android:layout_height="wrap_content" android:layout_marginLeft="10dip">
