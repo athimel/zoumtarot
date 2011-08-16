@@ -137,7 +137,7 @@ public class PartiesListAdapter extends BaseAdapter {
             DateFormat df = new SimpleDateFormat(PATTERN);
             String date = creationDate > 0 ? df.format(new Date(creationDate)) : "n/c";
 
-            int count = board.getGames().size();
+            int count = board.getDeals().size();
 
             long duration = board.getDuration();
             String durationStr = "n/c";

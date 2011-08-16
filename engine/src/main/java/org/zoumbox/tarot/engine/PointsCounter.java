@@ -29,9 +29,9 @@ package org.zoumbox.tarot.engine;
  */
 public class PointsCounter {
 
-    public static int getScoreSeed(Game game) {
+    public static int getScoreSeed(Deal deal) {
 
-        double score = game.score - game.getOudlers().getTarget();
+        double score = deal.score - deal.getOudlers().getTarget();
         boolean gameWon = score >= 0.0;
         if (gameWon) {
             score = Math.round(score); // Arrondi toujours à l'absolu supérieur
@@ -41,27 +41,27 @@ public class PointsCounter {
             score -= 25;
         }
 
-        int contractCoeff = game.getContract().getValue();
+        int contractCoeff = deal.getContract().getValue();
         score *= contractCoeff;
 
         // Announcements : Handful. Always counts for the wining team
         if (gameWon) {
-            score += game.getHandful().getValue();
+            score += deal.getHandful().getValue();
         } else {
-            score -= game.getHandful().getValue();
+            score -= deal.getHandful().getValue();
         }
 
         // Announcements : One Is Last. Counts for the team realizing it
-        score += game.getOneIsLast() * 10 * contractCoeff;
+        score += deal.getOneIsLast() * 10 * contractCoeff;
 
         // Announcements : Slam
         double slamScore = 0d;
-        if (game.isSlamAnnounced() && game.isSlamRealized()) {
+        if (deal.isSlamAnnounced() && deal.isSlamRealized()) {
             slamScore = 400d;
-        } else if (!game.isSlamAnnounced() && game.isSlamRealized()) {
+        } else if (!deal.isSlamAnnounced() && deal.isSlamRealized()) {
             slamScore = 200d;
-        } else if (game.isSlamAnnounced() && !game.isSlamRealized()) {
-            // need to check if the game is won
+        } else if (deal.isSlamAnnounced() && !deal.isSlamRealized()) {
+            // need to check if the deal is won
             if (gameWon) {
                 slamScore = -200d; // points for the defense
             } else {
@@ -75,11 +75,11 @@ public class PointsCounter {
         return result;
     }
 
-    public static int getPlayerGameScore(PlayerBoard board, Game game, String playerName) {
+    public static int getPlayerDealScore(PlayerBoard board, Deal deal, String playerName) {
 
-        int playerPartyScore = getScoreSeed(game);
-        boolean isTaker = game.isTaker(playerName);
-        boolean isSecondTaker = game.isSecondTaker(playerName);
+        int playerPartyScore = getScoreSeed(deal);
+        boolean isTaker = deal.isTaker(playerName);
+        boolean isSecondTaker = deal.isSecondTaker(playerName);
         if (!isTaker && !isSecondTaker) { // N'a pas pris, on inverse le score
             playerPartyScore *= -1;
         }
@@ -94,7 +94,7 @@ public class PointsCounter {
                 takerCoeff = 2;
             } else if (board.isA5PlayersGame()) {
                 // A 5 joueurs, ca dépend de s'il est tout seul ou pas
-                takerCoeff = game.isTakerAlone() ? 4 : 2;
+                takerCoeff = deal.isTakerAlone() ? 4 : 2;
             }
             playerPartyScore *= takerCoeff;
         }

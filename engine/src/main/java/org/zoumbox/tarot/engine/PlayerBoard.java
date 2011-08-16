@@ -25,6 +25,7 @@
 package org.zoumbox.tarot.engine;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -43,7 +44,7 @@ public class PlayerBoard implements Serializable {
     private static final long serialVersionUID = -2231617148598930878L;
 
     protected LinkedHashMap<String, Integer> scores = new LinkedHashMap<String, Integer>();
-    protected LinkedList<Game> games = new LinkedList<Game>();
+    protected LinkedList<Deal> deals = new LinkedList<Deal>();
 
     protected long creationDate;
 
@@ -60,7 +61,7 @@ public class PlayerBoard implements Serializable {
 
     protected void clear() {
         scores.clear();
-        games.clear();
+        deals.clear();
     }
 
     protected void initPlayers(List<String> players) {
@@ -78,16 +79,16 @@ public class PlayerBoard implements Serializable {
         }
     }
 
-    public void gameEnded(Game game) {
-        if (isGameComplete(game)) {
-            games.add(game);
-            game.initDate();
+    public void dealEnded(Deal deal) {
+        if (isDealComplete(deal)) {
+            deals.add(deal);
+            deal.initDate();
 
             for (Map.Entry<String, Integer> entry : scores.entrySet()) {
                 String playerName = entry.getKey();
                 Integer playerScore = entry.getValue();
 
-                int playerPartyScore = PointsCounter.getPlayerGameScore(this, game, playerName);
+                int playerPartyScore = PointsCounter.getPlayerDealScore(this, deal, playerName);
                 playerScore += playerPartyScore;
                 entry.setValue(playerScore);
             }
@@ -102,11 +103,11 @@ public class PlayerBoard implements Serializable {
         return scores;
     }
 
-    public List<Game> getGames() {
-        return games;
+    public List<Deal> getDeals() {
+        return deals;
     }
 
-    public boolean isGameComplete(Game game) {
+    public boolean isDealComplete(Deal deal) {
         return true; // TODO Arno 28/01/2011
     }
 
@@ -146,18 +147,18 @@ public class PlayerBoard implements Serializable {
         return result;
     }
 
-    public void replaceGame(int index, Game newGame) {
-        games.remove(index);
-        games.add(index, newGame);
+    public void replaceDeal(int index, Deal newDeal) {
+        deals.remove(index);
+        deals.add(index, newDeal);
         resetScore();
     }
 
     protected void resetScore() {
         String[] players = getPlayers();
-        List<Game> gamesCopy = new ArrayList<Game>(games);
+        List<Deal> gamesCopy = new ArrayList<Deal>(deals);
         newParty(players);
-        for (Game game : gamesCopy) {
-            gameEnded(game);
+        for (Deal deal : gamesCopy) {
+            dealEnded(deal);
         }
     }
 
@@ -181,25 +182,33 @@ public class PlayerBoard implements Serializable {
         scores.remove(from);
         scores.put(to, score);
 
-        for (Game game : games) {
-            if (game.isTaker(from)) {
-                game.setTaker(to);
+        for (Deal deal : deals) {
+            if (deal.isTaker(from)) {
+                deal.setTaker(to);
             }
-            if (game.isSecondTaker(from)) {
-                game.setSecondTaker(to);
+            if (deal.isSecondTaker(from)) {
+                deal.setSecondTaker(to);
             }
         }
     }
 
     public long getDuration() {
         long result = -1;
-        if (games != null && !games.isEmpty() && creationDate > 0) {
-            Game lastGame = games.getLast();
-            long lastGameDate = lastGame.getDate();
+        if (deals != null && !deals.isEmpty() && creationDate > 0) {
+            Deal lastDeal = deals.getLast();
+            long lastGameDate = lastDeal.getDate();
             if (lastGameDate != -1) {
                 result = lastGameDate - creationDate;
             }
         }
+        return result;
+    }
+
+    public static PlayerBoard cloneIt(PlayerBoard board) {
+        PlayerBoard result = new PlayerBoard();
+        result.creationDate = board.getCreationDate();
+        result.deals = Lists.newLinkedList(board.getDeals());
+        result.scores = Maps.newLinkedHashMap(board.getScores());
         return result;
     }
 

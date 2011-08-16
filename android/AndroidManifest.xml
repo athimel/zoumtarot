@@ -42,11 +42,11 @@
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
-        <activity android:name=".AddGame"
-                  android:label="@string/game_create"
+        <activity android:name=".AddDeal"
+                  android:label="@string/deal_create"
                   android:noHistory="true">
             <intent-filter>
-                <action android:name="org.zoumbox.tarot.ADD_GAME"/>
+                <action android:name="org.zoumbox.tarot.ADD_DEAL"/>
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>

@@ -38,10 +38,10 @@
               android:layout_height="wrap_content"
               android:layout_weight="1"/>
 
-    <Button android:id="@+id/addGameButton"
+    <Button android:id="@+id/addDealButton"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="@string/new_game"
-            android:onClick="onNewGameButtonClicked"/>
+            android:text="@string/new_deal"
+            android:onClick="onNewDealButtonClicked"/>
 
 </LinearLayout>

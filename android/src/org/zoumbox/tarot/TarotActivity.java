@@ -27,13 +27,15 @@ package org.zoumbox.tarot;
 import android.app.Activity;
 import android.content.Context;
 import android.widget.Toast;
+import com.google.common.collect.Lists;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.converters.basic.AbstractSingleValueConverter;
 import org.zoumbox.tarot.engine.Contract;
-import org.zoumbox.tarot.engine.Game;
+import org.zoumbox.tarot.engine.Deal;
 import org.zoumbox.tarot.engine.Handful;
 import org.zoumbox.tarot.engine.Oudlers;
 import org.zoumbox.tarot.engine.PlayerBoard;
+import org.zoumbox.tarot.legacy.PlayerBoard11;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -47,7 +49,8 @@ import java.util.List;
  */
 public abstract class TarotActivity extends Activity {
 
-    public static final String BOARDS_FILENAME = "org.zoumbox.tarot-1.1-parties.xml";
+    public static final String BOARDS_FILENAME_1_1 = "org.zoumbox.tarot-1.1-parties.xml";
+    public static final String BOARDS_FILENAME_1_2 = "org.zoumbox.tarot-1.2-parties.xml";
 
     public class SingleValueEnumConverter extends AbstractSingleValueConverter {
         private final Class enumType;
@@ -68,7 +71,7 @@ public abstract class TarotActivity extends Activity {
     protected XStream getXStream() {
         XStream result = new XStream();
         result.alias("board", PlayerBoard.class);
-        result.alias("game", Game.class);
+        result.alias("deal", Deal.class);
         result.alias("contract", Contract.class);
         result.alias("oudlers", Oudlers.class);
         result.alias("handful", Handful.class);
@@ -81,12 +84,19 @@ public abstract class TarotActivity extends Activity {
 
     protected List<PlayerBoard> loadBoards() throws FileNotFoundException {
 
+        // In case application has just been updated
+        migrate11File();
+
         XStream stream = getXStream();
 
-        List<PlayerBoard> result;
+        List<PlayerBoard> result = null;
 
-        FileInputStream is = openFileInput(BOARDS_FILENAME);
-        result = (List<PlayerBoard>) stream.fromXML(is);
+        FileInputStream is = openFileInput(BOARDS_FILENAME_1_2);
+        try {
+            result = (List<PlayerBoard>) stream.fromXML(is);
+        } catch (com.thoughtworks.xstream.converters.ConversionException ce) {
+            stream = getXStream11();
+        }
 
         return result;
     }
@@ -95,7 +105,7 @@ public abstract class TarotActivity extends Activity {
 
         XStream stream = getXStream();
 
-        FileOutputStream os = openFileOutput(BOARDS_FILENAME, Context.MODE_PRIVATE);
+        FileOutputStream os = openFileOutput(BOARDS_FILENAME_1_2, Context.MODE_WORLD_READABLE);
         String xml = stream.toXML(boards);
         os.write(xml.getBytes());
 
@@ -158,6 +168,64 @@ public abstract class TarotActivity extends Activity {
     protected void showToast(String message) {
         Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
 //        Toast.makeText(getApplicationContext(), message, 5).show();
+    }
+
+
+    // 1.1 Retro compatibility
+
+    private void migrate11File() {
+        String[] files = fileList();
+        try {
+            if (files != null) {
+                for (String file : files) {
+                    System.out.println("File found: " + file);
+                    if (BOARDS_FILENAME_1_1.equals(file)) {
+                        List<PlayerBoard11> playerBoard11s = loadBoards11(file);
+                        List<PlayerBoard> newList = Lists.newArrayList();
+                        for (PlayerBoard11 board11 : playerBoard11s) {
+                            System.out.println("Migrate board: " + board11.getScores());
+                            PlayerBoard board = PlayerBoard.cloneIt(board11);
+                            newList.add(board);
+                        }
+                        saveBoards(newList);
+                        deleteFile(file);
+                    }
+                }
+            }
+        } catch (Exception eee) {
+            eee.printStackTrace();
+        }
+
+    }
+
+    protected XStream getXStream11() {
+        XStream result = new XStream();
+        result.alias("board", PlayerBoard11.class);
+        result.alias("game", Deal.class);
+        result.alias("contract", Contract.class);
+        result.alias("oudlers", Oudlers.class);
+        result.alias("handful", Handful.class);
+        result.registerConverter(new SingleValueEnumConverter(Contract.class));
+        result.registerConverter(new SingleValueEnumConverter(Oudlers.class));
+        result.registerConverter(new SingleValueEnumConverter(Handful.class));
+
+        return result;
+    }
+
+    protected List<PlayerBoard11> loadBoards11(String fileName) {
+
+        XStream stream = getXStream11();
+
+        List<PlayerBoard11> result = null;
+
+        try {
+            FileInputStream is = openFileInput(fileName);
+            result = (List<PlayerBoard11>) stream.fromXML(is);
+        } catch (Exception eee) {
+            eee.printStackTrace();
+        }
+
+        return result;
     }
 
 }

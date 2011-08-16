@@ -37,7 +37,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.PopupWindow;
-import org.zoumbox.tarot.engine.Game;
+import org.zoumbox.tarot.engine.Deal;
 import org.zoumbox.tarot.engine.Handful;
 import org.zoumbox.tarot.engine.PlayerBoard;
 import org.zoumbox.tarot.engine.PointsCounter;
@@ -54,11 +54,11 @@ public class PartyBoard extends TarotActivity {
 
     public static final String BOARD = "board";
     public static final String BOARD_INDEX = "board-index"; // optional
-    public static final String GAME = "game";
-    public static final String GAME_INDEX = "game-index";
+    public static final String DEAL = "deal";
+    public static final String DEAL_INDEX = "deal-index";
 
-    public static final int NEW_GAME = 0;
-    public static final int EDIT_GAME = 1;
+    public static final int NEW_DEAL = 0;
+    public static final int EDIT_DEAL = 1;
     public static final int EDIT_PLAYERS = 2;
 
     @Override
@@ -75,7 +75,7 @@ public class PartyBoard extends TarotActivity {
 
                 PlayerBoard board = PartyBoard.this.board;
 
-                boolean isTotal = (position > board.getGames().size());
+                boolean isTotal = (position > board.getDeals().size());
 
                 if (position == 0) {
                     Intent intent = new Intent(PartyBoard.this, AddParty.class);
@@ -84,13 +84,13 @@ public class PartyBoard extends TarotActivity {
                 } else if (isTotal) {
                     // Nothing to do
                 } else {
-                    Intent intent = new Intent(PartyBoard.this, AddGame.class);
+                    Intent intent = new Intent(PartyBoard.this, AddDeal.class);
                     ArrayList<String> players = new ArrayList<String>(board.getScores().keySet());
-                    intent.putExtra(AddGame.PLAYERS, players);
+                    intent.putExtra(AddDeal.PLAYERS, players);
                     int index = position - 1;
-                    intent.putExtra(AddGame.GAME, board.getGames().get(index));
-                    intent.putExtra(AddGame.INDEX, index);
-                    startActivityForResult(intent, EDIT_GAME);
+                    intent.putExtra(AddDeal.DEAL, board.getDeals().get(index));
+                    intent.putExtra(AddDeal.INDEX, index);
+                    startActivityForResult(intent, EDIT_DEAL);
                 }
             }
         });
@@ -121,76 +121,76 @@ public class PartyBoard extends TarotActivity {
         return list;
     }
 
-    public void onNewGameButtonClicked(View target) {
-        Intent intent = new Intent(this, AddGame.class);
+    public void onNewDealButtonClicked(View target) {
+        Intent intent = new Intent(this, AddDeal.class);
         ArrayList<String> players = new ArrayList<String>(this.board.getScores().keySet());
-        intent.putExtra(AddGame.PLAYERS, players);
-        startActivityForResult(intent, NEW_GAME);
+        intent.putExtra(AddDeal.PLAYERS, players);
+        startActivityForResult(intent, NEW_DEAL);
     }
 
     protected void onActivityResult(int requestCode, int resultCode,
                                     Intent data) {
         if (resultCode == RESULT_OK) {
-            if (requestCode == NEW_GAME || requestCode == EDIT_GAME) {
-                Game game = (Game) data.getSerializableExtra(GAME);
+            if (requestCode == NEW_DEAL || requestCode == EDIT_DEAL) {
+                Deal deal = (Deal) data.getSerializableExtra(DEAL);
 
                 PlayerBoard board = this.board;
-                if (requestCode == EDIT_GAME) {
-                    int replaceIndex = data.getIntExtra(GAME_INDEX, -1);
-                    List<Game> games = board.getGames();
-                    if (replaceIndex < 0 || replaceIndex >= games.size()) {
-                        showToast("WTF!?? index:" + replaceIndex + " size:" + games.size());
+                if (requestCode == EDIT_DEAL) {
+                    int replaceIndex = data.getIntExtra(DEAL_INDEX, -1);
+                    List<Deal> deals = board.getDeals();
+                    if (replaceIndex < 0 || replaceIndex >= deals.size()) {
+                        showToast("WTF!?? index:" + replaceIndex + " size:" + deals.size());
                     } else {
-                        board.replaceGame(replaceIndex, game);
+                        board.replaceDeal(replaceIndex, deal);
                     }
                 } else {
-                    board.gameEnded(game);
+                    board.dealEnded(deal);
                 }
 
                 resetList();
 
-                boolean is5PlayersGame = (board.getPlayers().length == 5 && !game.isTakerAlone());
+                boolean is5PlayersGame = (board.getPlayers().length == 5 && !deal.isTakerAlone());
 
                 String who;
                 if (is5PlayersGame) {
-                    who = getString(R.string.game_who_5players, game.getTaker(), game.getSecondTaker());
+                    who = getString(R.string.deal_who_5players, deal.getTaker(), deal.getSecondTaker());
                 } else {
-                    who = getString(R.string.game_who, game.getTaker());
+                    who = getString(R.string.deal_who, deal.getTaker());
                 }
-                double target = game.getOudlers().getTarget();
-                double score = game.getScore();
+                double target = deal.getOudlers().getTarget();
+                double score = deal.getScore();
                 double diff = Math.abs(target - score);
 
-                String gameConclusion;
+                String dealConclusion;
                 if (diff == 0d) {
-                    gameConclusion = getString(R.string.game_just_done);
+                    dealConclusion = getString(R.string.deal_just_done);
                 } else {
-                    gameConclusion = getString(R.string.game_conclusion, game.isWon() ? getString(R.string.game_won) : getString(R.string.game_lost), toString(diff));
+                    dealConclusion = getString(R.string.deal_conclusion, deal.isWon() ? getString(R.string.deal_won) : getString(R.string.deal_lost), toString(diff));
                 }
-                String message = getString(R.string.game_end, who, toString(score), target, gameConclusion);
+                String message = getString(R.string.deal_end, who, toString(score), target, dealConclusion);
 
                 // Announcements
-                if (!Handful.NONE.equals(game.getHandful())) {
-                    String handfulText = Tools.toPrettyPrint(game.getHandful().toString());
-                    message += "\n" + getString(R.string.game_handful, handfulText);
+                if (!Handful.NONE.equals(deal.getHandful())) {
+                    String handfulText = Tools.toPrettyPrint(deal.getHandful().toString());
+                    message += "\n" + getString(R.string.deal_handful, handfulText);
                 }
-                if (game.getOneIsLast() != 0) {
-                    message += "\n" + getString(R.string.game_one_is_last, Game.ONE_IS_LAST_TAKER == game.getOneIsLast() ? getString(R.string.game_attack) : getString(R.string.game_defense));
+                if (deal.getOneIsLast() != 0) {
+                    message += "\n" + getString(R.string.deal_one_is_last, Deal.ONE_IS_LAST_TAKER == deal.getOneIsLast() ? getString(R.string.deal_attack) : getString(R.string.deal_defense));
                 }
 
                 showToast(message);
 
-                String onePlayerFormat = getString(R.string.game_score_one_player_format);
-                String otherPlayersFormat = getString(R.string.game_score_others_format);
-                String taker = game.getTaker();
-                String text = String.format(onePlayerFormat, taker, PointsCounter.getPlayerGameScore(board, game, taker));
-                if (is5PlayersGame && !game.isTakerAlone()) {
-                    String secondTaker = game.getSecondTaker();
+                String onePlayerFormat = getString(R.string.deal_score_one_player_format);
+                String otherPlayersFormat = getString(R.string.deal_score_others_format);
+                String taker = deal.getTaker();
+                String text = String.format(onePlayerFormat, taker, PointsCounter.getPlayerDealScore(board, deal, taker));
+                if (is5PlayersGame && !deal.isTakerAlone()) {
+                    String secondTaker = deal.getSecondTaker();
                     text += "\n";
-                    text += String.format(onePlayerFormat, secondTaker, PointsCounter.getPlayerGameScore(board, game, secondTaker));
+                    text += String.format(onePlayerFormat, secondTaker, PointsCounter.getPlayerDealScore(board, deal, secondTaker));
                 }
                 text += "\n";
-                text += String.format(otherPlayersFormat, PointsCounter.getScoreSeed(game) * -1);
+                text += String.format(otherPlayersFormat, PointsCounter.getScoreSeed(deal) * -1);
 
                 showToast(text);
 

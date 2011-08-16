@@ -24,12 +24,15 @@
  */
 package org.zoumbox.tarot.engine;
 
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+
 import java.io.Serializable;
 
 /**
  * @author Arnaud Thimel <thimel@codelutin.com>
  */
-public class Game implements Serializable {
+public class Deal implements Serializable {
 
     private static final long serialVersionUID = -3415746288521792447L;
 

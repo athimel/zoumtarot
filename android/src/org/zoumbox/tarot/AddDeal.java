@@ -38,20 +38,21 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 import com.google.common.collect.Lists;
 import org.zoumbox.tarot.engine.Contract;
-import org.zoumbox.tarot.engine.Game;
+import org.zoumbox.tarot.engine.Deal;
 import org.zoumbox.tarot.engine.Handful;
 import org.zoumbox.tarot.engine.Oudlers;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * @author Arnaud Thimel <thimel@codelutin.com>
  */
-public class AddGame extends TarotActivity {
+public class AddDeal extends TarotActivity {
 
     public static final String PLAYERS = "players";
-    public static final String GAME = "game"; //optional
+    public static final String DEAL = "deal"; //optional
     public static final String INDEX = "index"; //optional
 
     public static final int MAX_SCORE = 91;
@@ -68,13 +69,17 @@ public class AddGame extends TarotActivity {
     protected Button saveButton;
 
     protected List<String> getPlayers() {
-        return (ArrayList<String>) getIntent().getSerializableExtra(PLAYERS);
+        Serializable serializable = getIntent().getSerializableExtra(PLAYERS);
+        ArrayList<String> result = (ArrayList<String>) serializable;
+        return result;
     }
 
     protected List<String> getContracts() {
-        List<String> result = new ArrayList<String>(Contract.values().length);
+        List<String> result = Lists.newArrayListWithCapacity(Contract.values().length);
         for (Contract contract : Contract.values()) {
-            result.add(Tools.toPrettyPrint(contract.toString()));
+            String contractString = contract.toString();
+            String pretty = Tools.toPrettyPrint(contractString);
+            result.add(pretty);
         }
         return result;
     }
@@ -87,15 +92,6 @@ public class AddGame extends TarotActivity {
         result.add(getString(R.string.handful_triple, is5playersGame ? 13 : 15));
         return result;
     }
-//
-//    protected String formatFromId(int id, Object ... args) {
-//        CharSequence text = getText(id);
-//        String result = text.toString();
-//        if (args != null) {
-//            result = String.format(result, args);
-//        }
-//        return result;
-//    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -105,9 +101,9 @@ public class AddGame extends TarotActivity {
         List<String> players = getPlayers();
         boolean is5playersGame = players.size() == 5;
         if (is5playersGame) {
-            setContentView(R.layout.new_game_5players);
+            setContentView(R.layout.new_deal_5players);
         } else {
-            setContentView(R.layout.new_game);
+            setContentView(R.layout.new_deal);
         }
 
         taker = (Spinner) findViewById(R.id.taker);
@@ -142,20 +138,20 @@ public class AddGame extends TarotActivity {
         final int index = getIntent().getIntExtra(INDEX, -1);
 
         if (index != -1) {
-            Game game = (Game) getIntent().getSerializableExtra(GAME);
+            Deal deal = (Deal) getIntent().getSerializableExtra(DEAL);
 
-            int takerIndex = players.indexOf(game.getTaker());
+            int takerIndex = players.indexOf(deal.getTaker());
             taker.setSelection(takerIndex);
 
             if (is5playersGame) {
-                int secondTakerIndex = players.indexOf(game.getSecondTaker());
+                int secondTakerIndex = players.indexOf(deal.getSecondTaker());
                 secondTaker.setSelection(secondTakerIndex);
             }
 
-            int contractIndex = getContracts().indexOf(Tools.toPrettyPrint(game.getContract().toString()));
+            int contractIndex = getContracts().indexOf(Tools.toPrettyPrint(deal.getContract().toString()));
             contract.setSelection(contractIndex);
 
-            switch (game.getOudlers()) {
+            switch (deal.getOudlers()) {
                 case NONE:
                     ((RadioButton) findViewById(R.id.c_b_0)).setChecked(true);
                     break;
@@ -170,16 +166,16 @@ public class AddGame extends TarotActivity {
                     break;
             }
 
-            double gameScore = game.getScore();
-            String text = String.format("%.1f", gameScore);
-            if (gameScore == Math.round(gameScore)) { // Ends with '.0' or ',0'
+            double dealScore = deal.getScore();
+            String text = String.format("%.1f", dealScore);
+            if (dealScore == Math.round(dealScore)) { // Ends with '.0' or ',0'
                 text = text.substring(0, text.length() - 2);
             }
             text = text.replace(',', '.');
             score.setText(text);
 
             int handfulIndex;
-            switch (game.getHandful()) {
+            switch (deal.getHandful()) {
                 case SIMPLE:
                     handfulIndex = 1;
                     break;
@@ -196,9 +192,9 @@ public class AddGame extends TarotActivity {
             }
             handful.setSelection(handfulIndex);
 
-            if (game.getOneIsLast() != 0) {
+            if (deal.getOneIsLast() != 0) {
                 oneIsLast.setChecked(true);
-                if (Game.ONE_IS_LAST_DEFENSE == game.getOneIsLast()) {
+                if (Deal.ONE_IS_LAST_DEFENSE == deal.getOneIsLast()) {
                     forDefense.setChecked(true);
                 }
             }
@@ -231,67 +227,67 @@ public class AddGame extends TarotActivity {
 
     private void onSaveButtonClicked(int index) {
 
-        Game game = new Game();
+        Deal deal = new Deal();
 
-        game.setTaker(taker.getSelectedItem().toString());
+        deal.setTaker(taker.getSelectedItem().toString());
 
         List<String> players = getPlayers();
         boolean is5playersGame = players.size() == 5;
         if (is5playersGame) {
-            game.setSecondTaker(secondTaker.getSelectedItem().toString());
+            deal.setSecondTaker(secondTaker.getSelectedItem().toString());
         }
 
-        Contract gameContract = getContractValue(contract);
-        game.setContract(gameContract);
+        Contract dealContract = getContractValue(contract);
+        deal.setContract(dealContract);
 
-        Oudlers gameOudlers;
+        Oudlers dealOudlers;
         switch (holders.getCheckedRadioButtonId()) {
             case R.id.c_b_0:
-                gameOudlers = Oudlers.NONE;
+                dealOudlers = Oudlers.NONE;
                 break;
             case R.id.c_b_1:
-                gameOudlers = Oudlers.ONE;
+                dealOudlers = Oudlers.ONE;
                 break;
             case R.id.c_b_2:
-                gameOudlers = Oudlers.TWO;
+                dealOudlers = Oudlers.TWO;
                 break;
             default:
-                gameOudlers = Oudlers.THREE;
+                dealOudlers = Oudlers.THREE;
                 break;
         }
-        game.setOudlers(gameOudlers);
+        deal.setOudlers(dealOudlers);
 
         String scoreText = score.getText().toString();
-        double gameScore = -1.0;
+        double dealScore = -1.0;
         try {
-            gameScore = Double.parseDouble(scoreText);
+            dealScore = Double.parseDouble(scoreText);
         } catch (NumberFormatException nfe) {
             // Not valid, validation will fail
         }
         if (isDefenseScore.isChecked()) {
-            gameScore = MAX_SCORE - gameScore;
+            dealScore = MAX_SCORE - dealScore;
         }
-        game.setScore(gameScore);
+        deal.setScore(dealScore);
 
-        Handful gameHandful = getHandfulValue(handful);
-        game.setHandful(gameHandful);
+        Handful dealHandful = getHandfulValue(handful);
+        deal.setHandful(dealHandful);
 
-        int gameOneIsLast = 0;
+        int dealOneIsLast = 0;
         if (oneIsLast.isChecked()) {
-            gameOneIsLast = Game.ONE_IS_LAST_TAKER;
+            dealOneIsLast = Deal.ONE_IS_LAST_TAKER;
             if (forDefense.isChecked()) {
-                gameOneIsLast = Game.ONE_IS_LAST_DEFENSE;
+                dealOneIsLast = Deal.ONE_IS_LAST_DEFENSE;
             }
         }
-        game.setOneIsLast(gameOneIsLast);
+        deal.setOneIsLast(dealOneIsLast);
 
         // Read is over, now validate
-        String validationMessage = validate(game, players.size());
+        String validationMessage = validate(deal, players.size());
 
         if (validationMessage == null) {
             Intent intent = new Intent();
-            intent.putExtra(PartyBoard.GAME, game);
-            intent.putExtra(PartyBoard.GAME_INDEX, index);
+            intent.putExtra(PartyBoard.DEAL, deal);
+            intent.putExtra(PartyBoard.DEAL_INDEX, index);
             setResult(RESULT_OK, intent);
             finish();
         } else {
@@ -302,54 +298,54 @@ public class AddGame extends TarotActivity {
 
     protected Contract getContractValue(Spinner contract) {
         String contractText = contract.getSelectedItem().toString();
-        Contract gameContract = Contract.PRISE;
+        Contract dealContract = Contract.PRISE;
         for (Contract contractValue : Contract.values()) {
             if (Tools.toPrettyPrint(contractValue.toString()).equals(contractText)) {
-                gameContract = contractValue;
+                dealContract = contractValue;
                 break;
             }
         }
-        return gameContract;
+        return dealContract;
     }
 
     protected Handful getHandfulValue(Spinner handful) {
         String handfulText = handful.getSelectedItem().toString().toLowerCase();
-        Handful gameHandful = Handful.NONE;
+        Handful dealHandful = Handful.NONE;
         for (Handful handfulValue : Handful.values()) {
             if (handfulText.startsWith(handfulValue.toString().toLowerCase())) {
-                gameHandful = handfulValue;
+                dealHandful = handfulValue;
                 break;
             }
         }
-        return gameHandful;
+        return dealHandful;
     }
 
-    protected String validate(Game game, int playerCount) {
-        if (game.getTaker() == null) {
-            return getString(R.string.game_no_taker);
+    protected String validate(Deal deal, int playerCount) {
+        if (deal.getTaker() == null) {
+            return getString(R.string.deal_no_taker);
         }
-        if (game.getContract() == null) {
-            return getString(R.string.game_no_contract);
+        if (deal.getContract() == null) {
+            return getString(R.string.deal_no_contract);
         }
-        if (game.getOudlers() == null) {
-            return getString(R.string.game_no_oudlers);
+        if (deal.getOudlers() == null) {
+            return getString(R.string.deal_no_oudlers);
         }
-        double score = game.getScore();
+        double score = deal.getScore();
         if (score < 0 || score > 91) {
-            return getString(R.string.game_score_range);
+            return getString(R.string.deal_score_range);
         }
         if (score != Math.round(score)) { // multiple de '0.0'
             if (playerCount == 5) {
                 if ((score + 0.5) != Math.round(score + 0.5)) { // multiple de '0.5'
-                    return getString(R.string.game_score_5players);
+                    return getString(R.string.deal_score_5players);
                 }
             } else {
-                return getString(R.string.game_score_4players);
+                return getString(R.string.deal_score_4players);
             }
         }
         double minimalScore = 0.5 * playerCount;
         if ((score > 0.0 && score < minimalScore) || (score > (91.0 - minimalScore) && score < 91.0)) {
-            return getString(R.string.game_score_validity, score, playerCount);
+            return getString(R.string.deal_score_validity, score, playerCount);
         }
 
         return null; // nothing went wrong

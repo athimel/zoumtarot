@@ -37,10 +37,10 @@
     <string name="party_removed">1 partie supprimée</string>
     <string name="parties_removed">%d parties supprimées</string>
     <string name="party_create">ZoumTarot - Création/édition d\'une partie</string>
-    <string name="game_create">ZoumTarot - Création/édition d\'un tour</string>
+    <string name="deal_create">ZoumTarot - Création/édition d\'une donne</string>
     <string name="party_board">ZoumTarot - Tableau des scores</string>
 
-    <string name="new_game">Nouvelle donne</string>
+    <string name="new_deal">Nouvelle donne</string>
     <string name="new_party">Nouvelle partie</string>
     <string name="qr_code_market">QR code (Market)</string>
     <string name="qr_code_version">QR code</string>
@@ -69,27 +69,27 @@
     <string name="handful_double">Double (%d)</string>
     <string name="handful_triple">Triple (%d)</string>
 
-    <string name="game_no_taker">Vous devez indiquer qui a pris</string>
-    <string name="game_no_contract">Vous devez indiquer le contrat</string>
-    <string name="game_no_oudlers">Vous devez indiquer combien de bouts a le preneur</string>
-    <string name="game_score_range">Le score doit être compris entre 0 et 91</string>
-    <string name="game_score_5players">À 5 joueurs, le score doit être un multiple de 0.5</string>
-    <string name="game_score_4players">À 4 joueurs, le score est forcément un nombre entier</string>
-    <string name="game_score_validity">%1$.1f n\'est pas un score possible à %2$d joueurs</string>
+    <string name="deal_no_taker">Vous devez indiquer qui a pris</string>
+    <string name="deal_no_contract">Vous devez indiquer le contrat</string>
+    <string name="deal_no_oudlers">Vous devez indiquer combien de bouts a le preneur</string>
+    <string name="deal_score_range">Le score doit être compris entre 0 et 91</string>
+    <string name="deal_score_5players">À 5 joueurs, le score doit être un multiple de 0.5</string>
+    <string name="deal_score_4players">À 4 joueurs, le score est forcément un nombre entier</string>
+    <string name="deal_score_validity">%1$.1f n\'est pas un score possible à %2$d joueurs</string>
 
-    <string name="game_who">%s totalise</string>
-    <string name="game_who_5players">%1$s et %2$s totalisent</string>
-    <string name="game_won">GAGNÉ</string>
-    <string name="game_lost">PERDU</string>
-    <string name="game_attack">L\'attaque</string>
-    <string name="game_defense">La défense</string>
-    <string name="game_just_done">tour "Juste fait" (de 0 points).</string>
-    <string name="game_conclusion">tour %1$s de %2$s points.</string>
-    <string name="game_end">%1$s %2$s points pour %3$.0f : %4$s</string>
-    <string name="game_handful">%s poignée anoncée.</string>
-    <string name="game_one_is_last">%s enmène le petit au bout.</string>
-    <string name="game_score_one_player_format">%1$s marque %2$d points.</string>
-    <string name="game_score_others_format">Les autres joueurs marquent %d points.</string>
+    <string name="deal_who">%s totalise</string>
+    <string name="deal_who_5players">%1$s et %2$s totalisent</string>
+    <string name="deal_won">GAGNÉ</string>
+    <string name="deal_lost">PERDU</string>
+    <string name="deal_attack">L\'attaque</string>
+    <string name="deal_defense">La défense</string>
+    <string name="deal_just_done">tour "Juste fait" (de 0 points).</string>
+    <string name="deal_conclusion">tour %1$s de %2$s points.</string>
+    <string name="deal_end">%1$s %2$s points pour %3$.0f : %4$s</string>
+    <string name="deal_handful">%s poignée anoncée.</string>
+    <string name="deal_one_is_last">%s enmène le petit au bout.</string>
+    <string name="deal_score_one_player_format">%1$s marque %2$d points.</string>
+    <string name="deal_score_others_format">Les autres joueurs marquent %d points.</string>
 
     <string name="party_player_names">Vous ne pouvez indiquer 2 joueurs avec le même nom</string>
     <string name="party_player_count">Seules les parties à 3, 4 et 5 joueurs sont supportées pour le moment</string>

@@ -38,7 +38,7 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 import com.google.common.collect.Lists;
-import org.zoumbox.tarot.engine.Game;
+import org.zoumbox.tarot.engine.Deal;
 import org.zoumbox.tarot.engine.PlayerBoard;
 import org.zoumbox.tarot.engine.PointsCounter;
 
@@ -58,15 +58,15 @@ public class PartyBoardAdapter extends BaseAdapter {
     @Override
     public int getCount() {
         int result = 1; // player names
-        result += board != null ? board.getGames().size() : 0;
+        result += board != null ? board.getDeals().size() : 0;
         result += 1; // total
         return result;
     }
 
     @Override
     public Object getItem(int index) {
-        Game game = board.getGames().get(index);
-        return game;
+        Deal deal = board.getDeals().get(index);
+        return deal;
     }
 
     @Override
@@ -76,13 +76,13 @@ public class PartyBoardAdapter extends BaseAdapter {
 
     @Override
     public View getView(int index, View cellRenderer, ViewGroup parent) {
-        GameCellRenderedView cellRendererView;
+        DealCellRenderedView cellRendererView;
 
         if (cellRenderer == null) {
             // create the cell renderer
-            cellRendererView = new GameCellRenderedView(this.context, board.getPlayersCount());
+            cellRendererView = new DealCellRenderedView(this.context, board.getPlayersCount());
         } else {
-            cellRendererView = (GameCellRenderedView) cellRenderer;
+            cellRendererView = (DealCellRenderedView) cellRenderer;
         }
 
         // update the cell renderer, and handle selection state
@@ -91,11 +91,11 @@ public class PartyBoardAdapter extends BaseAdapter {
         return cellRendererView;
     }
 
-    private class GameCellRenderedView extends TableLayout {
+    private class DealCellRenderedView extends TableLayout {
 
         List<TextView> cells;
 
-        public GameCellRenderedView(Context context, int nbPlayers) {
+        public DealCellRenderedView(Context context, int nbPlayers) {
             super(context);
             init(nbPlayers);
         }
@@ -123,7 +123,7 @@ public class PartyBoardAdapter extends BaseAdapter {
 
         public void display(int index) {
 
-            boolean isTotal = (index > board.getGames().size());
+            boolean isTotal = (index > board.getDeals().size());
             int playersCount = board.getPlayersCount();
 
             if (index == 0) {
@@ -160,22 +160,22 @@ public class PartyBoardAdapter extends BaseAdapter {
                     cell.setText(str);
                 }
             } else {
-                Game game = board.getGames().get(index - 1);
+                Deal deal = board.getDeals().get(index - 1);
                 for (int coll = 0; coll < playersCount; coll++) {
                     TextView cell = cells.get(coll);
                     String playerName = board.getPlayers()[coll];
 
-                    int score = PointsCounter.getPlayerGameScore(board, game, playerName);
+                    int score = PointsCounter.getPlayerDealScore(board, deal, playerName);
 
                     String contractMark = "";
                     String secondTakerMark = "";
                     String wonMark = "";
 
-                    if (game.isTaker(playerName)) {
-                        contractMark = game.getContract().toShortString();
-                        wonMark = game.isWon() ? "\u2191" : "\u2193"; // up or down arrow
+                    if (deal.isTaker(playerName)) {
+                        contractMark = deal.getContract().toShortString();
+                        wonMark = deal.isWon() ? "\u2191" : "\u2193"; // up or down arrow
                     }
-                    if (game.isSecondTaker(playerName)) {
+                    if (deal.isSecondTaker(playerName)) {
                         secondTakerMark = "\u002A"; // star
                     }
                     String suffix =
