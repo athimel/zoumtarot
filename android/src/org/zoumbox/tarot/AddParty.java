@@ -151,6 +151,7 @@ public class AddParty extends TarotActivity {
             } else {
                 board = new PlayerBoard();
                 board.newParty(players);
+                saveBoard(board);
 
                 Intent intent = new Intent(this, PartyBoard.class);
                 intent.putExtra(PartyBoard.BOARD, board);
