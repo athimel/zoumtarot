@@ -90,12 +90,18 @@ public abstract class TarotActivity extends Activity {
         XStream stream = getXStream();
 
         List<PlayerBoard> result = null;
-
-        FileInputStream is = openFileInput(BOARDS_FILENAME_1_2);
+        FileInputStream is = null;
         try {
+            is = openFileInput(BOARDS_FILENAME_1_2);
             result = (List<PlayerBoard>) stream.fromXML(is);
-        } catch (com.thoughtworks.xstream.converters.ConversionException ce) {
-            stream = getXStream11();
+        } finally {
+            if (is != null) {
+                try {
+                    is.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         }
 
         return result;
@@ -105,9 +111,21 @@ public abstract class TarotActivity extends Activity {
 
         XStream stream = getXStream();
 
-        FileOutputStream os = openFileOutput(BOARDS_FILENAME_1_2, Context.MODE_WORLD_READABLE);
-        String xml = stream.toXML(boards);
-        os.write(xml.getBytes());
+        FileOutputStream os = null;
+        try {
+            os = openFileOutput(BOARDS_FILENAME_1_2, Context.MODE_WORLD_READABLE);
+            String xml = stream.toXML(boards);
+            os.write(xml.getBytes());
+        } finally {
+            if (os != null) {
+                try {
+                    os.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
 
     }
 
@@ -170,8 +188,9 @@ public abstract class TarotActivity extends Activity {
 //        Toast.makeText(getApplicationContext(), message, 5).show();
     }
 
-
-    // 1.1 Retro compatibility
+    ////////////////////////////
+    // 1.1 Retro compatibility  //
+    ////////////////////////////
 
     private void migrate11File() {
         String[] files = fileList();
@@ -218,11 +237,20 @@ public abstract class TarotActivity extends Activity {
 
         List<PlayerBoard11> result = null;
 
+        FileInputStream is = null;
         try {
-            FileInputStream is = openFileInput(fileName);
+            is = openFileInput(fileName);
             result = (List<PlayerBoard11>) stream.fromXML(is);
         } catch (Exception eee) {
             eee.printStackTrace();
+        } finally {
+            if (is != null) {
+                try {
+                    is.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         }
 
         return result;
