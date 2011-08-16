@@ -26,8 +26,12 @@ package org.zoumbox.tarot;
 
 import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
 import android.widget.Toast;
+import com.google.common.base.Predicate;
+import com.google.common.collect.Collections2;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.converters.basic.AbstractSingleValueConverter;
 import org.zoumbox.tarot.engine.Contract;
@@ -41,8 +45,12 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * @author Arnaud Thimel <thimel@codelutin.com>
@@ -50,7 +58,11 @@ import java.util.List;
 public abstract class TarotActivity extends Activity {
 
     public static final String BOARDS_FILENAME_1_1 = "org.zoumbox.tarot-1.1-parties.xml";
-    public static final String BOARDS_FILENAME_1_2 = "org.zoumbox.tarot-1.2-parties.xml";
+    public static final String BOARD_FILENAME_1_2_PREFIX = "org.zoumbox.tarot-1.2-party-";
+    public static final String BOARD_FILENAME_1_2_SUFFIX = ".xml";
+    public static final String BOARD_FILENAME_1_2 = BOARD_FILENAME_1_2_PREFIX + "%d" + BOARD_FILENAME_1_2_SUFFIX;
+    public static final Pattern BOARD_FILENAME_1_2_PATTERN = Pattern.compile(BOARD_FILENAME_1_2_PREFIX + "[0-9]*" + BOARD_FILENAME_1_2_SUFFIX);
+
 
     public class SingleValueEnumConverter extends AbstractSingleValueConverter {
         private final Class enumType;
@@ -82,18 +94,63 @@ public abstract class TarotActivity extends Activity {
         return result;
     }
 
-    protected List<PlayerBoard> loadBoards() throws FileNotFoundException {
+    protected List<String> getSavedFileNames() {
+        String[] files = fileList();
+        List<String> filesList = Lists.newArrayList(files);
+
+        List<String> result = Lists.newArrayList();
+        result.addAll(Collections2.filter(filesList, new Predicate<String>() {
+            @Override
+            public boolean apply(String input) {
+                Matcher matcher = BOARD_FILENAME_1_2_PATTERN.matcher(input);
+                boolean result = matcher.matches();
+                return result;
+            }
+        }));
+
+        Collections.sort(result, new Comparator<String>() {
+            @Override
+            public int compare(String file1, String file2) {
+                return file1.compareTo(file2);
+            }
+        });
+
+        return result;
+    }
+
+    protected List<PlayerBoard> loadBoards() {
 
         // In case application has just been updated
         migrate11File();
 
-        XStream stream = getXStream();
+        List<String> filesList = getSavedFileNames();
+        List<PlayerBoard> result = Lists.newArrayList();
 
-        List<PlayerBoard> result = null;
+        if (!filesList.isEmpty()) {
+            XStream stream = getXStream();
+
+            for (String fileName : filesList) {
+                try {
+                    PlayerBoard board = loadBoard(stream, fileName);
+                    result.add(board);
+                } catch (FileNotFoundException fnfe) {
+                    Log.w(getClass().getSimpleName(), "Unable to load board: " + fileName, fnfe);
+                }
+            }
+        }
+
+        return result;
+    }
+
+    private PlayerBoard loadBoard(XStream stream, String fileName) throws FileNotFoundException {
+
+        Log.i(getClass().getSimpleName(), "Loading board from file: " + fileName);
+
         FileInputStream is = null;
+        PlayerBoard result = null;
         try {
-            is = openFileInput(BOARDS_FILENAME_1_2);
-            result = (List<PlayerBoard>) stream.fromXML(is);
+            is = openFileInput(fileName);
+            result = (PlayerBoard) stream.fromXML(is);
         } finally {
             if (is != null) {
                 try {
@@ -111,10 +168,20 @@ public abstract class TarotActivity extends Activity {
 
         XStream stream = getXStream();
 
+        for (PlayerBoard board : boards) {
+            saveBoard(stream, board);
+        }
+    }
+
+    private void saveBoard(XStream stream, PlayerBoard board) throws IOException {
+
+        String fileName = String.format(BOARD_FILENAME_1_2, board.getCreationDate());
+        Log.i(getClass().getSimpleName(), "Saving board to file: " + fileName);
+
         FileOutputStream os = null;
         try {
-            os = openFileOutput(BOARDS_FILENAME_1_2, Context.MODE_WORLD_READABLE);
-            String xml = stream.toXML(boards);
+            os = openFileOutput(fileName, Context.MODE_WORLD_READABLE);
+            String xml = stream.toXML(board);
             os.write(xml.getBytes());
         } finally {
             if (os != null) {
@@ -126,59 +193,35 @@ public abstract class TarotActivity extends Activity {
             }
         }
 
-
     }
 
-    protected void saveBoard(int index, PlayerBoard board) throws IOException {
+    protected void saveBoard(PlayerBoard board) {
 
-        List<PlayerBoard> boards = null;
+        XStream stream = getXStream();
         try {
-            boards = loadBoards();
-        } catch (FileNotFoundException fnfe) {
-            // This might append if this is the first time
+            saveBoard(stream, board);
+        } catch (IOException ioe) {
+            Log.w(getClass().getSimpleName(), "Unable to save board", ioe);
         }
 
-        if (boards == null) {
-            boards = new ArrayList<PlayerBoard>();
-        }
-        if (index != -1 || index == boards.size()) {
-            if (index != boards.size()) {
-                boards.remove(index);
-            }
-            boards.add(index, board);
-        } else {
-            boards.add(board);
-        }
-
-        saveBoards(boards);
     }
 
     protected void removeBoard(int index) throws IOException {
 
-        List<PlayerBoard> boards = null;
-        try {
-            boards = loadBoards();
-        } catch (FileNotFoundException fnfe) {
-            // This might append if this is the first time
-        }
+        List<String> fileNames = getSavedFileNames();
+        String fileName = fileNames.get(index);
 
-        if (boards != null && index < boards.size()) {
-            boards.remove(index);
-            saveBoards(boards);
-        }
-
+        Log.i(getClass().getSimpleName(), "Removing board: " + fileName);
+        deleteFile(fileName);
     }
 
     protected int clearBoards() throws IOException {
 
-        int result = 0;
-        try {
-            List<PlayerBoard> boards = loadBoards();
-            result = boards.size();
-            boards.clear();
-            saveBoards(boards);
-        } catch (FileNotFoundException fnfe) {
-            // This might append if this is the first time
+        List<String> fileNames = getSavedFileNames();
+        int result = fileNames.size();
+
+        for (String fileName : fileNames) {
+            deleteFile(fileName);
         }
         return result;
     }
@@ -196,19 +239,17 @@ public abstract class TarotActivity extends Activity {
         String[] files = fileList();
         try {
             if (files != null) {
-                for (String file : files) {
-                    System.out.println("File found: " + file);
-                    if (BOARDS_FILENAME_1_1.equals(file)) {
-                        List<PlayerBoard11> playerBoard11s = loadBoards11(file);
-                        List<PlayerBoard> newList = Lists.newArrayList();
-                        for (PlayerBoard11 board11 : playerBoard11s) {
-                            System.out.println("Migrate board: " + board11.getScores());
-                            PlayerBoard board = PlayerBoard.cloneIt(board11);
-                            newList.add(board);
-                        }
-                        saveBoards(newList);
-                        deleteFile(file);
+                Set<String> filesSet = Sets.newHashSet(files);
+                if (filesSet.contains(BOARDS_FILENAME_1_1)) {
+                    List<PlayerBoard11> playerBoard11s = loadBoards11(BOARDS_FILENAME_1_1);
+                    List<PlayerBoard> newList = Lists.newArrayList();
+                    for (PlayerBoard11 board11 : playerBoard11s) {
+                        Log.i(getClass().getSimpleName(), "Migrate board: " + board11.getScores());
+                        PlayerBoard board = PlayerBoard.cloneIt(board11);
+                        newList.add(board);
                     }
+                    saveBoards(newList);
+                    deleteFile(BOARDS_FILENAME_1_1);
                 }
             }
         } catch (Exception eee) {

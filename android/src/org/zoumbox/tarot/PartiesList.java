@@ -40,9 +40,7 @@ import android.widget.ListView;
 import android.widget.PopupWindow;
 import org.zoumbox.tarot.engine.PlayerBoard;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class PartiesList extends TarotActivity {
@@ -68,7 +66,7 @@ public class PartiesList extends TarotActivity {
 
     protected int resetList() {
 
-        final List<PlayerBoard> boards = getParties();
+        final List<PlayerBoard> boards = loadBoards();
 
         ListView listView = (ListView) findViewById(R.id.listview);
 
@@ -84,7 +82,6 @@ public class PartiesList extends TarotActivity {
                 Intent intent = new Intent(PartiesList.this, PartyBoard.class);
                 PlayerBoard board = boards.get(position);
                 intent.putExtra(PartyBoard.BOARD, board);
-                intent.putExtra(PartyBoard.BOARD_INDEX, position);
                 startActivityForResult(intent, DISPLAY_BOARD);
             }
 
@@ -97,9 +94,9 @@ public class PartiesList extends TarotActivity {
     }
 
     @Override
-    public void onCreateContextMenu(ContextMenu menu, View v,
+    public void onCreateContextMenu(ContextMenu menu, View view,
                                     ContextMenu.ContextMenuInfo menuInfo) {
-        if (v.getId() == R.id.listview) {
+        if (view.getId() == R.id.listview) {
             menu.setHeaderTitle(getResources().getString(R.string.app_name));
             menu.add(Menu.NONE, 0, 0, getResources().getString(R.string.remove_one));
             menu.add(Menu.NONE, 1, 1, getResources().getString(R.string.remove_all));
@@ -134,20 +131,8 @@ public class PartiesList extends TarotActivity {
         }
     }
 
-    private List<PlayerBoard> getParties() {
-        List<PlayerBoard> result;
-        try {
-            result = loadBoards();
-        } catch (FileNotFoundException e) {
-            System.out.println("No party found from disk");
-            result = new ArrayList<PlayerBoard>();
-        }
-        return result;
-    }
-
     public void onNewPartyButtonClicked(View target) {
         Intent intent = new Intent(this, AddParty.class);
-        intent.putExtra(PartyBoard.BOARD_INDEX, getParties().size());
         startActivityForResult(intent, DISPLAY_BOARD);
     }
 

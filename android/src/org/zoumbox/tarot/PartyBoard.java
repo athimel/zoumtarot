@@ -53,7 +53,6 @@ public class PartyBoard extends TarotActivity {
     protected PlayerBoard board;
 
     public static final String BOARD = "board";
-    public static final String BOARD_INDEX = "board-index"; // optional
     public static final String DEAL = "deal";
     public static final String DEAL_INDEX = "deal-index";
 
@@ -67,7 +66,8 @@ public class PartyBoard extends TarotActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.party_board);
 
-        ListView listView = resetList((PlayerBoard) getIntent().getSerializableExtra(BOARD));
+        this.board = (PlayerBoard) getIntent().getSerializableExtra(BOARD);
+        ListView listView = resetList();
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view,
@@ -96,27 +96,17 @@ public class PartyBoard extends TarotActivity {
         });
     }
 
-    private ListView resetList() {
-        return resetList(this.board);
+    @Override
+    protected void saveBoard(PlayerBoard board) {
+        this.board = board;
+        super.saveBoard(board);
     }
 
-    private ListView resetList(PlayerBoard board) {
-        this.board = board;
+    private ListView resetList() {
         ListView list = (ListView) findViewById(R.id.party_board_list);
 
         PartyBoardAdapter adapter = new PartyBoardAdapter(this, board);
         list.setAdapter(adapter);
-
-        try {
-            int index = getIntent().getIntExtra(BOARD_INDEX, -1);
-            saveBoard(index, board);
-        } catch (Exception eee) {
-
-            eee.printStackTrace();
-
-            showToast(String.format("Unable to save board: %s", eee.getMessage()));
-
-        }
 
         return list;
     }
@@ -147,6 +137,7 @@ public class PartyBoard extends TarotActivity {
                     board.dealEnded(deal);
                 }
 
+                saveBoard(board);
                 resetList();
 
                 boolean is5PlayersGame = (board.getPlayers().length == 5 && !deal.isTakerAlone());
@@ -198,7 +189,9 @@ public class PartyBoard extends TarotActivity {
                     showToast("ERROR: Score is not coherent !");
                 }
             } else if (requestCode == EDIT_PLAYERS) {
-                resetList((PlayerBoard) data.getSerializableExtra(BOARD));
+                PlayerBoard playerBoard = (PlayerBoard) data.getSerializableExtra(BOARD);
+                saveBoard(playerBoard);
+                resetList();
             }
         }
     }

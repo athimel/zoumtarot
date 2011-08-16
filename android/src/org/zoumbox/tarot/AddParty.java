@@ -154,8 +154,6 @@ public class AddParty extends TarotActivity {
 
                 Intent intent = new Intent(this, PartyBoard.class);
                 intent.putExtra(PartyBoard.BOARD, board);
-                int index = getIntent().getIntExtra(PartyBoard.BOARD_INDEX, -1);
-                intent.putExtra(PartyBoard.BOARD_INDEX, index);
                 startActivity(intent);
 
                 message = getString(R.string.party_created);
