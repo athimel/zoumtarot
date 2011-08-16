@@ -1,6 +1,6 @@
 /*
  * #%L
- * ZoumTarot :: engine
+ * ZoumTarot :: android
  * 
  * $Id$
  * $HeadURL$
@@ -24,7 +24,6 @@
  */
 package org.zoumbox.tarot.legacy;
 
-import com.google.common.collect.Lists;
 import org.zoumbox.tarot.engine.Deal;
 import org.zoumbox.tarot.engine.PlayerBoard;
 
