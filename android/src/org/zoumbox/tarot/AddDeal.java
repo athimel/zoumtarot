@@ -84,12 +84,25 @@ public class AddDeal extends TarotActivity {
         return result;
     }
 
-    protected List<String> getHandfuls(boolean is5playersGame) {
+    protected List<String> getHandfuls(boolean is3playersGame, boolean is5playersGame) {
         List<String> result = Lists.newArrayListWithCapacity(Handful.values().length);
         result.add(getString(R.string.handful_none));
-        result.add(getString(R.string.handful_simple, is5playersGame ? 8 : 10));
-        result.add(getString(R.string.handful_double, is5playersGame ? 10 : 13));
-        result.add(getString(R.string.handful_triple, is5playersGame ? 13 : 15));
+        int handfulSimple = 10;
+        int handfulDouble = 13;
+        int handfulTriple = 15;
+        if (is5playersGame) {
+            handfulSimple = 8;
+            handfulDouble = 10;
+            handfulTriple = 13;
+        }
+        if (is3playersGame) {
+            handfulSimple = 13;
+            handfulDouble = 15;
+            handfulTriple = 18;
+        }
+        result.add(getString(R.string.handful_simple, handfulSimple));
+        result.add(getString(R.string.handful_double, handfulDouble));
+        result.add(getString(R.string.handful_triple, handfulTriple));
         return result;
     }
 
@@ -100,6 +113,7 @@ public class AddDeal extends TarotActivity {
 
         List<String> players = getPlayers();
         boolean is5playersGame = players.size() == 5;
+        boolean is3playersGame = players.size() == 3;
         if (is5playersGame) {
             setContentView(R.layout.new_deal_5players);
         } else {
@@ -129,7 +143,7 @@ public class AddDeal extends TarotActivity {
 
         // Announcements
         handful = (Spinner) findViewById(R.id.handful);
-        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, getHandfuls(is5playersGame));
+        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, getHandfuls(is3playersGame, is5playersGame));
         handful.setAdapter(adapter);
 
         oneIsLast = (CheckBox) findViewById(R.id.oneIsLast);
