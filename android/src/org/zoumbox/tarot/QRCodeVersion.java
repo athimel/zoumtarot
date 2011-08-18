@@ -40,7 +40,7 @@ public class QRCodeVersion extends Activity {
 
         // Instantiate an ImageView and define its properties
         ImageView i = (ImageView) findViewById(R.id.qr_image);
-        i.setImageResource(R.drawable.qrcode_1_1);
+        i.setImageResource(R.drawable.qrcode_1_2);
 
     }
 
