@@ -46,13 +46,19 @@ public class PlayerBoard implements Serializable {
     protected LinkedHashMap<String, Integer> scores = new LinkedHashMap<String, Integer>();
     protected LinkedList<Deal> deals = new LinkedList<Deal>();
 
-    protected long creationDate;
+    protected long creationDate = -1;
 
     public void newParty(Collection<String> players) {
         ArrayList<String> playersCopy = Lists.newArrayList(players); // To be sure we're not working on the same list
         clear();
         initPlayers(playersCopy);
-        creationDate = System.currentTimeMillis();
+        initDate();
+    }
+
+    private void initDate() {
+        if (creationDate == -1) {
+            creationDate = System.currentTimeMillis();
+        }
     }
 
     public void newParty(String... players) {
