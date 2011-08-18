@@ -57,6 +57,9 @@
     <string name="handful">Poignée</string>
     <string name="oneIsLast">Petit au bout</string>
     <string name="forDefense">Pour la défense</string>
+    <string name="slam">Chelem</string>
+    <string name="slam_announced">Annoncé</string>
+    <string name="slam_realized">Réalisé</string>
 
     <string name="J1">Joueur 1</string>
     <string name="J2">Joueur 2</string>
@@ -76,6 +79,8 @@
     <string name="deal_score_5players">À 5 joueurs, le score doit être un multiple de 0.5</string>
     <string name="deal_score_4players">À 4 joueurs, le score est forcément un nombre entier</string>
     <string name="deal_score_validity">%1$.1f n\'est pas un score possible à %2$d joueurs</string>
+    <string name="deal_score_max_oudlers">Il n\'est pas possible d\'avoir un score de 91 sans avoir les 3 bouts</string>
+    <string name="deal_score_min_slam">Il n\'est pas possible de réaliser un Chelem avec si peu de points</string>
 
     <string name="deal_who">%s totalise</string>
     <string name="deal_who_5players">%1$s et %2$s totalisent</string>

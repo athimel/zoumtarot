@@ -36,7 +36,9 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
+import android.widget.TableRow;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 import org.zoumbox.tarot.engine.Contract;
 import org.zoumbox.tarot.engine.Deal;
 import org.zoumbox.tarot.engine.Handful;
@@ -45,6 +47,7 @@ import org.zoumbox.tarot.engine.Oudlers;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author Arnaud Thimel <thimel@codelutin.com>
@@ -55,7 +58,8 @@ public class AddDeal extends TarotActivity {
     public static final String DEAL = "deal"; //optional
     public static final String INDEX = "index"; //optional
 
-    public static final int MAX_SCORE = 91;
+    public static final double MAX_SCORE = 91d;
+    public static final double MIN_SLAM_SCORE = 60d; // Cas d'une garde contre avec dans le chien : 4 rois + 21 + 1 et l'excuse dans les mains d'un défenseur. Soit 6*45+4 = 31 points
 
     protected Spinner taker;
     protected Spinner secondTaker;
@@ -66,11 +70,12 @@ public class AddDeal extends TarotActivity {
     protected Spinner handful;
     protected CheckBox oneIsLast;
     protected CheckBox forDefense;
-    protected Button saveButton;
+    protected CheckBox slamAnnounced;
+    protected CheckBox slamRealized;
 
     protected List<String> getPlayers() {
         Serializable serializable = getIntent().getSerializableExtra(PLAYERS);
-        ArrayList<String> result = (ArrayList<String>) serializable;
+        List<String> result = (ArrayList<String>) serializable;
         return result;
     }
 
@@ -112,13 +117,10 @@ public class AddDeal extends TarotActivity {
         super.onCreate(savedInstanceState);
 
         List<String> players = getPlayers();
-        boolean is5playersGame = players.size() == 5;
         boolean is3playersGame = players.size() == 3;
-        if (is5playersGame) {
-            setContentView(R.layout.new_deal_5players);
-        } else {
-            setContentView(R.layout.new_deal);
-        }
+        boolean is5playersGame = players.size() == 5;
+
+        setContentView(R.layout.new_deal);
 
         taker = (Spinner) findViewById(R.id.taker);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, players);
@@ -128,6 +130,10 @@ public class AddDeal extends TarotActivity {
             secondTaker = (Spinner) findViewById(R.id.secondTaker);
             adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, players);
             secondTaker.setAdapter(adapter);
+        } else {
+            TableRow secondTakerRow = (TableRow) findViewById(R.id.secondTakerRow);
+            secondTakerRow.setVisibility(View.INVISIBLE);
+            secondTakerRow.removeAllViews();
         }
 
         contract = (Spinner) findViewById(R.id.contract);
@@ -148,6 +154,9 @@ public class AddDeal extends TarotActivity {
 
         oneIsLast = (CheckBox) findViewById(R.id.oneIsLast);
         forDefense = (CheckBox) findViewById(R.id.forDefense);
+
+        slamAnnounced = (CheckBox) findViewById(R.id.slamAnnounced);
+        slamRealized = (CheckBox) findViewById(R.id.slamRealized);
 
         final int index = getIntent().getIntExtra(INDEX, -1);
 
@@ -212,6 +221,9 @@ public class AddDeal extends TarotActivity {
                     forDefense.setChecked(true);
                 }
             }
+
+            slamAnnounced.setChecked(deal.isSlamAnnounced());
+            slamRealized.setChecked(deal.isSlamRealized());
         }
 
         forDefense.setEnabled(oneIsLast.isChecked());
@@ -229,10 +241,10 @@ public class AddDeal extends TarotActivity {
 
         });
 
-        saveButton = (Button) findViewById(R.id.saveButton);
+        Button saveButton = (Button) findViewById(R.id.saveButton);
 
         saveButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
+            public void onClick(View view) {
                 onSaveButtonClicked(index);
             }
         });
@@ -295,6 +307,12 @@ public class AddDeal extends TarotActivity {
         }
         deal.setOneIsLast(dealOneIsLast);
 
+        boolean dealSlamAnnounced = slamAnnounced.isChecked();
+        deal.setSlamAnnounced(dealSlamAnnounced);
+        boolean dealSlamRealized = slamRealized.isChecked();
+        dealSlamRealized |= dealScore == MAX_SCORE;
+        deal.setSlamRealized(dealSlamRealized);
+
         // Read is over, now validate
         String validationMessage = validate(deal, players.size());
 
@@ -309,6 +327,25 @@ public class AddDeal extends TarotActivity {
         }
 
     }
+
+//    protected void checkSlamRealized() {
+//
+//        String scoreText = score.getText().toString();
+//        try {
+//            double dealScore = Double.parseDouble(scoreText);
+//            if (isDefenseScore.isChecked()) {
+//                dealScore = MAX_SCORE - dealScore;
+//            }
+//            if (dealScore == MAX_SCORE) {
+//                slamRealized.setChecked(true);
+//            }
+//            if (dealScore == 0) {
+//                slamRealized.setChecked(false);
+//            }
+//        } catch (NumberFormatException nfe) {
+//            // Not valid, do not change anything
+//        }
+//    }
 
     protected Contract getContractValue(Spinner contract) {
         String contractText = contract.getSelectedItem().toString();
@@ -341,11 +378,12 @@ public class AddDeal extends TarotActivity {
         if (deal.getContract() == null) {
             return getString(R.string.deal_no_contract);
         }
-        if (deal.getOudlers() == null) {
+        Oudlers oudlers = deal.getOudlers();
+        if (oudlers == null) {
             return getString(R.string.deal_no_oudlers);
         }
         double score = deal.getScore();
-        if (score < 0 || score > 91) {
+        if (score < 0 || score > MAX_SCORE) {
             return getString(R.string.deal_score_range);
         }
         if (score != Math.round(score)) { // multiple de '0.0'
@@ -358,8 +396,16 @@ public class AddDeal extends TarotActivity {
             }
         }
         double minimalScore = 0.5 * playerCount;
-        if ((score > 0.0 && score < minimalScore) || (score > (91.0 - minimalScore) && score < 91.0)) {
+        if ((score > 0.0 && score < minimalScore) || (score > (MAX_SCORE - minimalScore) && score < MAX_SCORE)) {
             return getString(R.string.deal_score_validity, score, playerCount);
+        }
+
+        if (score == MAX_SCORE && !Oudlers.THREE.equals(oudlers)) {
+            return getString(R.string.deal_score_max_oudlers);
+        }
+
+        if (deal.isSlamRealized() && score < MIN_SLAM_SCORE) {
+            return getString(R.string.deal_score_min_slam);
         }
 
         return null; // nothing went wrong

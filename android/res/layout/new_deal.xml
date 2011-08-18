@@ -24,11 +24,13 @@
   #L%
   -->
 
+
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent">
     <TableLayout android:layout_width="fill_parent"
                  android:layout_height="fill_parent">
+        <!-- Preneur -->
         <TableRow>
             <TextView android:text="@string/taker"/>
             <Spinner android:id="@+id/taker"
@@ -36,6 +38,7 @@
                      android:layout_width="wrap_content"
                      android:layout_weight="1"/>
         </TableRow>
+        <!-- Contrat -->
         <TableRow>
             <TextView android:text="@string/contract"/>
             <Spinner android:id="@+id/contract"
@@ -43,6 +46,15 @@
                      android:layout_width="wrap_content"
                      android:layout_weight="1"/>
         </TableRow>
+        <!-- 5 joueurs : partenaire -->
+        <TableRow android:id="@+id/secondTakerRow">
+            <TextView android:text="@string/secondTaker"/>
+            <Spinner android:id="@+id/secondTaker"
+                     android:layout_height="wrap_content"
+                     android:layout_width="wrap_content"
+                     android:layout_weight="1"/>
+        </TableRow>
+        <!-- Bouts -->
         <TableRow>
             <TextView android:text="@string/oudlers"/>
             <RadioGroup android:layout_width="fill_parent"
@@ -71,6 +83,7 @@
                              android:text="3"/>
             </RadioGroup>
         </TableRow>
+        <!-- Score -->
         <TableRow>
             <TextView android:text="@string/score"/>
             <LinearLayout android:orientation="vertical"
@@ -87,6 +100,7 @@
                           android:text="@string/forDefense"/>
             </LinearLayout>
         </TableRow>
+        <!-- Poignée -->
         <TableRow>
             <TextView android:text="@string/handful"/>
             <Spinner android:id="@+id/handful"
@@ -94,16 +108,42 @@
                      android:layout_width="wrap_content"
                      android:layout_weight="1"/>
         </TableRow>
+        <!-- Petit au bout -->
         <TableRow>
             <CheckBox android:id="@+id/oneIsLast"
                       android:checked="false"
-                      android:layout_weight="1"
                       android:text="@string/oneIsLast"/>
-            <CheckBox android:id="@+id/forDefense"
-                      android:checked="false"
-                      android:layout_weight="1"
-                      android:text="@string/forDefense"/>
+            <LinearLayout android:orientation="horizontal"
+                          android:layout_height="wrap_content"
+                          android:layout_width="wrap_content"
+                          android:layout_weight="1">
+                <CheckBox android:id="@+id/forDefense"
+                          android:checked="false"
+                          android:layout_width="fill_parent"
+                          android:layout_height="wrap_content"
+                          android:text="@string/forDefense"/>
+            </LinearLayout>
         </TableRow>
+        <!-- Chelem -->
+        <TableRow>
+            <TextView android:text="@string/slam"/>
+            <LinearLayout android:orientation="horizontal"
+                          android:layout_height="wrap_content"
+                          android:layout_width="wrap_content"
+                          android:layout_weight="1">
+                <CheckBox android:id="@+id/slamAnnounced"
+                          android:checked="false"
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:text="@string/slam_announced"/>
+                <CheckBox android:id="@+id/slamRealized"
+                          android:checked="false"
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:text="@string/slam_realized"/>
+            </LinearLayout>
+        </TableRow>
+        <!-- Terminé -->
         <TableRow>
             <Button android:layout_height="wrap_content"
                     android:text="Terminé"

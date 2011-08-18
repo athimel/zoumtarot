@@ -121,7 +121,6 @@ public abstract class TarotActivity extends Activity {
             is = openFileInput(fileName);
             InputStreamReader reader = new InputStreamReader(is);
             result = new Gson().fromJson(reader, PlayerBoard.class);
-            System.out.println(result);
         } finally {
             if (is != null) {
                 try {
@@ -144,7 +143,6 @@ public abstract class TarotActivity extends Activity {
         try {
             os = openFileOutput(fileName, Context.MODE_WORLD_READABLE);
             String json = new Gson().toJson(board);
-            System.out.println(json);
             os.write(json.getBytes());
         } finally {
             if (os != null) {
