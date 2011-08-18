@@ -132,11 +132,11 @@
     </properties>
 
     <scm>
-        <connection>scm:svn:svn://dev.zoumbox.org/svnroot/tarot/trunk
+        <connection>scm:svn:http://dev.zoumbox.org/svn/tarot/trunk
         </connection>
-        <developerConnection>scm:svn:svn://dev.zoumbox.org/svnroot/tarot/trunk
+        <developerConnection>scm:svn:http://dev.zoumbox.org/svn/tarot/trunk
         </developerConnection>
-        <url>svn://dev.zoumbox.org/svnroot/tarot/trunk</url>
+        <url>http://dev.zoumbox.org/svn/tarot/trunk</url>
     </scm>
 
     <build>
