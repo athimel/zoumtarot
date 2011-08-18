@@ -91,6 +91,9 @@
     <string name="deal_just_done">tour "Juste fait" (de 0 points).</string>
     <string name="deal_conclusion">tour %1$s de %2$s points.</string>
     <string name="deal_end">%1$s %2$s points pour %3$.0f : %4$s</string>
+    <string name="deal_slam_announced_and_realized">Chelem anoncé et réalisé</string>
+    <string name="deal_slam_announced">Chelem anoncé mais non réalisé</string>
+    <string name="deal_slam_realized">Chelem non anoncé mais réalisé</string>
     <string name="deal_handful">%s poignée anoncée.</string>
     <string name="deal_one_is_last">%s enmène le petit au bout.</string>
     <string name="deal_score_one_player_format">%1$s marque %2$d points.</string>

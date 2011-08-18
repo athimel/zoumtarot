@@ -158,32 +158,43 @@ public class PartyBoard extends TarotActivity {
                 } else {
                     dealConclusion = getString(R.string.deal_conclusion, deal.isWon() ? getString(R.string.deal_won) : getString(R.string.deal_lost), toString(diff));
                 }
-                String message = getString(R.string.deal_end, who, toString(score), target, dealConclusion);
+                String conclusion = getString(R.string.deal_end, who, toString(score), target, dealConclusion);
 
                 // Announcements
+                if (deal.isSlamAnnounced() && deal.isSlamRealized()) {
+                    conclusion += "\n";
+                    conclusion += getString(R.string.deal_slam_announced_and_realized);
+                } else if (deal.isSlamAnnounced() && !deal.isSlamRealized()) {
+                    conclusion += "\n";
+                    conclusion += getString(R.string.deal_slam_announced);
+                } else if (!deal.isSlamAnnounced() && deal.isSlamRealized()) {
+                    conclusion += "\n";
+                    conclusion += getString(R.string.deal_slam_realized);
+                }
                 if (!Handful.NONE.equals(deal.getHandful())) {
                     String handfulText = Tools.toPrettyPrint(deal.getHandful().toString());
-                    message += "\n" + getString(R.string.deal_handful, handfulText);
+                    conclusion += "\n";
+                    conclusion += getString(R.string.deal_handful, handfulText);
                 }
                 if (deal.getOneIsLast() != 0) {
-                    message += "\n" + getString(R.string.deal_one_is_last, Deal.ONE_IS_LAST_TAKER == deal.getOneIsLast() ? getString(R.string.deal_attack) : getString(R.string.deal_defense));
+                    conclusion += "\n";
+                    conclusion += getString(R.string.deal_one_is_last, Deal.ONE_IS_LAST_TAKER == deal.getOneIsLast() ? getString(R.string.deal_attack) : getString(R.string.deal_defense));
                 }
-
-                showToast(message);
+                showToast(conclusion);
 
                 String onePlayerFormat = getString(R.string.deal_score_one_player_format);
                 String otherPlayersFormat = getString(R.string.deal_score_others_format);
                 String taker = deal.getTaker();
-                String text = String.format(onePlayerFormat, taker, PointsCounter.getPlayerDealScore(board, deal, taker));
+                String scoreInformation = String.format(onePlayerFormat, taker, PointsCounter.getPlayerDealScore(board, deal, taker));
                 if (is5PlayersGame && !deal.isTakerAlone()) {
                     String secondTaker = deal.getSecondTaker();
-                    text += "\n";
-                    text += String.format(onePlayerFormat, secondTaker, PointsCounter.getPlayerDealScore(board, deal, secondTaker));
+                    scoreInformation += "\n";
+                    scoreInformation += String.format(onePlayerFormat, secondTaker, PointsCounter.getPlayerDealScore(board, deal, secondTaker));
                 }
-                text += "\n";
-                text += String.format(otherPlayersFormat, PointsCounter.getScoreSeed(deal) * -1);
+                scoreInformation += "\n";
+                scoreInformation += String.format(otherPlayersFormat, PointsCounter.getScoreSeed(deal) * -1);
 
-                showToast(text);
+                showToast(scoreInformation);
 
                 if (!board.isScoreCoherent()) {
                     showToast("ERROR: Score is not coherent !");
