@@ -151,7 +151,6 @@ public class PartiesListAdapter extends BaseAdapter {
 
                     if (minutes > 60) {
                         long hours = minutes / 60;
-                        duration /= 60; // hour
                         minutes -= (hours * 60);
                         durationStr = String.format("%dh %dmin", hours, minutes);
                     }
