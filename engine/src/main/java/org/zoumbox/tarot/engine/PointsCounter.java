@@ -25,7 +25,9 @@
 package org.zoumbox.tarot.engine;
 
 /**
- * @author Arnaud Thimel <thimel@codelutin.com>
+ * Classe utilitaire chargée du calcul des points.
+ *
+ * @author Arnaud Thimel <arno@zoumbox.org>
  */
 public class PointsCounter {
 

@@ -37,7 +37,10 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @author Arnaud Thimel <thimel@codelutin.com>
+ * Représente le tableau des scores. C'est cet objet qui liste les joueurs,
+ * ainsi que les donnes.
+ *
+ * @author Arnaud Thimel <arno@zoumbox.org>
  */
 public class PlayerBoard implements Serializable {
 

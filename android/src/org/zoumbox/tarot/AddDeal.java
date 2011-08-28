@@ -38,7 +38,6 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TableRow;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
 import org.zoumbox.tarot.engine.Contract;
 import org.zoumbox.tarot.engine.Deal;
 import org.zoumbox.tarot.engine.Handful;
@@ -47,10 +46,11 @@ import org.zoumbox.tarot.engine.Oudlers;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 /**
- * @author Arnaud Thimel <thimel@codelutin.com>
+ * Activité pour l'ajout et l'édition d'une donne.
+ *
+ * @author Arnaud Thimel <arno@zoumbox.org>
  */
 public class AddDeal extends TarotActivity {
 

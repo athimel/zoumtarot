@@ -30,7 +30,7 @@ import org.junit.Test;
 import java.util.Arrays;
 
 /**
- * @author Arnaud Thimel <thimel@codelutin.com>
+ * @author Arnaud Thimel <arno@zoumbox.org>
  */
 public class ScoreTest {
 

@@ -25,7 +25,10 @@
 package org.zoumbox.tarot.engine;
 
 /**
- * @author Arnaud Thimel <thimel@codelutin.com>
+ * Représente une poignée : aucune, simple, double ou triple.
+ * A chaque poignée est associé un nombre de points.
+ *
+ * @author Arnaud Thimel <arno@zoumbox.org>
  */
 public enum Handful {
 

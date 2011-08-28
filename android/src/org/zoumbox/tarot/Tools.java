@@ -25,7 +25,9 @@
 package org.zoumbox.tarot;
 
 /**
- * @author Arnaud Thimel <thimel@codelutin.com>
+ * Classe utilitaire.
+ *
+ * @author Arnaud Thimel <arno@zoumbox.org>
  */
 public class Tools {
 

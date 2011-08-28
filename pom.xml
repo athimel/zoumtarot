@@ -11,7 +11,7 @@
     <parent>
         <groupId>org.zoumbox</groupId>
         <artifactId>mavenpom</artifactId>
-        <version>0.4</version>
+        <version>0.5-SNAPSHOT</version>
     </parent>
 
     <groupId>org.zoumbox</groupId>
@@ -71,7 +71,7 @@
     <name>ZoumTarot</name>
     <description>ZoumTarot - Application de comptage de points du Tarot</description>
     <inceptionYear>2011</inceptionYear>
-    <url>http://dev.zoumbox.org/projects/zoumtarot</url>
+    <url>http://tarot.zoumbox.org/</url>
 
     <licenses>
         <license>
@@ -125,14 +125,6 @@
     <properties>
     </properties>
 
-    <scm>
-        <connection>scm:svn:http://dev.zoumbox.org/svn/tarot/trunk
-        </connection>
-        <developerConnection>scm:svn:http://dev.zoumbox.org/svn/tarot/trunk
-        </developerConnection>
-        <url>http://dev.zoumbox.org/svn/tarot/trunk</url>
-    </scm>
-
     <build>
 
         <pluginManagement>
@@ -173,6 +165,23 @@
 
     <pluginRepositories>
     </pluginRepositories>
+
+    <scm>
+        <connection>scm:svn:http://dev.zoumbox.org/svn/tarot/trunk
+        </connection>
+        <developerConnection>scm:svn:http://dev.zoumbox.org/svn/tarot/trunk
+        </developerConnection>
+        <url>http://dev.zoumbox.org/svn/tarot/trunk</url>
+    </scm>
+
+    <distributionManagement>
+
+        <site>
+            <id>zoumbox-sites</id>
+            <url>scp://zoumbox.org:2203/var/www/dev/maven-sites/zoumtarot</url>
+        </site>
+
+    </distributionManagement>
 
 </project>
 

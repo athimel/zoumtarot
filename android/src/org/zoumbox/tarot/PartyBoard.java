@@ -46,7 +46,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author Arnaud Thimel <thimel@codelutin.com>
+ * Tableau des scores
+ *
+ * @author Arnaud Thimel <arno@zoumbox.org>
  */
 public class PartyBoard extends TarotActivity {
 

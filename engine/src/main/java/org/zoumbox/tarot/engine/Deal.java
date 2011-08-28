@@ -24,13 +24,12 @@
  */
 package org.zoumbox.tarot.engine;
 
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-
 import java.io.Serializable;
 
 /**
- * @author Arnaud Thimel <thimel@codelutin.com>
+ * Représente une donne : ensemble des éléments qui constitue un tour.
+ *
+ * @author Arnaud Thimel <arno@zoumbox.org>
  */
 public class Deal implements Serializable {
 

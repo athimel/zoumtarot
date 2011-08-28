@@ -37,7 +37,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author Arnaud Thimel <thimel@codelutin.com>
+ * Activité pour l'ajout et l'édition d'une partie.
+ *
+ * @author Arnaud Thimel <arno@zoumbox.org>
  */
 public class AddParty extends TarotActivity {
 

@@ -46,7 +46,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * @author Arnaud Thimel <thimel@codelutin.com>
+ * Activité parente, elle permet la sauvegarde/chargement des parties.
+ *
+ * @author Arnaud Thimel <arno@zoumbox.org>
  */
 public abstract class TarotActivity extends Activity {
 

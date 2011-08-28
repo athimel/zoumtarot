@@ -25,7 +25,11 @@
 package org.zoumbox.tarot.engine;
 
 /**
- * @author Arnaud Thimel <thimel@codelutin.com>
+ * Nombre de bouts du preneur : aucun, un, deux ou trois.
+ * A chaque nombre de bouts est associé une nombre de points à
+ * réaliser par le preneur pour remporter la donne.
+ *
+ * @author Arnaud Thimel <arno@zoumbox.org>
  */
 public enum Oudlers {
 

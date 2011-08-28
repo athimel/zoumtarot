@@ -43,6 +43,9 @@ import org.zoumbox.tarot.engine.PlayerBoard;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * Activité principale permettant de lister les parties enregistrées.
+ */
 public class PartiesList extends TarotActivity {
 
     public static final int DISPLAY_BOARD = 0;

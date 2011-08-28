@@ -29,7 +29,9 @@ import android.os.Bundle;
 import android.widget.ImageView;
 
 /**
- * @author Arnaud Thimel <thimel@codelutin.com>
+ * Activité pour l'affichage du QR code pour téléchargement direct de l'APK.
+ *
+ * @author Arnaud Thimel <arno@zoumbox.org>
  */
 public class QRCodeVersion extends Activity {
 

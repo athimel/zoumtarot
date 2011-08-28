@@ -25,6 +25,9 @@
 package org.zoumbox.tarot.engine;
 
 /**
+ * Représente un contrat : prise, garde, garde sans et garde contre.
+ * A chaque contrat est associé un coefficient utilisé dans le calcul des points.
+ *
  * @author Arnaud Thimel <arno@zoumbox.org>
  */
 public enum Contract {
