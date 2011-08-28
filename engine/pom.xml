@@ -12,6 +12,7 @@
     <artifactId>tarot-engine</artifactId>
 
     <name>ZoumTarot :: engine</name>
+    <description>Module de base : Représentation objet des parties et calcul des points</description>
 
     <packaging>jar</packaging>
 

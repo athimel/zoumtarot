@@ -71,7 +71,7 @@
     <name>ZoumTarot</name>
     <description>ZoumTarot - Application de comptage de points du Tarot</description>
     <inceptionYear>2011</inceptionYear>
-    <url>http://tarot.zoumbox.org/</url>
+    <url>http://dev.zoumbox.org/maven-sites/zoumtarot</url>
 
     <licenses>
         <license>

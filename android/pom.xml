@@ -12,6 +12,7 @@
     <artifactId>tarot-android</artifactId>
 
     <name>ZoumTarot :: android</name>
+    <description>Module Android : Écrans de saisie et d'affichage des parties</description>
 
     <packaging>apk</packaging>
 
