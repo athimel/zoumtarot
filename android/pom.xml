@@ -2,6 +2,10 @@
 
     <modelVersion>4.0.0</modelVersion>
 
+    <!-- ************************************************************* -->
+    <!-- *** POM Relationships *************************************** -->
+    <!-- ************************************************************* -->
+
     <parent>
         <groupId>org.zoumbox</groupId>
         <artifactId>tarot</artifactId>
@@ -10,11 +14,6 @@
 
     <groupId>org.zoumbox.tarot</groupId>
     <artifactId>tarot-android</artifactId>
-
-    <name>ZoumTarot :: android</name>
-    <description>Module Android : Écrans de saisie et d'affichage des parties</description>
-
-    <packaging>apk</packaging>
 
     <dependencies>
 
@@ -45,6 +44,22 @@
         </dependency>
 
     </dependencies>
+
+    <!-- ************************************************************* -->
+    <!-- *** Project Information ************************************* -->
+    <!-- ************************************************************* -->
+
+    <name>ZoumTarot :: android</name>
+    <description>Android module : Input and display screens</description>
+
+    <!-- ************************************************************* -->
+    <!-- *** Build Settings ****************************************** -->
+    <!-- ************************************************************* -->
+
+    <packaging>apk</packaging>
+
+    <properties>
+    </properties>
 
     <build>
         <sourceDirectory>src</sourceDirectory>
@@ -105,11 +120,12 @@
         </plugins>
     </build>
 
-    <properties>
-    </properties>
-
     <repositories>
     </repositories>
+
+    <!-- ************************************************************* -->
+    <!-- *** Maven Environment *************************************** -->
+    <!-- ************************************************************* -->
 
     <profiles>
 

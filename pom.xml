@@ -69,7 +69,7 @@
     <!-- ************************************************************* -->
 
     <name>ZoumTarot</name>
-    <description>ZoumTarot - Application de comptage de points du Tarot</description>
+    <description>ZoumTarot - Android application to count points at French Tarot</description>
     <inceptionYear>2011</inceptionYear>
     <url>http://dev.zoumbox.org/maven-sites/zoumtarot</url>
 
@@ -90,7 +90,7 @@
             <organization>Zoumbox.org</organization>
             <timezone>+2</timezone>
             <roles>
-                <role>Développeur</role>
+                <role>Project Leader</role>
             </roles>
         </developer>
 
@@ -100,7 +100,7 @@
             <email>dev@kevinmorin.net</email>
             <timezone>+2</timezone>
             <roles>
-                <role>Développeur</role>
+                <role>Developper</role>
             </roles>
         </developer>
 
