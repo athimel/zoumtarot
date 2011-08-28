@@ -33,11 +33,6 @@
         </dependency>
 
         <dependency>
-            <groupId>org.zoumbox.thirdparty.com-thoughtworks</groupId>
-            <artifactId>xstream</artifactId>
-        </dependency>
-
-        <dependency>
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
         </dependency>

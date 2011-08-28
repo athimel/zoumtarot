@@ -30,7 +30,8 @@
             <dependency>
                 <groupId>junit</groupId>
                 <artifactId>junit</artifactId>
-                <version>4.8.2</version>
+                <version>4.9</version>
+                <scope>test</scope>
             </dependency>
 
             <dependency>
@@ -51,12 +52,6 @@
                 <groupId>com.google.guava</groupId>
                 <artifactId>guava</artifactId>
                 <version>r09</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.zoumbox.thirdparty.com-thoughtworks</groupId>
-                <artifactId>xstream</artifactId>
-                <version>1.2.2-android-patched</version>
             </dependency>
 
             <dependency>
