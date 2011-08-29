@@ -84,10 +84,11 @@
     <developers>
 
         <developer>
-            <name>Arnaud Thimel</name>
             <id>arno</id>
+            <name>Arnaud Thimel</name>
             <email>arno@zoumbox.org</email>
             <organization>Zoumbox.org</organization>
+            <url>http://dev.zoumbox.org/users/3</url>
             <timezone>+2</timezone>
             <roles>
                 <role>Project Leader</role>
@@ -95,9 +96,20 @@
         </developer>
 
         <developer>
-            <name>Kevin Morin</name>
             <id>ironAss</id>
+            <name>Kevin Morin</name>
             <email>dev@kevinmorin.net</email>
+            <url>http://kevinmorin.net/</url>
+            <timezone>+2</timezone>
+            <roles>
+                <role>Developper</role>
+            </roles>
+        </developer>
+
+        <developer>
+            <id>nico</id>
+            <name>Nicolas Carlier</name>
+            <url>http://github.com/ncarlier</url>
             <timezone>+2</timezone>
             <roles>
                 <role>Developper</role>
@@ -190,4 +202,3 @@
     </distributionManagement>
 
 </project>
-
