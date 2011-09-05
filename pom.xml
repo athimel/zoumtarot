@@ -11,7 +11,7 @@
     <parent>
         <groupId>org.zoumbox</groupId>
         <artifactId>mavenpom</artifactId>
-        <version>0.5-SNAPSHOT</version>
+        <version>0.5</version>
     </parent>
 
     <groupId>org.zoumbox</groupId>
@@ -69,7 +69,7 @@
     <!-- ************************************************************* -->
 
     <name>ZoumTarot</name>
-    <description>ZoumTarot - Android application to count points at French Tarot</description>
+    <description>ZoumTarot - Android application to count points at French Tarot using the official rules</description>
     <inceptionYear>2011</inceptionYear>
     <url>http://dev.zoumbox.org/maven-sites/zoumtarot</url>
 
