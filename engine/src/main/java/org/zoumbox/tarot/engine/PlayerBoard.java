@@ -223,8 +223,8 @@ public class PlayerBoard implements Serializable {
         return result;
     }
 
-    public Map<String, Statistics> getStatistics() {
-        Map<String, Statistics> result = Maps.newLinkedHashMap();
+    public LinkedHashMap<String, Statistics> getStatistics() {
+        LinkedHashMap<String, Statistics> result = Maps.newLinkedHashMap();
         for (String player : scores.keySet()) {
             int dealCount = deals.size();
             Statistics statistics = new Statistics(dealCount);

@@ -50,5 +50,13 @@
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
+        <activity android:name=".PartyStatistics"
+                  android:label="@string/statistics"
+                  android:noHistory="true">
+            <intent-filter>
+                <action android:name="org.zoumbox.tarot.PARTY_STATISTICS"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
     </application>
 </manifest> 

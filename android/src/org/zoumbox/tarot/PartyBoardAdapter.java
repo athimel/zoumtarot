@@ -132,10 +132,8 @@ public class PartyBoardAdapter extends BaseAdapter {
                     String playerName = board.getPlayers()[coll];
 
                     cell.setTextColor(Color.BLACK);
-                    SpannableString str = SpannableString.valueOf(playerName);
-                    str.setSpan(new StyleSpan(Typeface.BOLD), 0, str.length(), 0);
 
-                    cell.setText(str);
+                    cell.setText(Tools.bold(playerName));
                 }
 
             } else if (isTotal) {
@@ -154,10 +152,7 @@ public class PartyBoardAdapter extends BaseAdapter {
                         cell.setTextColor(Color.BLACK);
                     }
 
-                    SpannableString str = SpannableString.valueOf(message);
-                    str.setSpan(new StyleSpan(Typeface.BOLD_ITALIC), 0, str.length(), 0);
-
-                    cell.setText(str);
+                    cell.setText(Tools.bold_italic(message));
                 }
             } else {
                 Deal deal = board.getDeals().get(index - 1);

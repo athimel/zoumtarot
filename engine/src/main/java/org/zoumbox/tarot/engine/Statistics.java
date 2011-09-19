@@ -4,12 +4,15 @@ import com.google.common.collect.HashMultiset;
 import com.google.common.collect.Multiset;
 import com.google.common.collect.Sets;
 
+import java.io.Serializable;
 import java.util.Set;
 
 /**
  * @author Arnaud Thimel <thimel@codelutin.com>
  */
-public class Statistics {
+public class Statistics implements Serializable {
+
+    private static final long serialVersionUID = -5137349116741438713L;
 
     protected Double takerPercent;
     protected Double successPercent;
@@ -64,5 +67,17 @@ public class Statistics {
             }
         }
         return favoriteContract;
+    }
+
+    public double getDealCount() {
+        return dealCount;
+    }
+
+    public double getTakerCount() {
+        return takerCount;
+    }
+
+    public double getSuccessCount() {
+        return successCount;
     }
 }

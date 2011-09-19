@@ -24,6 +24,10 @@
  */
 package org.zoumbox.tarot;
 
+import android.graphics.Typeface;
+import android.text.SpannableString;
+import android.text.style.StyleSpan;
+
 /**
  * Classe utilitaire.
  *
@@ -36,6 +40,24 @@ public class Tools {
         result = result.replaceAll("_", " ");
         result = result.substring(0, 1).toUpperCase() + result.substring(1);
         return result;
+    }
+
+    protected static CharSequence italic(String text) {
+        SpannableString str = SpannableString.valueOf(text + " ");
+        str.setSpan(new StyleSpan(Typeface.ITALIC), 0, str.length(), 0);
+        return str;
+    }
+
+    protected static CharSequence bold(String text) {
+        SpannableString str = SpannableString.valueOf(text);
+        str.setSpan(new StyleSpan(Typeface.BOLD), 0, str.length(), 0);
+        return str;
+    }
+
+    protected static CharSequence bold_italic(String text) {
+        SpannableString str = SpannableString.valueOf(text + " ");
+        str.setSpan(new StyleSpan(Typeface.BOLD_ITALIC), 0, str.length(), 0);
+        return str;
     }
 
 }

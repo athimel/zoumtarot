@@ -26,6 +26,9 @@ package org.zoumbox.tarot;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Typeface;
+import android.text.SpannableString;
+import android.text.style.StyleSpan;
 import android.util.Log;
 import android.widget.Toast;
 import com.google.common.base.Predicate;

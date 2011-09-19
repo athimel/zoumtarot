@@ -41,9 +41,12 @@ import org.zoumbox.tarot.engine.Deal;
 import org.zoumbox.tarot.engine.Handful;
 import org.zoumbox.tarot.engine.PlayerBoard;
 import org.zoumbox.tarot.engine.PointsCounter;
+import org.zoumbox.tarot.engine.Statistics;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Tableau des scores
@@ -250,7 +253,10 @@ public class PartyBoard extends TarotActivity {
 
                 return true;
             case R.id.party_statistics:
-                // TODO AThimel 16/05/11 Implement legend page - cf http://dev.zoumbox.org/issues/49
+                LinkedHashMap<String, Statistics> statistics = board.getStatistics();
+                Intent intent = new Intent(this, PartyStatistics.class);
+                intent.putExtra(PartyStatistics.STATISTICS, statistics);
+                startActivity(intent);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
