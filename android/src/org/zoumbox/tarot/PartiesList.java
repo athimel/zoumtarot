@@ -26,6 +26,7 @@ package org.zoumbox.tarot;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.ContextMenu;
 import android.view.Gravity;
@@ -193,6 +194,11 @@ public class PartiesList extends TarotActivity {
                 Intent intent = new Intent(this, PartyStatistics.class);
                 intent.putExtra(PartyStatistics.STATISTICS, statistics);
                 startActivity(intent);
+                return true;
+            case R.id.rules:
+                Uri uri = Uri.parse("http://dev.zoumbox.org/maven-sites/zoumtarot/regles.html");
+                Intent rulesView = new Intent(Intent.ACTION_VIEW, uri);
+                startActivity(rulesView);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
