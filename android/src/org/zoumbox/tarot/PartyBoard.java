@@ -244,7 +244,6 @@ public class PartyBoard extends TarotActivity {
                 // The code below assumes that the root container has an id called 'main'
                 legend.showAtLocation(this.findViewById(R.id.party_board), Gravity.CENTER, 0, 0);
 
-
                 Button btnExitInfo = (Button) popupView.findViewById(R.id.legend_close);
                 btnExitInfo.setOnClickListener(new View.OnClickListener() {
                     public void onClick(View v) {

@@ -38,6 +38,8 @@ public class Statistics implements Serializable {
 
     private static final long serialVersionUID = -5137349116741438713L;
 
+    protected String playerName;
+
     protected Double takerPercent;
     protected Double successPercent;
     protected Set<Contract> favoriteContract;
@@ -103,5 +105,13 @@ public class Statistics implements Serializable {
 
     public double getSuccessCount() {
         return successCount;
+    }
+
+    public void setPlayerName(String playerName) {
+        this.playerName = playerName;
+    }
+
+    public String getPlayerName() {
+        return playerName;
     }
 }

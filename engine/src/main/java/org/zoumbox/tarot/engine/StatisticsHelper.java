@@ -58,10 +58,12 @@ public class StatisticsHelper {
     }
 
     protected static Statistics getStatistics(Map<String, Statistics> statisticsMap, String playerName) {
-        Statistics result = statisticsMap.get(playerName);
+        String loweredPlayerName = playerName.toLowerCase();
+        Statistics result = statisticsMap.get(loweredPlayerName);
         if (result == null) {
             result = new Statistics();
-            statisticsMap.put(playerName, result);
+            result.setPlayerName(playerName);
+            statisticsMap.put(loweredPlayerName, result);
         }
         return result;
     }

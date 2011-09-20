@@ -76,7 +76,7 @@ public class PartyStatistics extends TarotActivity {
             Statistics playerStats = statistics.get(playerName);
 
             {
-                addRow(table, Tools.bold(playerName));
+                addRow(table, Tools.bold(playerStats.getPlayerName()));
             }
 
             {

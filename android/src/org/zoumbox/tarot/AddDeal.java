@@ -328,25 +328,6 @@ public class AddDeal extends TarotActivity {
 
     }
 
-//    protected void checkSlamRealized() {
-//
-//        String scoreText = score.getText().toString();
-//        try {
-//            double dealScore = Double.parseDouble(scoreText);
-//            if (isDefenseScore.isChecked()) {
-//                dealScore = MAX_SCORE - dealScore;
-//            }
-//            if (dealScore == MAX_SCORE) {
-//                slamRealized.setChecked(true);
-//            }
-//            if (dealScore == 0) {
-//                slamRealized.setChecked(false);
-//            }
-//        } catch (NumberFormatException nfe) {
-//            // Not valid, do not change anything
-//        }
-//    }
-
     protected Contract getContractValue(Spinner contract) {
         String contractText = contract.getSelectedItem().toString();
         Contract dealContract = Contract.PRISE;
