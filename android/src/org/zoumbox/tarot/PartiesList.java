@@ -39,8 +39,11 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 import org.zoumbox.tarot.engine.PlayerBoard;
+import org.zoumbox.tarot.engine.Statistics;
+import org.zoumbox.tarot.engine.StatisticsHelper;
 
 import java.io.IOException;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 /**
@@ -185,7 +188,11 @@ public class PartiesList extends TarotActivity {
                 });
                 return true;
             case R.id.general_statistics:
-                // TODO AThimel 16/05/11 Implement credits page - cf http://dev.zoumbox.org/issues/55
+                List<PlayerBoard> boards = loadBoards();
+                LinkedHashMap<String, Statistics> statistics = StatisticsHelper.getStatistics(boards);
+                Intent intent = new Intent(this, PartyStatistics.class);
+                intent.putExtra(PartyStatistics.STATISTICS, statistics);
+                startActivity(intent);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

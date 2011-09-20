@@ -24,10 +24,8 @@
  */
 package org.zoumbox.tarot.engine;
 
-import com.google.common.collect.HashMultiset;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.google.common.collect.Multisets;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -224,20 +222,7 @@ public class PlayerBoard implements Serializable {
     }
 
     public LinkedHashMap<String, Statistics> getStatistics() {
-        LinkedHashMap<String, Statistics> result = Maps.newLinkedHashMap();
-        for (String player : scores.keySet()) {
-            int dealCount = deals.size();
-            Statistics statistics = new Statistics(dealCount);
-            result.put(player, statistics);
-        }
-
-        for (Deal deal : deals) {
-            String taker = deal.getTaker();
-            Statistics statistics = result.get(taker);
-            Contract contract = deal.getContract();
-            boolean won = deal.isWon();
-            statistics.newPartyTaken(contract, won);
-        }
+        LinkedHashMap<String, Statistics> result = StatisticsHelper.getStatistics(Arrays.asList(this));
         return result;
     }
 

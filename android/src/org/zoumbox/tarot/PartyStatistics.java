@@ -25,20 +25,21 @@
 package org.zoumbox.tarot;
 
 import android.graphics.Color;
-import android.graphics.Typeface;
 import android.os.Bundle;
-import android.text.SpannableString;
-import android.text.style.StyleSpan;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 import com.google.common.base.Function;
 import com.google.common.base.Joiner;
 import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
 import org.zoumbox.tarot.engine.Contract;
 import org.zoumbox.tarot.engine.Statistics;
 
 import java.io.Serializable;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -62,12 +63,19 @@ public class PartyStatistics extends TarotActivity {
 
         TableLayout table = (TableLayout) findViewById(R.id.list_statistics);
 
-        for (Map.Entry<String, Statistics> entry : statistics.entrySet()) {
+        List<String> playerNames = Lists.newArrayList(statistics.keySet());
+        Collections.sort(playerNames, new Comparator<String>() {
+            @Override
+            public int compare(String s, String s1) {
+                return s.toLowerCase().compareTo(s1.toLowerCase());
+            }
+        });
 
-            Statistics playerStats = entry.getValue();
+        for (String playerName : playerNames) {
+
+            Statistics playerStats = statistics.get(playerName);
 
             {
-                String playerName = entry.getKey();
                 addRow(table, Tools.bold(playerName));
             }
 
@@ -127,6 +135,7 @@ public class PartyStatistics extends TarotActivity {
         row.addView(view);
 
     }
+
     private Map<String, Statistics> getStatistics() {
         Serializable serializable = getIntent().getSerializableExtra(STATISTICS);
         Map<String, Statistics> result = (Map<String, Statistics>) serializable;

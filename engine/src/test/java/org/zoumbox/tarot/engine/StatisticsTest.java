@@ -27,6 +27,7 @@ package org.zoumbox.tarot.engine;
 import junit.framework.Assert;
 import org.junit.Test;
 
+import java.util.Arrays;
 import java.util.Map;
 
 /**
@@ -162,6 +163,55 @@ public class StatisticsTest {
         Assert.assertEquals(50d, kevin.getSuccessPercent(), 0.0049d);
         Assert.assertTrue(kevin.getFavoriteContract().contains(Contract.GARDE));
         Assert.assertTrue(kevin.getFavoriteContract().contains(Contract.GARDE_SANS));
+    }
+
+    @Test
+    public void testSeveralBoards() throws Exception {
+
+        PlayerBoard board = new PlayerBoard();
+        board.newParty("Arno", "Yannick", "Julien", "Florian");
+
+        Deal deal = new Deal();
+        deal.setNominalCase("Arno", Contract.GARDE, Oudlers.TWO, 30.0);
+        board.dealEnded(deal);
+
+        deal = new Deal();
+        deal.setNominalCase("Julien", Contract.GARDE, Oudlers.TWO, 49.0);
+        board.dealEnded(deal);
+
+        PlayerBoard board2 = new PlayerBoard();
+        board2.newParty("Arno", "Charlotte", "Bernard", "Florian");
+
+        deal = new Deal();
+        deal.setNominalCase("Arno", Contract.GARDE_SANS, Oudlers.TWO, 49.0);
+        board2.dealEnded(deal);
+
+        deal = new Deal();
+        deal.setNominalCase("Bernard", Contract.GARDE, Oudlers.TWO, 41.0);
+        board2.dealEnded(deal);
+
+        Map<String, Statistics> statistics = StatisticsHelper.getStatistics(Arrays.asList(board, board2));
+        Statistics yannick = statistics.get("Yannick");
+        Assert.assertEquals(0d, yannick.getTakerPercent(), 0.0049d);
+        Assert.assertNull(yannick.getSuccessPercent());
+        Assert.assertTrue(yannick.getFavoriteContract().isEmpty());
+
+        Statistics arno = statistics.get("Arno");
+        Assert.assertEquals(50d, arno.getTakerPercent(), 0.0049d);
+        Assert.assertEquals(50d, arno.getSuccessPercent(), 0.0049d);
+        Assert.assertTrue(arno.getFavoriteContract().contains(Contract.GARDE));
+        Assert.assertTrue(arno.getFavoriteContract().contains(Contract.GARDE_SANS));
+
+        Statistics julien = statistics.get("Julien");
+        Assert.assertEquals(50d, julien.getTakerPercent(), 0.0049d);
+        Assert.assertEquals(100d, julien.getSuccessPercent(), 0.0049d);
+        Assert.assertEquals(Contract.GARDE, julien.getFavoriteContract().iterator().next());
+
+        Statistics florian = statistics.get("Florian");
+        Assert.assertEquals(0d, florian.getTakerPercent(), 0.0049d);
+        Assert.assertNull(florian.getSuccessPercent());
+        Assert.assertTrue(florian.getFavoriteContract().isEmpty());
+
     }
 
 }

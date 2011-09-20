@@ -48,8 +48,8 @@ public class Statistics implements Serializable {
     protected double successCount = 0d;
     protected Multiset<Contract> contracts = HashMultiset.create();
 
-    public Statistics(int dealCount) {
-        this.dealCount = dealCount;
+    public void addDealCount(int dealCount) {
+        this.dealCount += dealCount;
     }
 
     public void newPartyTaken(Contract contract, boolean won) {
