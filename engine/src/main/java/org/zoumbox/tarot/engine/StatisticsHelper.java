@@ -45,7 +45,7 @@ public class StatisticsHelper {
                 Statistics statistics = getStatistics(result, player);
                 statistics.addDealCount(dealCount);
             }
-
+            
             for (Deal deal : deals) {
                 String taker = deal.getTaker();
                 Statistics statistics = result.get(taker);
@@ -58,12 +58,12 @@ public class StatisticsHelper {
     }
 
     protected static Statistics getStatistics(Map<String, Statistics> statisticsMap, String playerName) {
-        String loweredPlayerName = playerName.toLowerCase();
-        Statistics result = statisticsMap.get(loweredPlayerName);
+//        String loweredPlayerName = playerName.toLowerCase();
+        Statistics result = statisticsMap.get(playerName);
         if (result == null) {
             result = new Statistics();
             result.setPlayerName(playerName);
-            statisticsMap.put(loweredPlayerName, result);
+            statisticsMap.put(playerName, result);
         }
         return result;
     }
