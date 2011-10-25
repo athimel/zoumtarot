@@ -24,9 +24,10 @@
  */
 package org.zoumbox.tarot;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -65,9 +66,12 @@ public class PartyBoard extends TarotActivity {
     public static final String BOARD = "board";
     public static final String DEAL = "deal";
     public static final String DEAL_INDEX = "deal-index";
+    
     public static final int NEW_DEAL = 0;
     public static final int EDIT_DEAL = 1;
     public static final int EDIT_PLAYERS = 2;
+    
+    protected static final int LEGEND_DIALOG = 0;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -301,42 +305,46 @@ public class PartyBoard extends TarotActivity {
         // Handle item selection
         switch (item.getItemId()) {
             case R.id.legend:
-                LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                final View popupView = inflater.inflate(R.layout.legend, null, false);
-                final PopupWindow legend = new PopupWindow(
-                        popupView,
-                        this.getWindowManager().getDefaultDisplay().getWidth() - 100,
-                        this.getWindowManager().getDefaultDisplay().getHeight() - 200,
-                        true);
-                // The code below assumes that the root container has an id called 'main'
-                legend.showAtLocation(this.findViewById(R.id.party_board), Gravity.CENTER, 0, 0);
-
-                Button btnExitInfo = (Button) popupView.findViewById(R.id.legend_close);
-                btnExitInfo.setOnClickListener(new View.OnClickListener() {
-
-                    @Override
-                    public void onClick(View v) {
-                        legend.dismiss();
-                    }
-                });
-
+                showDialog(LEGEND_DIALOG);
                 return true;
+                
             case R.id.party_statistics:
                 LinkedHashMap<String, Statistics> statistics = board.getStatistics();
                 Intent intent = new Intent(this, PartyStatistics.class);
                 intent.putExtra(PartyStatistics.STATISTICS, statistics);
                 startActivity(intent);
                 return true;
+                
             case R.id.rules:
                 Uri uri = Uri.parse("http://dev.zoumbox.org/maven-sites/zoumtarot/regles.html");
                 Intent rulesView = new Intent(Intent.ACTION_VIEW, uri);
                 startActivity(rulesView);
                 return true;
+                
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 
+    @Override
+    protected Dialog onCreateDialog(int id) {
+        if (id == LEGEND_DIALOG) {
+            final Dialog dialog = new Dialog(this);
+            dialog.setContentView(R.layout.legend);
+            dialog.setTitle(R.string.legend);
+            Button btnExitInfo = (Button) dialog.findViewById(R.id.legend_close);
+            btnExitInfo.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                    dialog.dismiss();
+                }
+            });
+            return dialog;
+        }
+        return super.onCreateDialog(id);
+    }
+    
     protected boolean isMax(int score) {
         int max = Integer.MIN_VALUE;
         for (int current : board.getScores().values()) {
