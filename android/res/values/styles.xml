@@ -29,13 +29,46 @@
     </style>
 
     <style name="List" parent="ZoumTarot">
-        <item name="android:background">#FFFFFF</item>
-        <item name="android:cacheColorHint">#FFFFFF</item>
+        <item name="android:background">@android:color/white</item>
+        <item name="android:cacheColorHint">@android:color/white</item>
     </style>
+    
     <style name="PartiesList" parent="List">
     </style>
     <style name="PartyBoard" parent="List">
     </style>
     <style name="Statistics" parent="List">
     </style>
+    
+    <style name="TextCommons">
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:singleLine">true</item>
+    </style>
+    
+    <style name="PlayerNames" parent="TextCommons">
+        <item name="android:ellipsize">end</item>
+        <item name="android:textSize">18dp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@android:color/black</item>
+    </style>
+    
+    <style name="Scores" parent="TextCommons">
+        <item name="android:textSize">16dp</item>
+        <item name="android:textColor">@color/score</item>
+    </style>
+    
+    <style name="Totals" parent="TextCommons">
+        <item name="android:textSize">18dp</item>
+        <item name="android:textStyle">bold|italic</item>
+    </style>
+    
+    <style name="Buttons" parent="TextCommons">
+        <item name="android:ellipsize">end</item>
+        <item name="android:textSize">16dp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+    
+    <color name="best_score">#009400</color>
+    <color name="worst_score">#FF0000</color>
+    <color name="score">#000000</color>
 </resources>

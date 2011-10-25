@@ -24,42 +24,36 @@
  */
 package org.zoumbox.tarot;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
-import android.graphics.Typeface;
-import android.text.SpannableString;
-import android.text.style.StyleSpan;
-import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.TableLayout;
-import android.widget.TableRow;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
-import com.google.common.collect.Lists;
 import org.zoumbox.tarot.engine.Deal;
 import org.zoumbox.tarot.engine.PlayerBoard;
 import org.zoumbox.tarot.engine.PointsCounter;
 
-import java.util.List;
 
 public class PartyBoardAdapter extends BaseAdapter {
 
-    private PlayerBoard board;
-    private Activity context;
+    protected PlayerBoard board;
+    protected int columnWidth;
 
-    public PartyBoardAdapter(Activity context, PlayerBoard board) {
-        // save the activity/context ref
-        this.context = context;
+    public PartyBoardAdapter(PlayerBoard board, int columnWidth) {
+        super();
         this.board = board;
+        this.columnWidth = columnWidth;
     }
 
     @Override
     public int getCount() {
-        int result = 1; // player names
-        result += board != null ? board.getDeals().size() : 0;
-        result += 1; // total
+        int result = 0;
+        if (board != null) {
+            result = board.getDeals().size();
+        }
         return result;
     }
 
@@ -75,132 +69,60 @@ public class PartyBoardAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int index, View cellRenderer, ViewGroup parent) {
-        DealCellRenderedView cellRendererView;
+    public View getView(int index, View view, ViewGroup parent) {
+        DealLineView line = (DealLineView) view;
 
-        if (cellRenderer == null) {
+        if (line == null) {
             // create the cell renderer
-            cellRendererView = new DealCellRenderedView(this.context, board.getPlayersCount());
-        } else {
-            cellRendererView = (DealCellRenderedView) cellRenderer;
+            line = new DealLineView(parent.getContext());
         }
+        line.setData(board.getDeals().get(index));
 
-        // update the cell renderer, and handle selection state
-        cellRendererView.display(index);
-
-        return cellRendererView;
+        return line;
     }
 
-    private class DealCellRenderedView extends TableLayout {
+    private class DealLineView extends LinearLayout {
 
-        List<TextView> cells;
-
-        public DealCellRenderedView(Context context, int nbPlayers) {
+        public DealLineView(Context context) {
             super(context);
-            init(nbPlayers);
+            init();
         }
 
-        private void init(int nbPlayers) {
-
-            cells = Lists.newArrayListWithCapacity(nbPlayers);
-
-            TableRow row = new TableRow(context);
-
-            int totalWidth = context.getWindowManager().getDefaultDisplay().getWidth();
+        private void init() {
+            int nbPlayers = board.getPlayersCount();
             for (int i = 0; i < nbPlayers; i++) {
-
-                TextView cell = new TextView(context);
-                cell.setWidth(totalWidth / nbPlayers);
-                cell.setPadding(5, 0, 5, 0);
-                cell.setGravity(Gravity.CENTER);
-
-                cells.add(cell);
-                row.addView(cell);
-            }
-            addView(row);
-
-        }
-
-        public void display(int index) {
-
-            boolean isTotal = (index > board.getDeals().size());
-            int playersCount = board.getPlayersCount();
-
-            if (index == 0) {
-                for (int coll = 0; coll < playersCount; coll++) {
-                    TextView cell = cells.get(coll);
-                    String playerName = board.getPlayers()[coll];
-
-                    cell.setTextColor(Color.BLACK);
-
-                    cell.setText(Tools.bold(playerName));
-                }
-
-            } else if (isTotal) {
-                for (int coll = 0; coll < playersCount; coll++) {
-                    TextView cell = cells.get(coll);
-                    String playerName = board.getPlayers()[coll];
-                    int score = board.getScores().get(playerName);
-
-                    String message = String.format("%d", score);
-
-                    if (isMax(score)) {
-                        cell.setTextColor(Color.parseColor("#009400"));
-                    } else if (isMin(score)) {
-                        cell.setTextColor(Color.RED);
-                    } else {
-                        cell.setTextColor(Color.BLACK);
-                    }
-
-                    cell.setText(Tools.bold_italic(message));
-                }
-            } else {
-                Deal deal = board.getDeals().get(index - 1);
-                for (int coll = 0; coll < playersCount; coll++) {
-                    TextView cell = cells.get(coll);
-                    String playerName = board.getPlayers()[coll];
-
-                    int score = PointsCounter.getPlayerDealScore(board, deal, playerName);
-
-                    String contractMark = "";
-                    String secondTakerMark = "";
-                    String wonMark = "";
-
-                    if (deal.isTaker(playerName)) {
-                        contractMark = deal.getContract().toShortString();
-                        wonMark = deal.isWon() ? "\u2191" : "\u2193"; // up or down arrow
-                    }
-                    if (deal.isSecondTaker(playerName)) {
-                        secondTakerMark = "\u002A"; // star
-                    }
-                    String suffix =
-                            String.format(" %s%s%s", contractMark, secondTakerMark, wonMark);
-                    String text = String.format("%d%s", score, suffix);
-
-                    cell.setTextColor(Color.BLACK);
-                    cell.setText(text);
-                }
-
+                TextView dealTV = (TextView) View.inflate(getContext(), R.layout.party_board_score, null);
+                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(columnWidth, LayoutParams.WRAP_CONTENT);
+                dealTV.setPadding(5, 0, 5, 0);
+                addView(dealTV, params);
             }
         }
 
-        private boolean isMax(int score) {
-            int max = Integer.MIN_VALUE;
-            for (int current : board.getScores().values()) {
-                max = Math.max(max, current);
-            }
-            boolean result = (max == score);
-            return result;
-        }
+        public void setData(Deal deal) {
+            for (int coll = 0; coll < board.getPlayersCount(); coll++) {
+                TextView cell = (TextView) getChildAt(coll);
+                String playerName = board.getPlayers()[coll];
 
-        private boolean isMin(int score) {
-            int min = Integer.MAX_VALUE;
-            for (int current : board.getScores().values()) {
-                min = Math.min(min, current);
+                int score = PointsCounter.getPlayerDealScore(board, deal, playerName);
+
+                String contractMark = "";
+                String secondTakerMark = "";
+                String wonMark = "";
+
+                if (deal.isTaker(playerName)) {
+                    contractMark = deal.getContract().toShortString();
+                    wonMark = deal.isWon() ? "\u2191" : "\u2193"; // up or down arrow
+                }
+                if (deal.isSecondTaker(playerName)) {
+                    secondTakerMark = "\u002A"; // star
+                }
+                String suffix =
+                        String.format(" %s%s%s", contractMark, secondTakerMark, wonMark);
+                String text = String.format("%d%s", score, suffix);
+
+                cell.setTextColor(Color.BLACK);
+                cell.setText(text);
             }
-            boolean result = (min == score);
-            return result;
         }
     }
-
 }

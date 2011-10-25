@@ -26,6 +26,7 @@ package org.zoumbox.tarot;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -34,10 +35,13 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
+import android.widget.TextView;
 import org.zoumbox.tarot.engine.Deal;
 import org.zoumbox.tarot.engine.Handful;
 import org.zoumbox.tarot.engine.PlayerBoard;
@@ -57,11 +61,10 @@ import java.util.Map;
 public class PartyBoard extends TarotActivity {
 
     protected PlayerBoard board;
-
+    protected int columnWidth;
     public static final String BOARD = "board";
     public static final String DEAL = "deal";
     public static final String DEAL_INDEX = "deal-index";
-
     public static final int NEW_DEAL = 0;
     public static final int EDIT_DEAL = 1;
     public static final int EDIT_PLAYERS = 2;
@@ -73,33 +76,62 @@ public class PartyBoard extends TarotActivity {
         setContentView(R.layout.party_board);
 
         this.board = (PlayerBoard) getIntent().getSerializableExtra(BOARD);
-        ListView listView = resetList();
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            public void onItemClick(AdapterView<?> parent, View view,
-                                    int position, long id) {
+        int screenWidth = getWindowManager().getDefaultDisplay().getWidth();
+        columnWidth = Math.round((float) screenWidth / board.getPlayersCount());
 
-                PlayerBoard board = PartyBoard.this.board;
+        createPlayerNames();
+        createTotals();
+        updateList();
 
-                boolean isTotal = (position > board.getDeals().size());
+        ListView list = (ListView) findViewById(R.id.party_board_list);
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
-                if (position == 0) {
-                    Intent intent = new Intent(PartyBoard.this, AddParty.class);
-                    intent.putExtra(AddParty.BOARD, board);
-                    startActivityForResult(intent, EDIT_PLAYERS);
-                } else if (isTotal) {
-                    // Nothing to do
-                } else {
-                    Intent intent = new Intent(PartyBoard.this, AddDeal.class);
-                    ArrayList<String> players = new ArrayList<String>(board.getScores().keySet());
-                    intent.putExtra(AddDeal.PLAYERS, players);
-                    int index = position - 1;
-                    intent.putExtra(AddDeal.DEAL, board.getDeals().get(index));
-                    intent.putExtra(AddDeal.INDEX, index);
-                    startActivityForResult(intent, EDIT_DEAL);
-                }
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(PartyBoard.this, AddDeal.class);
+                ArrayList<String> players = new ArrayList<String>(board.getScores().keySet());
+                intent.putExtra(AddDeal.PLAYERS, players);
+                intent.putExtra(AddDeal.DEAL, board.getDeals().get(position));
+                intent.putExtra(AddDeal.INDEX, position);
+                startActivityForResult(intent, EDIT_DEAL);
             }
         });
+    }
+
+    protected void createPlayerNames() {
+        LinearLayout playerNames = (LinearLayout) findViewById(R.id.party_board_player_names);
+        int playersCount = board.getPlayersCount();
+
+        for (int index = 0; index < playersCount; index++) {
+            TextView playerNameTV = (TextView) View.inflate(this, R.layout.party_board_player_name, null);
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(columnWidth, LayoutParams.WRAP_CONTENT);
+            playerNames.addView(playerNameTV, params);
+
+        }
+        
+        playerNames.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(PartyBoard.this, AddParty.class);
+                intent.putExtra(AddParty.BOARD, board);
+                startActivityForResult(intent, EDIT_PLAYERS);
+            }
+        });
+        
+        updatePlayers();
+    }
+
+    protected void createTotals() {
+        LinearLayout totals = (LinearLayout) findViewById(R.id.party_board_totals);
+        int playersCount = board.getPlayersCount();
+
+        for (int index = 0; index < playersCount; index++) {
+            TextView totalTV = (TextView) View.inflate(this, R.layout.party_board_total, null);
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(columnWidth, LayoutParams.WRAP_CONTENT);
+            totals.addView(totalTV, params);
+        }
     }
 
     @Override
@@ -108,13 +140,48 @@ public class PartyBoard extends TarotActivity {
         super.saveBoard(board);
     }
 
-    private ListView resetList() {
-        ListView list = (ListView) findViewById(R.id.party_board_list);
+    protected void updatePlayers() {
+        LinearLayout playerNames = (LinearLayout) findViewById(R.id.party_board_player_names);
+        int playersCount = board.getPlayersCount();
 
-        PartyBoardAdapter adapter = new PartyBoardAdapter(this, board);
+        for (int index = 0; index < playersCount; index++) {
+            String playerName = board.getPlayers()[index];
+            TextView playerNameTV = (TextView) playerNames.getChildAt(index);
+            playerNameTV.setText(playerName);
+        }
+    }
+    
+    protected void updateList() {
+        ListView list = (ListView) findViewById(R.id.party_board_list);
+        PartyBoardAdapter adapter = new PartyBoardAdapter(board, columnWidth);
         list.setAdapter(adapter);
 
-        return list;
+        updateTotals();
+    }
+
+    protected void updateTotals() {
+        LinearLayout totals = (LinearLayout) findViewById(R.id.party_board_totals);
+        int playersCount = board.getPlayersCount();
+        Map<String, Integer> scores = board.getScores();
+
+        for (int playerIndex = 0; playerIndex < playersCount; playerIndex++) {
+            TextView totalTV = (TextView) totals.getChildAt(playerIndex);
+            
+            String playerName = board.getPlayers()[playerIndex];
+            int score = scores.get(playerName);
+            String total = String.format("%d", score);
+            totalTV.setText(total);
+            
+            int color;
+            if (isMax(score)) {
+                color = getResources().getColor(R.color.best_score);
+            } else if (isMin(score)) {
+                color = getResources().getColor(R.color.worst_score);
+            } else {
+                color = getResources().getColor(R.color.score);
+            }
+            totalTV.setTextColor(color);
+        }
     }
 
     public void onNewDealButtonClicked(View target) {
@@ -124,8 +191,8 @@ public class PartyBoard extends TarotActivity {
         startActivityForResult(intent, NEW_DEAL);
     }
 
-    protected void onActivityResult(int requestCode, int resultCode,
-                                    Intent data) {
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
             if (requestCode == NEW_DEAL || requestCode == EDIT_DEAL) {
                 Deal deal = (Deal) data.getSerializableExtra(DEAL);
@@ -144,7 +211,7 @@ public class PartyBoard extends TarotActivity {
                 }
 
                 saveBoard(board);
-                resetList();
+                updateList();
 
                 boolean is5PlayersGame = (board.getPlayers().length == 5 && !deal.isTakerAlone());
 
@@ -205,10 +272,11 @@ public class PartyBoard extends TarotActivity {
                 if (!board.isScoreCoherent()) {
                     showToast("ERROR: Score is not coherent !");
                 }
+
             } else if (requestCode == EDIT_PLAYERS) {
                 PlayerBoard playerBoard = (PlayerBoard) data.getSerializableExtra(BOARD);
                 saveBoard(playerBoard);
-                resetList();
+                updatePlayers();
             }
         }
     }
@@ -233,8 +301,7 @@ public class PartyBoard extends TarotActivity {
         // Handle item selection
         switch (item.getItemId()) {
             case R.id.legend:
-                LayoutInflater inflater = (LayoutInflater)
-                        this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 final View popupView = inflater.inflate(R.layout.legend, null, false);
                 final PopupWindow legend = new PopupWindow(
                         popupView,
@@ -246,6 +313,8 @@ public class PartyBoard extends TarotActivity {
 
                 Button btnExitInfo = (Button) popupView.findViewById(R.id.legend_close);
                 btnExitInfo.setOnClickListener(new View.OnClickListener() {
+
+                    @Override
                     public void onClick(View v) {
                         legend.dismiss();
                     }
@@ -268,4 +337,21 @@ public class PartyBoard extends TarotActivity {
         }
     }
 
+    protected boolean isMax(int score) {
+        int max = Integer.MIN_VALUE;
+        for (int current : board.getScores().values()) {
+            max = Math.max(max, current);
+        }
+        boolean result = (max == score);
+        return result;
+    }
+
+    protected boolean isMin(int score) {
+        int min = Integer.MAX_VALUE;
+        for (int current : board.getScores().values()) {
+            min = Math.min(min, current);
+        }
+        boolean result = (min == score);
+        return result;
+    }
 }

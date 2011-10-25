@@ -27,12 +27,14 @@ package org.zoumbox.tarot;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.text.SpannableString;
 import android.text.style.StyleSpan;
+import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.TableLayout;
+import android.widget.LinearLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 import com.google.common.base.Joiner;
@@ -46,11 +48,10 @@ import java.util.List;
 public class PartiesListAdapter extends BaseAdapter {
 
     private List<PlayerBoard> boards;
-    private Activity context;
 
-    public PartiesListAdapter(Activity context, List<PlayerBoard> boards) {
+    public PartiesListAdapter(List<PlayerBoard> boards) {
         // save the activity/context ref
-        this.context = context;
+        super();
         this.boards = boards;
     }
 
@@ -72,62 +73,50 @@ public class PartiesListAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int index, View cellRenderer, ViewGroup parent) {
-        PartyCellRenderedView cellRendererView;
-
-        if (cellRenderer == null) {
+    public View getView(int index, View view, ViewGroup parent) {
+        PartyLineView line = (PartyLineView) view;
+        if (line == null) {
             // create the cell renderer
-            cellRendererView = new PartyCellRenderedView(this.context);
-        } else {
-            cellRendererView = (PartyCellRenderedView) cellRenderer;
+            line = new PartyLineView(parent.getContext());
         }
-
         // update the cell renderer, and handle selection state
-        cellRendererView.display(index);
+        line.setData(index);
 
-        return cellRendererView;
+        return line;
     }
 
-    private class PartyCellRenderedView extends TableLayout {
+    private class PartyLineView extends LinearLayout {
 
         public static final String PATTERN = "dd MMMM yyyy à HH:mm";
 
         TextView playerNamesTV;
         TextView detailsTV;
 
-        public PartyCellRenderedView(Context context) {
+        public PartyLineView(Context context) {
             super(context);
             init();
         }
 
         private void init() {
+            setOrientation(VERTICAL);
+            
+            playerNamesTV = new TextView(getContext());
+            playerNamesTV.setPadding(10, 0, 0, 0);
+            addView(playerNamesTV);
 
-            {
-                TableRow row = new TableRow(context);
-                row.setPadding(10, 0, 0, 0);
-
-                playerNamesTV = new TextView(context);
-
-                row.addView(playerNamesTV);
-                addView(row);
-            }
-
-            {
-                TableRow row = new TableRow(context);
-                row.setPadding(15, 0, 0, 0);
-
-                detailsTV = new TextView(context);
-
-                row.addView(detailsTV);
-                addView(row);
-            }
+            detailsTV = new TextView(getContext());
+            detailsTV.setPadding(15, 0, 0, 0);
+            addView(detailsTV);
 
             playerNamesTV.setTextColor(Color.BLACK);
+            playerNamesTV.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 18);
+            playerNamesTV.setTypeface(Typeface.DEFAULT_BOLD);
+            
             detailsTV.setTextColor(Color.GRAY);
-
+            detailsTV.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
         }
 
-        public void display(int index) {
+        public void setData(int index) {
             PlayerBoard board = (PlayerBoard) getItem(index);
 
             String names = Joiner.on(", ").join(board.getPlayers());

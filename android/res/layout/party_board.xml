@@ -23,24 +23,41 @@
   <http://www.gnu.org/licenses/gpl-3.0.html>.
   #L%
   -->
-
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:id="@+id/party_board"
               style="@style/PartyBoard"
               android:orientation="vertical"
               android:layout_width="fill_parent"
               android:layout_height="fill_parent">
-
+    
+    <LinearLayout android:id="@+id/party_board_player_names"
+                  android:orientation="horizontal"
+                  android:layout_width="fill_parent"
+                  android:layout_height="wrap_content"/>
+               
+    <ImageView android:src="@android:color/black"
+               android:layout_width="fill_parent"
+               android:layout_height="1dp"/>
+    
     <ListView android:id="@+id/party_board_list"
               style="@style/PartyBoard"
-              android:orientation="vertical"
               android:layout_width="fill_parent"
               android:layout_height="wrap_content"
               android:layout_weight="1"/>
 
+    <ImageView android:src="@android:color/black"
+               android:layout_width="fill_parent"
+               android:layout_height="1dp"/>
+               
+    <LinearLayout android:id="@+id/party_board_totals"
+                  android:orientation="horizontal"
+                  android:layout_width="fill_parent"
+                  android:layout_height="wrap_content"/>
+
     <Button android:id="@+id/addDealButton"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            style="@style/Buttons"
             android:text="@string/new_deal"
             android:onClick="onNewDealButtonClicked"/>
 
