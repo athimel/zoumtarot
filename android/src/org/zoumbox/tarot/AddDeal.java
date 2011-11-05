@@ -244,6 +244,7 @@ public class AddDeal extends TarotActivity {
         Button saveButton = (Button) findViewById(R.id.saveButton);
 
         saveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
             public void onClick(View view) {
                 onSaveButtonClicked(index);
             }

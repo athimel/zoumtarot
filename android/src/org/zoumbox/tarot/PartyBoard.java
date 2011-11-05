@@ -24,14 +24,10 @@
  */
 package org.zoumbox.tarot;
 
-import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -41,7 +37,6 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.PopupWindow;
 import android.widget.TextView;
 import org.zoumbox.tarot.engine.Deal;
 import org.zoumbox.tarot.engine.Handful;
@@ -66,11 +61,9 @@ public class PartyBoard extends TarotActivity {
     public static final String BOARD = "board";
     public static final String DEAL = "deal";
     public static final String DEAL_INDEX = "deal-index";
-    
     public static final int NEW_DEAL = 0;
     public static final int EDIT_DEAL = 1;
     public static final int EDIT_PLAYERS = 2;
-    
     protected static final int LEGEND_DIALOG = 0;
 
     @Override
@@ -113,7 +106,7 @@ public class PartyBoard extends TarotActivity {
             playerNames.addView(playerNameTV, params);
 
         }
-        
+
         playerNames.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -123,7 +116,7 @@ public class PartyBoard extends TarotActivity {
                 startActivityForResult(intent, EDIT_PLAYERS);
             }
         });
-        
+
         updatePlayers();
     }
 
@@ -154,7 +147,7 @@ public class PartyBoard extends TarotActivity {
             playerNameTV.setText(playerName);
         }
     }
-    
+
     protected void updateList() {
         ListView list = (ListView) findViewById(R.id.party_board_list);
         PartyBoardAdapter adapter = new PartyBoardAdapter(board, columnWidth);
@@ -170,12 +163,12 @@ public class PartyBoard extends TarotActivity {
 
         for (int playerIndex = 0; playerIndex < playersCount; playerIndex++) {
             TextView totalTV = (TextView) totals.getChildAt(playerIndex);
-            
+
             String playerName = board.getPlayers()[playerIndex];
             int score = scores.get(playerName);
             String total = String.format("%d", score);
             totalTV.setText(total);
-            
+
             int color;
             if (isMax(score)) {
                 color = getResources().getColor(R.color.best_score);
@@ -307,20 +300,20 @@ public class PartyBoard extends TarotActivity {
             case R.id.legend:
                 showDialog(LEGEND_DIALOG);
                 return true;
-                
+
             case R.id.party_statistics:
                 LinkedHashMap<String, Statistics> statistics = board.getStatistics();
                 Intent intent = new Intent(this, PartyStatistics.class);
                 intent.putExtra(PartyStatistics.STATISTICS, statistics);
                 startActivity(intent);
                 return true;
-                
+
             case R.id.rules:
                 Uri uri = Uri.parse("http://dev.zoumbox.org/maven-sites/zoumtarot/regles.html");
                 Intent rulesView = new Intent(Intent.ACTION_VIEW, uri);
                 startActivity(rulesView);
                 return true;
-                
+
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -344,7 +337,7 @@ public class PartyBoard extends TarotActivity {
         }
         return super.onCreateDialog(id);
     }
-    
+
     protected boolean isMax(int score) {
         int max = Integer.MIN_VALUE;
         for (int current : board.getScores().values()) {

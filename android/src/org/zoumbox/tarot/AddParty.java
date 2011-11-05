@@ -100,6 +100,7 @@ public class AddParty extends TarotActivity {
         saveButton = (Button) findViewById(R.id.saveButton);
 
         saveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
             public void onClick(View v) {
                 onSaveButtonClicked();
             }

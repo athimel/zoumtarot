@@ -29,13 +29,11 @@ import android.graphics.Color;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import org.zoumbox.tarot.engine.Deal;
 import org.zoumbox.tarot.engine.PlayerBoard;
 import org.zoumbox.tarot.engine.PointsCounter;
-
 
 public class PartyBoardAdapter extends BaseAdapter {
 

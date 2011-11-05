@@ -86,7 +86,7 @@
                 </executions>
                 <configuration>
                     <sdk>
-                        <path>${env.ANDROID_HOME}</path>
+                        <path>/opt/android-sdk-linux</path>
                         <platform>1.6</platform>
                     </sdk>
                     <deleteConflictingFiles>true</deleteConflictingFiles>

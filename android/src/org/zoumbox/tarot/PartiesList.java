@@ -24,6 +24,7 @@
  */
 package org.zoumbox.tarot;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -53,6 +54,7 @@ import java.util.List;
 public class PartiesList extends TarotActivity {
 
     public static final int DISPLAY_BOARD = 0;
+    protected static final int CREDIT_DIALOG = 0;
 
     /**
      * Called when the activity is first created.
@@ -84,6 +86,7 @@ public class PartiesList extends TarotActivity {
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
+            @Override
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
                 Intent intent = new Intent(PartiesList.this, PartyBoard.class);
@@ -143,8 +146,8 @@ public class PartiesList extends TarotActivity {
         startActivityForResult(intent, DISPLAY_BOARD);
     }
 
-    protected void onActivityResult(int requestCode, int resultCode,
-                                    Intent data) {
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == DISPLAY_BOARD && resultCode == RESULT_CANCELED) {
             resetList();
         }
@@ -170,23 +173,7 @@ public class PartiesList extends TarotActivity {
                 startActivity(intent_version);
                 return true;
             case R.id.credits:
-                LayoutInflater inflater = (LayoutInflater)
-                        this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                final View popupView = inflater.inflate(R.layout.credits, null, false);
-                final PopupWindow credits = new PopupWindow(
-                        popupView,
-                        this.getWindowManager().getDefaultDisplay().getWidth() - 75,
-                        this.getWindowManager().getDefaultDisplay().getHeight() - 100,
-                        true);
-                // The code below assumes that the root container has an id called 'main'
-                credits.showAtLocation(this.findViewById(R.id.main), Gravity.CENTER, 0, 0);
-
-                Button btnExitInfo = (Button) popupView.findViewById(R.id.credits_close);
-                btnExitInfo.setOnClickListener(new View.OnClickListener() {
-                    public void onClick(View v) {
-                        credits.dismiss();
-                    }
-                });
+                showDialog(CREDIT_DIALOG);
                 return true;
             case R.id.general_statistics:
                 List<PlayerBoard> boards = loadBoards();
@@ -203,6 +190,25 @@ public class PartiesList extends TarotActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+    
+    @Override
+    protected Dialog onCreateDialog(int id) {
+        if (id == CREDIT_DIALOG) {
+            final Dialog dialog = new Dialog(this);
+            dialog.setContentView(R.layout.credits);
+            dialog.setTitle(R.string.app_name);
+            Button btnExitInfo = (Button) dialog.findViewById(R.id.credits_close);
+            btnExitInfo.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                    dialog.dismiss();
+                }
+            });
+            return dialog;
+        }
+        return super.onCreateDialog(id);
     }
 
 }

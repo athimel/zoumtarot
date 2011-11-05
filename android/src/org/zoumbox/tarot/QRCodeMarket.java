@@ -35,6 +35,7 @@ import android.widget.ImageView;
  */
 public class QRCodeMarket extends Activity {
 
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
