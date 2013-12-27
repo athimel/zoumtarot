@@ -46,26 +46,38 @@ public class PlayerBoard implements Serializable {
 
     private static final long serialVersionUID = -2231617148598930878L;
 
-    protected LinkedHashMap<String, Integer> scores = new LinkedHashMap<String, Integer>();
-    protected LinkedList<Deal> deals = new LinkedList<Deal>();
+    protected LinkedHashMap<String, Integer> scores = Maps.newLinkedHashMap();
+    protected LinkedList<Deal> deals = Lists.newLinkedList();
 
     protected long creationDate = -1;
 
     public void newParty(Collection<String> players) {
-        ArrayList<String> playersCopy = Lists.newArrayList(players); // To be sure we're not working on the same list
+        List<String> playersCopy = Lists.newArrayList(players); // To be sure we're not working on the same list
         clear();
         initPlayers(playersCopy);
         initDate();
+    }
+
+    public void newParty(String player1, String player2, String player3) {
+        newParty(Arrays.asList(player1, player2, player3));
+    }
+
+    public void newParty(String player1, String player2, String player3, String player4) {
+        newParty(Arrays.asList(player1, player2, player3, player4));
+    }
+
+    public void newParty(String player1, String player2, String player3, String player4, String player5) {
+        newParty(Arrays.asList(player1, player2, player3, player4, player5));
+    }
+
+    public void newParty(String player1, String player2, String player3, String player4, String player5, String player6) {
+        newParty(Arrays.asList(player1, player2, player3, player4, player5, player6));
     }
 
     private void initDate() {
         if (creationDate == -1) {
             creationDate = System.currentTimeMillis();
         }
-    }
-
-    public void newParty(String... players) {
-        newParty(Arrays.asList(players));
     }
 
     protected void clear() {
@@ -78,9 +90,9 @@ public class PlayerBoard implements Serializable {
         if (players != null) {
             playersCount = players.size();
         }
-        if (playersCount == 0 || (playersCount != 3 && playersCount != 4 && playersCount != 5)) {
+        if (playersCount == 0 || (playersCount != 3 && playersCount != 4 && playersCount != 5 && playersCount != 6)) {
             String message =
-                    "Only 3, 4 and 5 players are supported for the moment. You gave %d player names.";
+                    "Only 3, 4, 5 and 6 players are supported for the moment. You gave %d player names.";
             throw new UnsupportedOperationException(String.format(message, playersCount));
         }
         for (String player : players) {
@@ -88,19 +100,23 @@ public class PlayerBoard implements Serializable {
         }
     }
 
-    public void dealEnded(Deal deal) {
-        if (isDealComplete(deal)) {
-            deals.add(deal);
-            deal.initDate();
+    public void dealEnded(Deal deal) throws IncompatibleDealException {
+        if (!isDealCompatible(deal)) {
+            throw new IncompatibleDealException("The given deal is not compatible with the current party");
+        }
+        if (!isDealComplete(deal)) {
+            throw new IncompleteDealException("The given deal is not complete");
+        }
+        deals.add(deal);
+        deal.initDate();
 
-            for (Map.Entry<String, Integer> entry : scores.entrySet()) {
-                String playerName = entry.getKey();
-                Integer playerScore = entry.getValue();
+        for (Map.Entry<String, Integer> entry : scores.entrySet()) {
+            String playerName = entry.getKey();
+            Integer playerScore = entry.getValue();
 
-                int playerPartyScore = PointsCounter.getPlayerDealScore(this, deal, playerName);
-                playerScore += playerPartyScore;
-                entry.setValue(playerScore);
-            }
+            int playerPartyScore = PointsCounter.getPlayerDealScore(this, deal, playerName);
+            playerScore += playerPartyScore;
+            entry.setValue(playerScore);
         }
     }
 
@@ -120,6 +136,31 @@ public class PlayerBoard implements Serializable {
         return true; // TODO Arno 28/01/2011
     }
 
+    public boolean isDealCompatible(Deal deal) {
+        if (deal.getSecondTaker() != null) {
+            if (!containsPlayer(deal.getSecondTaker()) || !(isA5PlayersGame() || isA6PlayersGame())) {
+                return false;
+            }
+        }
+        if (deal.getExcludedPlayer() != null) {
+            if (!containsPlayer(deal.getExcludedPlayer()) || !isA6PlayersGame()) {
+                return false;
+            }
+        }
+        if (isA5PlayersGame()) {
+            return deal.getSecondTaker() != null;
+        }
+        if (isA6PlayersGame()) {
+            return deal.getSecondTaker() != null && deal.getExcludedPlayer() != null;
+        }
+        return true;
+    }
+
+    private boolean containsPlayer(String player) {
+        boolean result = getPlayers().contains(player);
+        return result;
+    }
+
     public boolean isScoreCoherent() {
         int total = 0;
         for (Integer score : scores.values()) {
@@ -134,13 +175,18 @@ public class PlayerBoard implements Serializable {
         return result;
     }
 
+    public boolean isA3PlayersGame() {
+        boolean result = (scores.size() == 3);
+        return result;
+    }
+
     public boolean isA5PlayersGame() {
         boolean result = (scores.size() == 5);
         return result;
     }
 
-    public boolean isA3PlayersGame() {
-        boolean result = (scores.size() == 3);
+    public boolean isA6PlayersGame() {
+        boolean result = (scores.size() == 6);
         return result;
     }
 
@@ -150,9 +196,8 @@ public class PlayerBoard implements Serializable {
         return result;
     }
 
-    public String[] getPlayers() {
-        String[] result = new String[scores.size()];
-        result = scores.keySet().toArray(result);
+    public List<String> getPlayers() {
+        List<String> result = Lists.newArrayList(scores.keySet());
         return result;
     }
 
@@ -163,8 +208,8 @@ public class PlayerBoard implements Serializable {
     }
 
     protected void resetScore() {
-        String[] players = getPlayers();
-        List<Deal> gamesCopy = new ArrayList<Deal>(deals);
+        List<String> players = getPlayers();
+        List<Deal> gamesCopy = Lists.newArrayList(deals);
         newParty(players);
         for (Deal deal : gamesCopy) {
             dealEnded(deal);
@@ -172,16 +217,16 @@ public class PlayerBoard implements Serializable {
     }
 
     public void replacePlayers(List<String> players) {
-        String[] inPlacePlayers = getPlayers();
-        if (inPlacePlayers.length != players.size()) {
+        List<String> inPlacePlayers = getPlayers();
+        if (inPlacePlayers.size() != players.size()) {
             throw new UnsupportedOperationException("It is not possible to modify player count");
         }
         String key = "__replaceBy#" + System.currentTimeMillis() + "#";
         // Rename in two phase to avoid player name collision during renaming
-        for (int i = 0; i < inPlacePlayers.length; i++) {
-            renamePlayer(inPlacePlayers[i], key + i);
+        for (int i = 0; i < inPlacePlayers.size(); i++) {
+            renamePlayer(inPlacePlayers.get(i), key + i);
         }
-        for (int i = 0; i < inPlacePlayers.length; i++) {
+        for (int i = 0; i < inPlacePlayers.size(); i++) {
             renamePlayer(key + i, players.get(i));
         }
     }

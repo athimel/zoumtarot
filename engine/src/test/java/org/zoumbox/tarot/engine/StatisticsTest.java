@@ -33,7 +33,7 @@ import java.util.Map;
 /**
  * @author Arnaud Thimel <arno@zoumbox.org>
  */
-public class StatisticsTest {
+public class StatisticsTest extends AbstractTarotTest {
 
     @Test
     public void test3PlayersParty() throws Exception {
@@ -41,8 +41,7 @@ public class StatisticsTest {
         PlayerBoard board = new PlayerBoard();
         board.newParty("Arno", "Yannick", "Julien");
 
-        Deal deal = new Deal();
-        deal.setNominalCase("Yannick", Contract.GARDE, Oudlers.TWO, 42);
+        Deal deal = getNominalDeal("Yannick", Contract.GARDE, Oudlers.TWO, 42);
         board.dealEnded(deal);
 
         Map<String, Statistics> statistics = board.getStatistics();
@@ -60,30 +59,24 @@ public class StatisticsTest {
         PlayerBoard board = new PlayerBoard();
         board.newParty("Arno", "Yannick", "Julien", "Florian");
 
-        Deal deal = new Deal();
-        deal.setNominalCase("Arno", Contract.GARDE, Oudlers.TWO, 49.0);
+        Deal deal = getNominalDeal("Arno", Contract.GARDE, Oudlers.TWO, 49.0);
         board.dealEnded(deal);
 
-        deal = new Deal();
-        deal.setNominalCase("Arno", Contract.PRISE, Oudlers.TWO, 49.0);
+        deal = getNominalDeal("Arno", Contract.PRISE, Oudlers.TWO, 49.0);
         board.dealEnded(deal);
 
-        deal = new Deal();
-        deal.setNominalCase("Julien", Contract.GARDE_CONTRE, Oudlers.TWO, 49.0);
+        deal = getNominalDeal("Julien", Contract.GARDE_CONTRE, Oudlers.TWO, 49.0);
         board.dealEnded(deal);
 
 
-        deal = new Deal();
-        deal.setNominalCase("Julien", Contract.GARDE_CONTRE, Oudlers.TWO, 40.0);
+        deal = getNominalDeal("Julien", Contract.GARDE_CONTRE, Oudlers.TWO, 40.0);
         board.dealEnded(deal);
 
 
-        deal = new Deal();
-        deal.setNominalCase("Julien", Contract.GARDE, Oudlers.TWO, 49.0);
+        deal = getNominalDeal("Julien", Contract.GARDE, Oudlers.TWO, 49.0);
         board.dealEnded(deal);
 
-        deal = new Deal();
-        deal.setNominalCase("Yannick", Contract.GARDE, Oudlers.TWO, 42);
+        deal = getNominalDeal("Yannick", Contract.GARDE, Oudlers.TWO, 42);
         board.dealEnded(deal);
 
         Map<String, Statistics> statistics = board.getStatistics();
@@ -116,24 +109,19 @@ public class StatisticsTest {
         PlayerBoard board = new PlayerBoard();
         board.newParty("Kevin", "Florian", "Yannick", "Julien", "Corentin");
 
-        Deal deal = new Deal();
-        deal.set5PlayersCase("Kevin", "Julien", Contract.GARDE_SANS, Oudlers.ONE, 61);
+        Deal deal = get5PlayersDeal("Kevin", "Julien", Contract.GARDE_SANS, Oudlers.ONE, 61);
         board.dealEnded(deal);
 
-        deal = new Deal();
-        deal.set5PlayersCase("Kevin", "Yannick", Contract.GARDE, Oudlers.TWO, 31);
+        deal = get5PlayersDeal("Kevin", "Yannick", Contract.GARDE, Oudlers.TWO, 31);
         board.dealEnded(deal);
 
-        deal = new Deal();
-        deal.set5PlayersCase("Corentin", "Julien", Contract.GARDE, Oudlers.THREE, 26);
+        deal = get5PlayersDeal("Corentin", "Julien", Contract.GARDE, Oudlers.THREE, 26);
         board.dealEnded(deal);
 
-        deal = new Deal();
-        deal.set5PlayersCase("Yannick", "Florian", Contract.GARDE_SANS, Oudlers.NONE, 46);
+        deal = get5PlayersDeal("Yannick", "Florian", Contract.GARDE_SANS, Oudlers.NONE, 46);
         board.dealEnded(deal);
 
-        deal = new Deal();
-        deal.set5PlayersCase("Yannick", "Corentin", Contract.GARDE_CONTRE, Oudlers.NONE, 46);
+        deal = get5PlayersDeal("Yannick", "Corentin", Contract.GARDE_CONTRE, Oudlers.NONE, 46);
         board.dealEnded(deal);
 
         Map<String, Statistics> statistics = board.getStatistics();
@@ -171,23 +159,19 @@ public class StatisticsTest {
         PlayerBoard board = new PlayerBoard();
         board.newParty("Arno", "Yannick", "Julien", "Florian");
 
-        Deal deal = new Deal();
-        deal.setNominalCase("Arno", Contract.GARDE, Oudlers.TWO, 30.0);
+        Deal deal = getNominalDeal("Arno", Contract.GARDE, Oudlers.TWO, 30.0);
         board.dealEnded(deal);
 
-        deal = new Deal();
-        deal.setNominalCase("Julien", Contract.GARDE, Oudlers.TWO, 49.0);
+        deal = getNominalDeal("Julien", Contract.GARDE, Oudlers.TWO, 49.0);
         board.dealEnded(deal);
 
         PlayerBoard board2 = new PlayerBoard();
         board2.newParty("Arno", "Charlotte", "Bernard", "Florian");
 
-        deal = new Deal();
-        deal.setNominalCase("Arno", Contract.GARDE_SANS, Oudlers.TWO, 49.0);
+        deal = getNominalDeal("Arno", Contract.GARDE_SANS, Oudlers.TWO, 49.0);
         board2.dealEnded(deal);
 
-        deal = new Deal();
-        deal.setNominalCase("Bernard", Contract.GARDE, Oudlers.TWO, 41.0);
+        deal = getNominalDeal("Bernard", Contract.GARDE, Oudlers.TWO, 41.0);
         board2.dealEnded(deal);
 
         Map<String, Statistics> statistics = StatisticsHelper.getStatistics(Arrays.asList(board, board2));

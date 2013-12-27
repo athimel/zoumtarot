@@ -52,6 +52,8 @@ public class Deal implements Serializable {
 
     protected String secondTaker;
 
+    protected String excludedPlayer;
+
     protected Contract contract;
 
     protected Oudlers oudlers;
@@ -69,24 +71,6 @@ public class Deal implements Serializable {
     protected boolean slamAnnounced = false;
 
     protected int oneIsLast = 0; // 1 means for the takers ; -1 means for the defense
-
-    public void setNominalCase(
-            String taker, Contract contract, Oudlers oudlers, double score) {
-        setTaker(taker);
-        setContract(contract);
-        setOudlers(oudlers);
-        setScore(score);
-    }
-
-    public void set5PlayersCase(
-            String taker, String secondTaker, Contract contract,
-            Oudlers oudlers, double score) {
-        setTaker(taker);
-        setSecondTaker(secondTaker);
-        setContract(contract);
-        setOudlers(oudlers);
-        setScore(score);
-    }
 
     public long getDate() {
         return date;
@@ -110,6 +94,14 @@ public class Deal implements Serializable {
 
     public void setSecondTaker(String secondTaker) {
         this.secondTaker = secondTaker;
+    }
+
+    public String getExcludedPlayer() {
+        return excludedPlayer;
+    }
+
+    public void setExcludedPlayer(String excludedPlayer) {
+        this.excludedPlayer = excludedPlayer;
     }
 
     public Contract getContract() {
@@ -174,7 +166,7 @@ public class Deal implements Serializable {
     }
 
     public boolean isTaker(String player) {
-        boolean result = taker.equals(player);
+        boolean result = taker != null && taker.equals(player);
         return result;
     }
 
@@ -183,8 +175,13 @@ public class Deal implements Serializable {
         return result;
     }
 
+    public boolean isExcludedPlayer(String player) {
+        boolean result = excludedPlayer != null && excludedPlayer.equals(player);
+        return result;
+    }
+
     public boolean isTakerAlone() {
-        boolean result = (secondTaker == null || taker.equals(secondTaker));
+        boolean result = taker.equals(secondTaker);
         return result;
     }
 

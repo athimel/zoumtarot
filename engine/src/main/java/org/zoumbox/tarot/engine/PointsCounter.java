@@ -82,23 +82,30 @@ public class PointsCounter {
         int playerPartyScore = getScoreSeed(deal);
         boolean isTaker = deal.isTaker(playerName);
         boolean isSecondTaker = deal.isSecondTaker(playerName);
-        if (!isTaker && !isSecondTaker) { // N'a pas pris, on inverse le score
-            playerPartyScore *= -1;
-        }
+        boolean isExcludedPlayer = deal.isExcludedPlayer(playerName);
 
-        // Cas particulier du score du preneur
-        if (isTaker) {
-            // Par défaut, 4 joueurs, coeff=3
-            int takerCoeff = 3;
+        if (isExcludedPlayer) {
+            playerPartyScore = 0;
+        } else {
 
-            if (board.isA3PlayersGame()) {
-                // A 3 joueurs, le coeff n'est que de 2
-                takerCoeff = 2;
-            } else if (board.isA5PlayersGame()) {
-                // A 5 joueurs, ca dépend de s'il est tout seul ou pas
-                takerCoeff = deal.isTakerAlone() ? 4 : 2;
+            if (!isTaker && !isSecondTaker) { // N'a pas pris, on inverse le score
+                playerPartyScore *= -1;
             }
-            playerPartyScore *= takerCoeff;
+
+            // Cas particulier du score du preneur
+            if (isTaker) {
+                // Par défaut, 4 joueurs, coeff=3
+                int takerCoeff = 3;
+
+                if (board.isA3PlayersGame()) {
+                    // À 3 joueurs, le coeff n'est que de 2
+                    takerCoeff = 2;
+                } else if (board.isA5PlayersGame() || board.isA6PlayersGame()) {
+                    // À 5 ou 6 joueurs, ça dépend de s'il est tout seul ou pas
+                    takerCoeff = deal.isTakerAlone() ? 4 : 2;
+                }
+                playerPartyScore *= takerCoeff;
+            }
         }
         return playerPartyScore;
 
