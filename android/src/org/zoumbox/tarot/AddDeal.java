@@ -369,9 +369,13 @@ public class AddDeal extends TarotActivity {
             return getString(R.string.deal_score_range);
         }
         if (score != Math.round(score)) { // multiple de '0.0'
-            if (playerCount == 5) {
+            if (playerCount == 3 || playerCount == 5) {
                 if ((score + 0.5) != Math.round(score + 0.5)) { // multiple de '0.5'
-                    return getString(R.string.deal_score_5players);
+                    if (playerCount == 3) {
+                        return getString(R.string.deal_score_3players);
+                    } else {
+                        return getString(R.string.deal_score_5players);
+                    }
                 }
             } else {
                 return getString(R.string.deal_score_4players);
