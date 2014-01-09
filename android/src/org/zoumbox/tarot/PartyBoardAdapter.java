@@ -99,7 +99,7 @@ public class PartyBoardAdapter extends BaseAdapter {
         public void setData(Deal deal) {
             for (int coll = 0; coll < board.getPlayersCount(); coll++) {
                 TextView cell = (TextView) getChildAt(coll);
-                String playerName = board.getPlayers()[coll];
+                String playerName = board.getPlayers().get(coll);
 
                 int score = PointsCounter.getPlayerDealScore(board, deal, playerName);
 

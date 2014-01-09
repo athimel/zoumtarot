@@ -142,7 +142,7 @@ public class PartyBoard extends TarotActivity {
         int playersCount = board.getPlayersCount();
 
         for (int index = 0; index < playersCount; index++) {
-            String playerName = board.getPlayers()[index];
+            String playerName = board.getPlayers().get(index);
             TextView playerNameTV = (TextView) playerNames.getChildAt(index);
             playerNameTV.setText(playerName);
         }
@@ -164,7 +164,7 @@ public class PartyBoard extends TarotActivity {
         for (int playerIndex = 0; playerIndex < playersCount; playerIndex++) {
             TextView totalTV = (TextView) totals.getChildAt(playerIndex);
 
-            String playerName = board.getPlayers()[playerIndex];
+            String playerName = board.getPlayers().get(playerIndex);
             int score = scores.get(playerName);
             String total = String.format("%d", score);
             totalTV.setText(total);
@@ -210,7 +210,7 @@ public class PartyBoard extends TarotActivity {
                 saveBoard(board);
                 updateList();
 
-                boolean is5PlayersGame = (board.getPlayers().length == 5 && !deal.isTakerAlone());
+                boolean is5PlayersGame = (board.getPlayers().size() == 5 && !deal.isTakerAlone());
 
                 String who;
                 if (is5PlayersGame) {

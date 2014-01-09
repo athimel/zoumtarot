@@ -63,6 +63,7 @@ public class AddDeal extends TarotActivity {
 
     protected Spinner taker;
     protected Spinner secondTaker;
+    protected Spinner excludedPlayer;
     protected Spinner contract;
     protected RadioGroup holders;
     protected EditText score;
@@ -119,6 +120,7 @@ public class AddDeal extends TarotActivity {
         List<String> players = getPlayers();
         boolean is3playersGame = players.size() == 3;
         boolean is5playersGame = players.size() == 5;
+        boolean is6playersGame = players.size() == 6;
 
         setContentView(R.layout.new_deal);
 
@@ -126,7 +128,7 @@ public class AddDeal extends TarotActivity {
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, players);
         taker.setAdapter(adapter);
 
-        if (is5playersGame) {
+        if (is5playersGame || is6playersGame) {
             secondTaker = (Spinner) findViewById(R.id.secondTaker);
             adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, players);
             secondTaker.setAdapter(adapter);
@@ -134,6 +136,16 @@ public class AddDeal extends TarotActivity {
             TableRow secondTakerRow = (TableRow) findViewById(R.id.secondTakerRow);
             secondTakerRow.setVisibility(View.INVISIBLE);
             secondTakerRow.removeAllViews();
+        }
+
+        if (is6playersGame) {
+            excludedPlayer = (Spinner) findViewById(R.id.excludedPlayer);
+            adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, players);
+            excludedPlayer.setAdapter(adapter);
+        } else {
+            TableRow excludedPlayerRow = (TableRow) findViewById(R.id.excludedPlayerRow);
+            excludedPlayerRow.setVisibility(View.INVISIBLE);
+            excludedPlayerRow.removeAllViews();
         }
 
         contract = (Spinner) findViewById(R.id.contract);
@@ -169,6 +181,11 @@ public class AddDeal extends TarotActivity {
             if (is5playersGame) {
                 int secondTakerIndex = players.indexOf(deal.getSecondTaker());
                 secondTaker.setSelection(secondTakerIndex);
+            }
+
+            if (is6playersGame) {
+                int excludedPlayerIndex = players.indexOf(deal.getExcludedPlayer());
+                excludedPlayer.setSelection(excludedPlayerIndex);
             }
 
             int contractIndex = getContracts().indexOf(Tools.toPrettyPrint(deal.getContract().toString()));
@@ -260,8 +277,13 @@ public class AddDeal extends TarotActivity {
 
         List<String> players = getPlayers();
         boolean is5playersGame = players.size() == 5;
-        if (is5playersGame) {
+        boolean is6playersGame = players.size() == 6;
+
+        if (is5playersGame || is6playersGame) {
             deal.setSecondTaker(secondTaker.getSelectedItem().toString());
+        }
+        if (is6playersGame) {
+            deal.setExcludedPlayer(excludedPlayer.getSelectedItem().toString());
         }
 
         Contract dealContract = getContractValue(contract);
@@ -357,9 +379,22 @@ public class AddDeal extends TarotActivity {
         if (deal.getTaker() == null) {
             return getString(R.string.deal_no_taker);
         }
+        if (playerCount >= 5 && deal.getSecondTaker() == null) {
+            return getString(R.string.deal_no_second_taker);
+        }
+        if (playerCount == 6) {
+            if (deal.getExcludedPlayer() == null) {
+                return getString(R.string.deal_no_excluded_player);
+            } else {
+                if (deal.getExcludedPlayer().equals(deal.getTaker()) || deal.getExcludedPlayer().equals(deal.getSecondTaker())) {
+                    return getString(R.string.deal_wrong_excluded_player);
+                }
+            }
+        }
         if (deal.getContract() == null) {
             return getString(R.string.deal_no_contract);
         }
+
         Oudlers oudlers = deal.getOudlers();
         if (oudlers == null) {
             return getString(R.string.deal_no_oudlers);
@@ -368,20 +403,29 @@ public class AddDeal extends TarotActivity {
         if (score < 0 || score > MAX_SCORE) {
             return getString(R.string.deal_score_range);
         }
+
+
+        int effectivePlayerCount = playerCount;
+        if (playerCount == 6) {
+            effectivePlayerCount = 5;
+        }
         if (score != Math.round(score)) { // multiple de '0.0'
-            if (playerCount == 3 || playerCount == 5) {
+            if (effectivePlayerCount == 4) {
+                return getString(R.string.deal_score_4players);
+            } else {
                 if ((score + 0.5) != Math.round(score + 0.5)) { // multiple de '0.5'
                     if (playerCount == 3) {
                         return getString(R.string.deal_score_3players);
-                    } else {
+                    } else if (playerCount == 5) {
                         return getString(R.string.deal_score_5players);
+                    } else {
+                        return getString(R.string.deal_score_6players);
                     }
                 }
-            } else {
-                return getString(R.string.deal_score_4players);
             }
         }
-        double minimalScore = 0.5 * playerCount;
+
+        double minimalScore = 0.5 * effectivePlayerCount;
         if ((score > 0.0 && score < minimalScore) || (score > (MAX_SCORE - minimalScore) && score < MAX_SCORE)) {
             return getString(R.string.deal_score_validity, score, playerCount);
         }

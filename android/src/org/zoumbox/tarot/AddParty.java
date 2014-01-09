@@ -31,6 +31,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import com.google.common.collect.Lists;
+
 import org.zoumbox.tarot.engine.PlayerBoard;
 
 import java.util.ArrayList;
@@ -48,6 +51,7 @@ public class AddParty extends TarotActivity {
     EditText player3;
     EditText player4;
     EditText player5;
+    EditText player6;
     Button saveButton;
 
     public static final String BOARD = "board";
@@ -70,30 +74,37 @@ public class AddParty extends TarotActivity {
         player4.setInputType(type);
         player5 = (EditText) findViewById(R.id.player5);
         player5.setInputType(type);
+        player6 = (EditText) findViewById(R.id.player6);
+        player6.setInputType(type);
 
         // load players for edition
         PlayerBoard board =
                 (PlayerBoard) getIntent().getSerializableExtra(BOARD);
         if (board != null) {
-            String[] players = board.getPlayers();
-            if (players.length > 0) {
-                player1.setText(players[0]);
+            List<String> players = board.getPlayers();
+            if (players.size() > 0) {
+                player1.setText(players.get(0));
             }
-            if (players.length > 1) {
-                player2.setText(players[1]);
+            if (players.size() > 1) {
+                player2.setText(players.get(1));
             }
-            if (players.length > 2) {
-                player3.setText(players[2]);
+            if (players.size() > 2) {
+                player3.setText(players.get(2));
             }
-            if (players.length > 3) {
-                player4.setText(players[3]);
+            if (players.size() > 3) {
+                player4.setText(players.get(3));
             } else {
                 player4.setEnabled(false);
             }
-            if (players.length > 4) {
-                player5.setText(players[4]);
+            if (players.size() > 4) {
+                player5.setText(players.get(4));
             } else {
                 player5.setEnabled(false);
+            }
+            if (players.size() > 5) {
+                player6.setText(players.get(5));
+            } else {
+                player6.setEnabled(false);
             }
         }
 
@@ -124,8 +135,8 @@ public class AddParty extends TarotActivity {
 
     private void onSaveButtonClicked() {
 
-        List<String> players = new ArrayList<String>();
-        boolean safeAddResult = safeAddPlayer(players, player1, player2, player3, player4, player5);
+        List<String> players = Lists.newArrayList();
+        boolean safeAddResult = safeAddPlayer(players, player1, player2, player3, player4, player5, player6);
 
 
         if (!safeAddResult) {
