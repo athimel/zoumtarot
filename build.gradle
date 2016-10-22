@@ -1,0 +1,50 @@
+buildscript {
+
+    repositories {
+        jcenter()
+    }
+
+    dependencies {
+        classpath 'com.android.tools.build:gradle:2.1.2'
+    }
+
+}
+
+apply plugin: 'com.android.application'
+
+android {
+
+    compileSdkVersion 14
+    buildToolsVersion "23.0.3"
+    defaultConfig {
+        // applicationId "org.zoumbox.tarot"
+        versionCode 4
+        versionName "1.3 (beta)"
+        minSdkVersion 14
+        targetSdkVersion 14
+    }
+    lintOptions {
+        abortOnError false
+    }
+    buildTypes {
+        release {
+            shrinkResources true
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'),
+                    'proguard.cfg'
+        }
+    }
+}
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    compile 'com.android.support:support-v4:19.1.0'
+    compile 'com.android.support:appcompat-v7:19.1.0'
+    compile 'com.google.code.gson:gson:2.7'
+    compile 'com.google.guava:guava:19.0'
+    provided 'commons-codec:commons-codec:1.3'
+}
+
