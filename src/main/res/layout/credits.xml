@@ -94,7 +94,7 @@
                       android:text="Et tous ceux qui testent et proposent de nouvelles fonctionnalités :"
                       android:textColor="#444444"/>
             <TextView android:layout_width="fill_parent" android:layout_height="wrap_content"
-                      android:text="Carole, Charlotte, Florian, Julien, Matthieu, Yannick, ..."
+                      android:text="Carole, Charlotte, Florian, Julien, Matthieu, Marine, Yannick, ..."
                       android:textColor="#444444"
                       android:textStyle="italic"/>
         </LinearLayout>

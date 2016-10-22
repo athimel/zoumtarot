@@ -18,7 +18,7 @@ android {
     buildToolsVersion "23.0.3"
     defaultConfig {
         // applicationId "org.zoumbox.tarot"
-        versionCode 4
+        versionCode 5
         versionName "1.3 (beta)"
         minSdkVersion 14
         targetSdkVersion 14
