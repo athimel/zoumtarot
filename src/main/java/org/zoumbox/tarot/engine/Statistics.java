@@ -24,11 +24,12 @@
  */
 package org.zoumbox.tarot.engine;
 
-import com.google.common.collect.HashMultiset;
-import com.google.common.collect.Multiset;
+import com.google.common.base.MoreObjects;
+import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
 import java.io.Serializable;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -48,7 +49,7 @@ public class Statistics implements Serializable {
 
     protected double takerCount = 0d;
     protected double successCount = 0d;
-    protected Multiset<Contract> contracts = HashMultiset.create();
+    protected Map<Contract, Integer> contracts = Maps.newHashMap();
 
     public void addDealCount(int dealCount) {
         this.dealCount += dealCount;
@@ -59,7 +60,9 @@ public class Statistics implements Serializable {
         if (won) {
             successCount++;
         }
-        contracts.add(contract);
+        int countForContract = MoreObjects.firstNonNull(contracts.get(contract), 0);
+        countForContract++;
+        contracts.put(contract, countForContract);
     }
 
     public Double getTakerPercent() {
@@ -80,14 +83,14 @@ public class Statistics implements Serializable {
         if (favoriteContract == null) {
             favoriteContract = Sets.newLinkedHashSet();
             int maxOccurrence = 0;
-            for (Multiset.Entry<Contract> entry : contracts.entrySet()) {
-                int count = entry.getCount();
+            for (Map.Entry<Contract, Integer> entry : contracts.entrySet()) {
+                int count = entry.getValue();
                 if (count > maxOccurrence) {
                     favoriteContract.clear();
                     maxOccurrence = count;
                 }
                 if (count == maxOccurrence) {
-                    Contract contract = entry.getElement();
+                    Contract contract = entry.getKey();
                     favoriteContract.add(contract);
                 }
             }
