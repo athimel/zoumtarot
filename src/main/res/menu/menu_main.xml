@@ -31,10 +31,6 @@
           android:icon="@android:drawable/ic_menu_share"
           android:title="@string/qr_code_market"/>
 
-    <item android:id="@+id/qr_code_version"
-          android:icon="@android:drawable/ic_menu_share"
-          android:title="@string/qr_code_version"/>
-
     <item android:id="@+id/credits"
           android:icon="@android:drawable/ic_menu_info_details"
           android:title="@string/credits"/>

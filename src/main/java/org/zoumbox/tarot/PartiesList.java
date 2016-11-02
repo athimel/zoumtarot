@@ -169,10 +169,6 @@ public class PartiesList extends TarotActivity {
                 Intent intent_market = new Intent(this, QRCodeMarket.class);
                 startActivity(intent_market);
                 return true;
-            case R.id.qr_code_version:
-                Intent intent_version = new Intent(this, QRCodeVersion.class);
-                startActivity(intent_version);
-                return true;
             case R.id.credits:
                 showDialog(CREDIT_DIALOG);
                 return true;
