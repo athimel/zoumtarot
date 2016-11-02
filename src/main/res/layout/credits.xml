@@ -39,7 +39,7 @@
                           android:layout_height="wrap_content" android:layout_marginTop="10dip"
                           android:layout_marginLeft="20dip">
                 <TextView android:layout_width="fill_parent" android:layout_height="wrap_content"
-                          android:text="@string/version_full" android:textStyle="italic" android:textColor="#444444"/>
+                          android:id="@+id/credits_version" android:textStyle="italic" android:textColor="#444444"/>
             </LinearLayout>
         </LinearLayout>
 

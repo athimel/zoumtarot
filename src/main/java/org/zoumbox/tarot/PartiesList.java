@@ -25,13 +25,13 @@
 package org.zoumbox.tarot;
 
 import android.app.Dialog;
-import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.ContextMenu;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -39,7 +39,8 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.PopupWindow;
+import android.widget.TextView;
+
 import org.zoumbox.tarot.engine.PlayerBoard;
 import org.zoumbox.tarot.engine.Statistics;
 import org.zoumbox.tarot.engine.StatisticsHelper;
@@ -191,13 +192,26 @@ public class PartiesList extends TarotActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
-    
+
+    protected String readVersion() {
+        try {
+            PackageManager manager = this.getPackageManager();
+            PackageInfo info = manager.getPackageInfo(this.getPackageName(), 0);
+            return info.versionName;
+        } catch (PackageManager.NameNotFoundException e) {
+            Log.w(getClass().getSimpleName(), "Unable to read version", e);
+            return "n/c";
+        }
+    }
+
     @Override
     protected Dialog onCreateDialog(int id) {
         if (id == CREDIT_DIALOG) {
             final Dialog dialog = new Dialog(this);
             dialog.setContentView(R.layout.credits);
             dialog.setTitle(R.string.app_name);
+            TextView versionView = (TextView) dialog.findViewById(R.id.credits_version);
+            versionView.setText(String.format("Version %s", readVersion()));
             Button btnExitInfo = (Button) dialog.findViewById(R.id.credits_close);
             btnExitInfo.setOnClickListener(new View.OnClickListener() {
 
