@@ -15,11 +15,11 @@ apply plugin: 'com.android.application'
 android {
 
     compileSdkVersion 14
-    buildToolsVersion "23.0.3"
+    buildToolsVersion "25.0.2"
     defaultConfig {
         // applicationId "org.zoumbox.tarot"
-        versionCode 8
-        versionName "1.3"
+        versionCode 9
+        versionName "1.3.1"
         minSdkVersion 14
         targetSdkVersion 14
     }
